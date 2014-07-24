@@ -9,6 +9,12 @@
 #import "ScrollPageView.h"
 #import "HomeViewCell.h"
 
+@interface ScrollPageView()
+{
+    TableViewWithPullRefreshLoadMoreButton * tableViewWithPullRefreshLoadMoreButton;
+}
+@end
+
 @implementation ScrollPageView
 
 - (id)initWithFrame:(CGRect)frame
@@ -67,11 +73,11 @@
     }
     
     for (int i = 0; i < count; i++) {
-        CustomTableView *vCustomTableView = [[CustomTableView alloc] initWithFrame:CGRectMake(320 * i, 0, 320, self.frame.size.height)];
+        TableViewWithPullRefreshLoadMoreButton *vCustomTableView = [[TableViewWithPullRefreshLoadMoreButton alloc] initWithFrame:CGRectMake(320 * i, 0, 320, self.frame.size.height)];
         vCustomTableView.delegate = self;
         vCustomTableView.dataSource = self;
         
-//        [self addLoopScrollowView:vCustomTableView];// 为table添加嵌套HeadderView
+        //        [self addLoopScrollowView:vCustomTableView];// 为table添加嵌套HeadderView
         [_scrollView addSubview:vCustomTableView];
         [_contentItems addObject:vCustomTableView];
         [vCustomTableView release];
@@ -94,12 +100,14 @@
     if (_contentItems.count < aIndex) {
         return;
     }
-    CustomTableView *vTableContentView =(CustomTableView *)[_contentItems objectAtIndex:aIndex];
+    TableViewWithPullRefreshLoadMoreButton *vTableContentView =(TableViewWithPullRefreshLoadMoreButton *)[_contentItems objectAtIndex:aIndex];
     [vTableContentView forceToFreshData];
 }
 
 #pragma mark 添加HeaderView
--(void)addLoopScrollowView:(CustomTableView *)aTableView {
+-(void)addLoopScrollowView:(TableViewWithPullRefreshLoadMoreButton *)aTableView {
+    tableViewWithPullRefreshLoadMoreButton = aTableView;
+    
     //添加一张默认图片
     SGFocusImageItem *item = [[[SGFocusImageItem alloc] initWithDict:@{@"image": [NSString stringWithFormat:@"girl%d",2]} tag:-1] autorelease];
     SGFocusImageFrame *bannerView = [[SGFocusImageFrame alloc] initWithFrame:CGRectMake(0, -105, 320, 105) delegate:aTableView imageItems:@[item] isAuto:YES];
@@ -109,7 +117,7 @@
 }
 
 #pragma mark 改变TableView上面滚动栏的内容
--(void)changeHeaderContentWithCustomTable:(CustomTableView *)aTableContent{
+-(void)changeHeaderContentWithCustomTable:(TableViewWithPullRefreshLoadMoreButton *)aTableContent{
     int length = 4;
     NSMutableArray *tempArray = [NSMutableArray array];
     for (int i = 0 ; i < length; i++)
@@ -172,20 +180,22 @@
 {
     if (!decelerate)
     {
-//        CGFloat targetX = _scrollView.contentOffset.x + _scrollView.frame.size.width;
-//        targetX = (int)(targetX/ITEM_WIDTH) * ITEM_WIDTH;
-//        [self moveToTargetPosition:targetX];
+        //        CGFloat targetX = _scrollView.contentOffset.x + _scrollView.frame.size.width;
+        //        targetX = (int)(targetX/ITEM_WIDTH) * ITEM_WIDTH;
+        //        [self moveToTargetPosition:targetX];
     }
-  
-
+    
+    
 }
 
 #pragma mark - CustomTableViewDataSource
--(NSInteger)numberOfRowsInTableView:(UITableView *)aTableView InSection:(NSInteger)section FromView:(CustomTableView *)aView{
+-(NSInteger)numberOfRowsInTableView:(UITableView *)aTableView InSection:(NSInteger)section FromView:(TableViewWithPullRefreshLoadMoreButton *)aView{
     return aView.tableInfoArray.count;
 }
 
--(UITableViewCell *)cellForRowInTableView:(UITableView *)aTableView IndexPath:(NSIndexPath *)aIndexPath FromView:(CustomTableView *)aView{
+-(UITableViewCell *)cellForRowInTableView:(UITableView *)aTableView IndexPath:(NSIndexPath *)aIndexPath FromView:(TableViewWithPullRefreshLoadMoreButton *)aView{
+    tableViewWithPullRefreshLoadMoreButton = aView;
+    
     static NSString *vCellIdentify = @"homeCell";
     HomeViewCell *vCell = [aTableView dequeueReusableCellWithIdentifier:vCellIdentify];
     if (vCell == nil) {
@@ -198,37 +208,57 @@
 }
 
 #pragma mark CustomTableViewDelegate
--(float)heightForRowAthIndexPath:(UITableView *)aTableView IndexPath:(NSIndexPath *)aIndexPath FromView:(CustomTableView *)aView{
+-(float)heightForRowAthIndexPath:(UITableView *)aTableView IndexPath:(NSIndexPath *)aIndexPath FromView:(TableViewWithPullRefreshLoadMoreButton *)aView{
     HomeViewCell *vCell = [[[NSBundle mainBundle] loadNibNamed:@"HomeViewCell" owner:self options:nil] lastObject];
     return vCell.frame.size.height;
 }
 
--(void)didSelectedRowAthIndexPath:(UITableView *)aTableView IndexPath:(NSIndexPath *)aIndexPath FromView:(CustomTableView *)aView{
+-(void)didSelectedRowAthIndexPath:(UITableView *)aTableView IndexPath:(NSIndexPath *)aIndexPath FromView:(TableViewWithPullRefreshLoadMoreButton *)aView{
+}
+
+//更新tableview数据
+-(void)updateTableViewDataOnly:(NSArray*)data
+{
+    if (!tableViewWithPullRefreshLoadMoreButton || !data) {
+        return;
+    }
+    [tableViewWithPullRefreshLoadMoreButton.tableInfoArray removeAllObjects];
+    
+    [tableViewWithPullRefreshLoadMoreButton.tableInfoArray addObjectsFromArray:data];
 }
 
 // 加载更多时的数据加载
--(void)loadData:(void(^)(int aAddedRowCount))complete FromView:(CustomTableView *)aView{
-    //    double delayInSeconds = 1.0;
-    //    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-    //    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+-(void)loadData:(void(^)(int aAddedRowCount))complete FromView:(TableViewWithPullRefreshLoadMoreButton *)aView{
+    tableViewWithPullRefreshLoadMoreButton = aView;
+    
+    // 加载更多数据，并更新到tableview中(现有数据保留，在其后面加载了新数据)
+    NSMutableArray* data = [NSMutableArray arrayWithArray:aView.tableInfoArray];
     for (int i = 0; i < 4; i++) {
-        [aView.tableInfoArray  addObject:@"0"];
+        [data  addObject:@"0"];
     }
+    [self updateTableViewDataOnly:data];
+    
+    // 数据更新完毕，该刷新view了
     if (complete) {
         complete(4);
     }
-    //    });
 }
 
 // 下拉刷新时的加载
--(void)refreshData:(void(^)())complete FromView:(CustomTableView *)aView{
+-(void)refreshData:(void(^)())complete FromView:(TableViewWithPullRefreshLoadMoreButton *)aView{
+    tableViewWithPullRefreshLoadMoreButton = aView;
+    
     double delayInSeconds = 1.0;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        [aView.tableInfoArray removeAllObjects];
+        
+        // 全新的数据集
+        NSMutableArray* data = [NSMutableArray array];
         for (int i = 0; i < 4; i++) {
-            [aView.tableInfoArray addObject:@"0"];
+            [data  addObject:@"0"];
         }
+        [self updateTableViewDataOnly:data];
+        
         //改变header显示图片
         [self changeHeaderContentWithCustomTable:aView];
         if (complete) {
@@ -237,8 +267,8 @@
     });
 }
 
-- (BOOL)tableViewEgoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view FromView:(CustomTableView *)aView{
-   return  aView.reloading;
+- (BOOL)tableViewEgoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view FromView:(TableViewWithPullRefreshLoadMoreButton *)aView{
+    return  aView.reloading;
 }
 
 

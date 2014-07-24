@@ -6,10 +6,10 @@
 //  Copyright (c) 2014年 @"". All rights reserved.
 //
 
-#import "CustomTableView.h"
+#import "TableViewWithPullRefreshLoadMoreButton.h"
 #import "LoadMoreCell.h"
 
-@implementation CustomTableView
+@implementation TableViewWithPullRefreshLoadMoreButton
 
 - (id)initWithFrame:(CGRect)frame
 {

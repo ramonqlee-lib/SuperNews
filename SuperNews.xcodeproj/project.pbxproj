@@ -55,7 +55,7 @@
 		3E32271E192E2B4300D5C95C /* LoadMoreCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E32271D192E2B4300D5C95C /* LoadMoreCell.xib */; };
 		3E322724192E387C00D5C95C /* CircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E322721192E387C00D5C95C /* CircleView.m */; };
 		3E322725192E387C00D5C95C /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E322723192E387C00D5C95C /* EGORefreshTableHeaderView.m */; };
-		3E322728192E3DDC00D5C95C /* CustomTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E322727192E3DDC00D5C95C /* CustomTableView.m */; };
+		3E322728192E3DDC00D5C95C /* TableViewWithPullRefreshLoadMoreButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E322727192E3DDC00D5C95C /* TableViewWithPullRefreshLoadMoreButton.m */; };
 		3E99694319319718003CA4C6 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E99694219319718003CA4C6 /* SystemConfiguration.framework */; };
 		3E99694519319729003CA4C6 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E99694419319729003CA4C6 /* MobileCoreServices.framework */; };
 		3EE11872192F98FA00DB86C6 /* ScrollPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE11871192F98FA00DB86C6 /* ScrollPageView.m */; };
@@ -194,8 +194,8 @@
 		3E322721192E387C00D5C95C /* CircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleView.m; sourceTree = "<group>"; };
 		3E322722192E387C00D5C95C /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
 		3E322723192E387C00D5C95C /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
-		3E322726192E3DDC00D5C95C /* CustomTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTableView.h; sourceTree = "<group>"; };
-		3E322727192E3DDC00D5C95C /* CustomTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTableView.m; sourceTree = "<group>"; };
+		3E322726192E3DDC00D5C95C /* TableViewWithPullRefreshLoadMoreButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewWithPullRefreshLoadMoreButton.h; sourceTree = "<group>"; };
+		3E322727192E3DDC00D5C95C /* TableViewWithPullRefreshLoadMoreButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewWithPullRefreshLoadMoreButton.m; sourceTree = "<group>"; };
 		3E99694219319718003CA4C6 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		3E99694419319729003CA4C6 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		3EE11870192F98FA00DB86C6 /* ScrollPageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollPageView.h; sourceTree = "<group>"; };
@@ -559,8 +559,8 @@
 				8B46099C192DE67300B28082 /* SGFocusImageFrame.m */,
 				8B46099D192DE67300B28082 /* SGFocusImageItem.h */,
 				8B46099E192DE67300B28082 /* SGFocusImageItem.m */,
-				3E322726192E3DDC00D5C95C /* CustomTableView.h */,
-				3E322727192E3DDC00D5C95C /* CustomTableView.m */,
+				3E322726192E3DDC00D5C95C /* TableViewWithPullRefreshLoadMoreButton.h */,
+				3E322727192E3DDC00D5C95C /* TableViewWithPullRefreshLoadMoreButton.m */,
 				3EE11870192F98FA00DB86C6 /* ScrollPageView.h */,
 				3EE11871192F98FA00DB86C6 /* ScrollPageView.m */,
 			);
@@ -704,7 +704,7 @@
 				30FCD61E197B31E9000F7015 /* ASIS3BucketRequest.m in Sources */,
 				30FCD614197B31E9000F7015 /* ASICloudFilesCDNRequest.m in Sources */,
 				3E32271C192E2B3500D5C95C /* LoadMoreCell.m in Sources */,
-				3E322728192E3DDC00D5C95C /* CustomTableView.m in Sources */,
+				3E322728192E3DDC00D5C95C /* TableViewWithPullRefreshLoadMoreButton.m in Sources */,
 				30FCD61F197B31E9000F7015 /* ASIS3ObjectRequest.m in Sources */,
 				30FCD617197B31E9000F7015 /* ASICloudFilesContainerXMLParserDelegate.m in Sources */,
 				30FCD5D01976BCC5000F7015 /* TouchView.m in Sources */,

@@ -109,10 +109,11 @@
 -(void)didScrollPageViewChangedPage:(NSInteger)aPage{
     NSLog(@"CurrentPage:%d",aPage);
     [mHorizontalMenu changeButtonStateAtIndex:aPage];
-    //    if (aPage == 3) {
+
+    // TODO 发起数据请求，首先从本地存储读取，然后从网络获取
+    
     //刷新当页数据
     [mScrollPageView freshContentTableAtIndex:aPage];
-    //    }
 }
 
 #pragma mark Notifier impl

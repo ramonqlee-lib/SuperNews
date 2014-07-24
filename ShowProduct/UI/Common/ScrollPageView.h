@@ -7,13 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CustomTableView.h"
+#import "TableViewWithPullRefreshLoadMoreButton.h"
 
 @protocol ScrollPageViewDelegate <NSObject>
 -(void)didScrollPageViewChangedPage:(NSInteger)aPage;
 @end
 
-@interface ScrollPageView : UIView<UIScrollViewDelegate,CustomTableViewDataSource,CustomTableViewDelegate>
+@interface ScrollPageView : UIView<UIScrollViewDelegate,TableViewWithPullRefreshLoadMoreButtonDataSource,TableViewWithPullRefreshLoadMoreButtonDelegate>
 {
     NSInteger mCurrentPage;
     BOOL mNeedUseDelegate;
@@ -31,5 +31,5 @@
 #pragma mark 刷新某个页面
 -(void)freshContentTableAtIndex:(NSInteger)aIndex;
 #pragma mark 改变TableView上面滚动栏的内容
--(void)changeHeaderContentWithCustomTable:(CustomTableView *)aTableContent;
+-(void)changeHeaderContentWithCustomTable:(TableViewWithPullRefreshLoadMoreButton *)aTableContent;
 @end
