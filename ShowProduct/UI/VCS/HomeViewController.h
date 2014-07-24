@@ -1,0 +1,20 @@
+//
+//  HomeVC.h
+//  ShowProduct
+//
+//  Created by lin on 14-5-22.
+//  Copyright (c) 2014年 @"". All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+// 数据发生变化时的回调
+@protocol Notifier <NSObject>
+
+-(void) onChange:(NSObject*) object;
+
+@end
+
+@interface HomeViewController : UIViewController
+
+@end
