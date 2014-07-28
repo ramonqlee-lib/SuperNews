@@ -12,18 +12,19 @@
 #import "SGFocusImageItem.h"
 
 @class TableViewWithPullRefreshLoadMoreButton;
+
 @protocol TableViewWithPullRefreshLoadMoreButtonDelegate <NSObject>
-@required;
+
+@optional;
 -(float)heightForRowAthIndexPath:(UITableView *)aTableView IndexPath:(NSIndexPath *)aIndexPath FromView:(TableViewWithPullRefreshLoadMoreButton *)aView;
+
 -(void)didSelectedRowAthIndexPath:(UITableView *)aTableView IndexPath:(NSIndexPath *)aIndexPath FromView:(TableViewWithPullRefreshLoadMoreButton *)aView;
+
 -(void)loadData:(void(^)(int aAddedRowCount))complete FromView:(TableViewWithPullRefreshLoadMoreButton *)aView;
+
 -(void)refreshData:(void(^)())complete FromView:(TableViewWithPullRefreshLoadMoreButton *)aView;
-@optional
-//- (void)tableViewWillBeginDragging:(UIScrollView *)scrollView;
-//- (void)tableViewDidScroll:(UIScrollView *)scrollView;
-////- (void)tableViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate;
-//- (BOOL)tableViewEgoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view FromView:(CustomTableView *)aView;
 @end
+
 
 @protocol TableViewWithPullRefreshLoadMoreButtonDataSource <NSObject>
 @required;

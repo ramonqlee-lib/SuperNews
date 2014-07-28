@@ -10,12 +10,12 @@
 #import "MenuHrizontal.h"
 #import "ScrollPageView.h"
 #import "HomeViewController.h"
+#import "TableViewWithPullRefreshLoadMoreButton.h"
 
-@interface HomeView : UIView<HorizontalMenuDelegate,ScrollPageViewDelegate,Notifier>
+@interface HomeView : UIView<HorizontalMenuDelegate,ScrollPageViewDelegate,Notifier,TableViewWithPullRefreshLoadMoreButtonDelegate>
 {
     MenuHrizontal *mHorizontalMenu;
     ScrollPageView *mScrollPageView;
 }
-
 
 @end

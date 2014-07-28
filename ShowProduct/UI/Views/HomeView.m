@@ -8,6 +8,14 @@
 
 #import "HomeView.h"
 #import "HomeViewCell.h"
+#import "HTTPHelper.h"
+
+NSString* kDefaultCategoryTableName = @"Duanzi";
+NSString* kDefaultCategoryUrl = @"http://novelists.duapp.com/crawler/refer.php?tableName=DuanZi";
+NSUInteger kDefaultCategoryDataLength = 20; //缺省请求的数量
+NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数量
+NSString* kContentKey = @"Content";
+NSString* kUrlKey = @"Url";
 
 #define MENUHEIHT 40
 
@@ -15,7 +23,12 @@
 {
     NSArray* titleArray;
     NSArray* urlArray;
-    NSArray *vButtonItemArray;
+    NSArray *vButtonItemArray; // 顶部button相关
+    NSInteger currentPageIndex;// 当前所处的页面
+    
+    TableViewWithPullRefreshLoadMoreButton * refreshLoadMoreTableView;
+    void(^loadMoreComplete)(int count); // 加载更多完毕时的数据刷新
+    void(^refreshComplete)(); // 重新获取数据完成的数据刷新
 }
 @end
 @implementation HomeView
@@ -84,6 +97,7 @@
     if (mScrollPageView == nil) {
         mScrollPageView = [[ScrollPageView alloc] initWithFrame:CGRectMake(0, MENUHEIHT, self.frame.size.width, self.frame.size.height - MENUHEIHT)];
         mScrollPageView.delegate = self;
+        mScrollPageView.dataDelegate = self;
         [self addSubview:mScrollPageView];
     }
     
@@ -111,9 +125,100 @@
     [mHorizontalMenu changeButtonStateAtIndex:aPage];
 
     // TODO 发起数据请求，首先从本地存储读取，然后从网络获取
-    
+    currentPageIndex= aPage;
     //刷新当页数据
     [mScrollPageView freshContentTableAtIndex:aPage];
+}
+
+// 加载更多时的数据加载
+#pragma refresh & load more delegate
+-(void)loadData:(void(^)(int aAddedRowCount))complete FromView:(TableViewWithPullRefreshLoadMoreButton *)aView{
+    // 联网获取数据，然后刷新本地数据
+    refreshLoadMoreTableView = aView;
+    //    mScrollPageView tableArrayAtIndex:<#(NSInteger)#>
+    NSLog(@"loadMore from offset: %d",aView.tableInfoArray.count);
+    
+    loadMoreComplete = complete;
+    [loadMoreComplete copy];
+    [self retrieveCategoryDataLoadMore:aView.tableInfoArray.count withNumber:kDefaultCategoryDataIncrement];
+}
+
+// 刷新数据
+-(void)refreshData:(void(^)())complete FromView:(TableViewWithPullRefreshLoadMoreButton *)aView
+{
+    refreshLoadMoreTableView = aView;
+    refreshComplete = complete;
+    [refreshComplete copy];
+    if( [self retrieveCategoryDataRefesh] )
+    {
+        return;
+    }
+    
+    NSLog(@"refresh");
+    if (complete) {
+        complete();
+    }
+}
+
+#pragma mark 获取频道分类数据
+-(BOOL)retrieveCategoryDataRefesh
+{
+    if (!urlArray || !urlArray.count || currentPageIndex>=urlArray.count) {
+        return NO;
+    }
+    
+    NSString* url = (currentPageIndex<urlArray.count)?[urlArray objectAtIndex:currentPageIndex]:kDefaultCategoryUrl;
+    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(categoryDataRefeshHandler:) name:url object:nil];
+    
+    [[HTTPHelper sharedInstance]beginPostRequest:url withDictionary:nil];
+    return YES;
+}
+-(void)retrieveCategoryDataLoadMore:(NSInteger)offset withNumber:(NSInteger)count
+{
+    NSString* url = (currentPageIndex<urlArray.count)?[urlArray objectAtIndex:currentPageIndex]:kDefaultCategoryUrl;
+    NSString* completeUrl = [NSString stringWithFormat:@"%@?offset=%d&limit=%d",url,offset,count];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(categoryDataLoadMoreHandler:) name:completeUrl object:nil];
+    
+    [[HTTPHelper sharedInstance]beginPostRequest:url withDictionary:nil];
+}
+
+// 获取到了更多数据
+-(void)categoryDataLoadMoreHandler:(NSNotification*)notification
+{
+    //这个url不对，想其他办法，比如enumerate
+    NSString* url = (currentPageIndex<urlArray.count)?[urlArray objectAtIndex:currentPageIndex]:kDefaultCategoryUrl;
+    // : 保存当前的频道数据
+    id obj = [notification.userInfo objectForKey:url];
+    if ([obj isKindOfClass:[NSData class]])
+    {
+        [[NSNotificationCenter defaultCenter]removeObserver:self];
+        
+        // TODO 加载完毕，通知回调
+        if(loadMoreComplete)
+        {
+            loadMoreComplete(3);
+            [loadMoreComplete release];
+        }
+    }
+}
+
+// 刷新数据完毕
+-(void)categoryDataRefeshHandler:(NSNotification*)notification
+{
+    NSString* url = (currentPageIndex<urlArray.count)?[urlArray objectAtIndex:currentPageIndex]:kDefaultCategoryUrl;
+    // : 保存当前的频道数据
+    id obj = [notification.userInfo objectForKey:url];
+    if ([obj isKindOfClass:[NSData class]])
+    {
+        [[NSNotificationCenter defaultCenter]removeObserver:self];
+        // TODO 刷新完毕，通知回调
+        if (refreshComplete)
+        {
+            refreshComplete();
+            [refreshComplete release];
+        }
+    }
 }
 
 #pragma mark Notifier impl
@@ -132,8 +237,8 @@
         return;
     }
     
-    titleArray = [r objectAtIndex:0];
-    urlArray = [r objectAtIndex:1];
+    titleArray = [[NSArray alloc]initWithArray:[r objectAtIndex:0]];
+    urlArray = [[NSArray alloc]initWithArray:[r objectAtIndex:1]];
     
     if ( !titleArray || 0 == titleArray.count || !urlArray || 0 == urlArray.count ) {
         return;

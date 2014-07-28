@@ -94,13 +94,13 @@ NSString* kCategoryUrlKey = @"url";
     // 1.频道列表
     NSDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys:@"LiShi",@"column", nil];
     
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(appSettingHandler:) name:kAppSettingUrl object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(appCategoriesHandler:) name:kAppSettingUrl object:nil];
     
     [[HTTPHelper sharedInstance]beginPostRequest:kAppSettingUrl withDictionary:dict];
 }
 
 // 应用分类数据返回的处理
--(void)appSettingHandler:(NSNotification*)notification
+-(void)appCategoriesHandler:(NSNotification*)notification
 {
     // : 保存全部的频道列表
     id obj = [notification.userInfo objectForKey:kAppSettingUrl];
@@ -110,6 +110,7 @@ NSString* kCategoryUrlKey = @"url";
         {
             [allCategories release];
         }
+        
         allCategories = [[NSMutableArray alloc]initWithArray:[HomeViewController Json2Array:(NSData*)obj] ];
         //FIXME 测试保存和恢复（此部分数据将用于频道的自定义功能）
         /*NSString* file = [HomeViewController categoryFilePath];
@@ -125,6 +126,9 @@ NSString* kCategoryUrlKey = @"url";
         [orderButton addTarget:self action:@selector(orderViewOut:) forControlEvents:UIControlEventTouchUpInside];
         
         self.navigationItem.rightBarButtonItem = barButtonItem;
+        
+        // 通知频道数据发生了变化
+        [self notifySubscriptionChange ];
     }
 }
 

@@ -95,6 +95,16 @@
     }
 }
 
+#pragma mark 返回某个页面的数据集合
+-(NSMutableArray*)tableArrayAtIndex:(NSInteger)aIndex
+{
+    if (_contentItems.count < aIndex) {
+        return nil;
+    }
+    TableViewWithPullRefreshLoadMoreButton *vTableContentView =(TableViewWithPullRefreshLoadMoreButton *)[_contentItems objectAtIndex:aIndex];
+    return vTableContentView.tableInfoArray;
+}
+
 #pragma mark 刷新某个页面
 -(void)freshContentTableAtIndex:(NSInteger)aIndex{
     if (_contentItems.count < aIndex) {
@@ -232,7 +242,12 @@
     tableViewWithPullRefreshLoadMoreButton = aView;
     
     // 加载更多数据，并更新到tableview中(现有数据保留，在其后面加载了新数据)
-    NSMutableArray* data = [NSMutableArray arrayWithArray:aView.tableInfoArray];
+    if (self.dataDelegate) {
+        [self.dataDelegate loadData:complete FromView:aView];
+    }
+    
+    /*
+     NSMutableArray* data = [NSMutableArray arrayWithArray:aView.tableInfoArray];
     for (int i = 0; i < 4; i++) {
         [data  addObject:@"0"];
     }
@@ -242,6 +257,7 @@
     if (complete) {
         complete(4);
     }
+     */
 }
 
 // 下拉刷新时的加载
@@ -252,6 +268,12 @@
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         
+        if (self.dataDelegate)
+        {
+            [self.dataDelegate refreshData:complete FromView:aView];
+        }
+        
+        /*
         // 全新的数据集
         NSMutableArray* data = [NSMutableArray array];
         for (int i = 0; i < 4; i++) {
@@ -264,6 +286,7 @@
         if (complete) {
             complete();
         }
+         */
     });
 }
 
