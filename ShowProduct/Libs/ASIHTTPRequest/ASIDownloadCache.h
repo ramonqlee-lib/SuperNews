@@ -39,6 +39,8 @@
 // If we're asking for a path to cache a particular url and it has one of these extensions, we change it to '.html'
 + (NSArray *)fileExtensionsToHandleAsHTML;
 
++ (NSString *)keyForURL:(NSURL *)url;
+
 @property (assign, nonatomic) ASICachePolicy defaultCachePolicy;
 @property (retain, nonatomic) NSString *storagePath;
 @property (retain) NSRecursiveLock *accessLock;

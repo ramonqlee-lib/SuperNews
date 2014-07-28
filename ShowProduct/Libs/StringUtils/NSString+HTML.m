@@ -244,8 +244,7 @@
 	[scanner setCharactersToBeSkipped:nil];
 	NSMutableString *result = [[NSMutableString alloc] init];
 	NSString *temp;
-	NSCharacterSet *newLineAndWhitespaceCharacters = [NSCharacterSet characterSetWithCharactersInString:
-													  [NSString stringWithFormat:@" \t\n\r%d%d%d%d", 0x0085, 0x000C, 0x2028, 0x2029]];
+	NSCharacterSet *newLineAndWhitespaceCharacters = [NSCharacterSet whitespaceAndNewlineCharacterSet];//[NSCharacterSet characterSetWithCharactersInString:[NSString stringWithFormat:@" \t\n\r%d%d%d%d", 0x0085, 0x000C, 0x2028, 0x2029]];
 	// Scan
 	while (![scanner isAtEnd]) {
         

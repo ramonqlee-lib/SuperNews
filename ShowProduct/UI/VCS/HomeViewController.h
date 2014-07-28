@@ -17,4 +17,13 @@
 
 @interface HomeViewController : UIViewController
 
+//频道数据的缓存路径
++(NSString*)categoryDataFilePath:(NSString*)url;
+
+// 从文件中读取数组
++(NSArray*)restoreArrayFromFile:(NSString*)file;
+
+// 将数组保存到文件
++(void)saveArray2File:(NSString*)file withArray:(NSArray*)array;
+
 @end

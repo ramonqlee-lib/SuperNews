@@ -9,13 +9,14 @@
 #import "HomeView.h"
 #import "HomeViewCell.h"
 #import "HTTPHelper.h"
+#import "jsonKeys.h"
+#import "Base64.h"
 
 NSString* kDefaultCategoryTableName = @"Duanzi";
 NSString* kDefaultCategoryUrl = @"http://novelists.duapp.com/crawler/refer.php?tableName=DuanZi";
 NSUInteger kDefaultCategoryDataLength = 20; //缺省请求的数量
 NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数量
-NSString* kContentKey = @"Content";
-NSString* kUrlKey = @"Url";
+
 
 #define MENUHEIHT 40
 
@@ -26,8 +27,8 @@ NSString* kUrlKey = @"Url";
     NSArray *vButtonItemArray; // 顶部button相关
     NSInteger currentPageIndex;// 当前所处的页面
     
-    TableViewWithPullRefreshLoadMoreButton * refreshLoadMoreTableView;
-    void(^loadMoreComplete)(int count); // 加载更多完毕时的数据刷新
+    TableViewWithPullRefreshLoadMoreButton * myTableView;
+    void(^loadMoreComplete)(int); // 加载更多完毕时的数据刷新
     void(^refreshComplete)(); // 重新获取数据完成的数据刷新
 }
 @end
@@ -47,37 +48,14 @@ NSString* kUrlKey = @"Url";
 -(void)commInit{
     // TODO:此处需要读取缓存数据，进行展示
     // 缓存的频道列表和频道数据
+    
     vButtonItemArray = @[@{NOMALKEY: @"normal.png",
                            HEIGHTKEY:@"helight.png",
                            TITLEKEY:@"头条",
                            TITLEWIDTH:[NSNumber numberWithFloat:60]
-                           },
-                         @{NOMALKEY: @"normal.png",
-                           HEIGHTKEY:@"helight.png",
-                           TITLEKEY:@"推荐",
-                           TITLEWIDTH:[NSNumber numberWithFloat:60]
-                           },
-                         @{NOMALKEY: @"normal",
-                           HEIGHTKEY:@"helight",
-                           TITLEKEY:@"娱乐",
-                           TITLEWIDTH:[NSNumber numberWithFloat:60]
-                           },
-                         @{NOMALKEY: @"normal",
-                           HEIGHTKEY:@"helight",
-                           TITLEKEY:@"帅哥1",
-                           TITLEWIDTH:[NSNumber numberWithFloat:60]
-                           },
-                         @{NOMALKEY: @"normal",
-                           HEIGHTKEY:@"helight",
-                           TITLEKEY:@"帅哥2",
-                           TITLEWIDTH:[NSNumber numberWithFloat:60]
-                           },
-                         @{NOMALKEY: @"normal",
-                           HEIGHTKEY:@"helight",
-                           TITLEKEY:@"帅哥3ß",
-                           TITLEWIDTH:[NSNumber numberWithFloat:60]
                            }
                          ];
+     
     [self resetContent];
 }
 
@@ -134,22 +112,19 @@ NSString* kUrlKey = @"Url";
 #pragma refresh & load more delegate
 -(void)loadData:(void(^)(int aAddedRowCount))complete FromView:(TableViewWithPullRefreshLoadMoreButton *)aView{
     // 联网获取数据，然后刷新本地数据
-    refreshLoadMoreTableView = aView;
-    //    mScrollPageView tableArrayAtIndex:<#(NSInteger)#>
+    myTableView = aView;
     NSLog(@"loadMore from offset: %d",aView.tableInfoArray.count);
     
-    loadMoreComplete = complete;
-    [loadMoreComplete copy];
-    [self retrieveCategoryDataLoadMore:aView.tableInfoArray.count withNumber:kDefaultCategoryDataIncrement];
+    loadMoreComplete = Block_copy(complete);
+    [self loadMore:aView.tableInfoArray.count withNumber:kDefaultCategoryDataIncrement];
 }
 
 // 刷新数据
 -(void)refreshData:(void(^)())complete FromView:(TableViewWithPullRefreshLoadMoreButton *)aView
 {
-    refreshLoadMoreTableView = aView;
-    refreshComplete = complete;
-    [refreshComplete copy];
-    if( [self retrieveCategoryDataRefesh] )
+    myTableView = aView;
+    refreshComplete = Block_copy(complete);
+    if( [self refesh] )
     {
         return;
     }
@@ -161,7 +136,7 @@ NSString* kUrlKey = @"Url";
 }
 
 #pragma mark 获取频道分类数据
--(BOOL)retrieveCategoryDataRefesh
+-(BOOL)refesh
 {
     if (!urlArray || !urlArray.count || currentPageIndex>=urlArray.count) {
         return NO;
@@ -169,42 +144,63 @@ NSString* kUrlKey = @"Url";
     
     NSString* url = (currentPageIndex<urlArray.count)?[urlArray objectAtIndex:currentPageIndex]:kDefaultCategoryUrl;
     
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(categoryDataRefeshHandler:) name:url object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refeshHandler:) name:url object:nil];
     
     [[HTTPHelper sharedInstance]beginPostRequest:url withDictionary:nil];
+    
+    // TODO 读取缓存，并显示
+    if (myTableView && myTableView.tableInfoArray) {
+        NSArray* ret = [HomeViewController restoreArrayFromFile:[HomeViewController categoryDataFilePath:url]];
+        if (ret && ret.count) {
+            [myTableView.tableInfoArray addObjectsFromArray:ret];
+            if (refreshComplete)
+            {
+                refreshComplete();
+            }
+        }
+    }
     return YES;
 }
--(void)retrieveCategoryDataLoadMore:(NSInteger)offset withNumber:(NSInteger)count
+
+-(void)loadMore:(NSInteger)offset withNumber:(NSInteger)count
 {
     NSString* url = (currentPageIndex<urlArray.count)?[urlArray objectAtIndex:currentPageIndex]:kDefaultCategoryUrl;
-    NSString* completeUrl = [NSString stringWithFormat:@"%@?offset=%d&limit=%d",url,offset,count];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(categoryDataLoadMoreHandler:) name:completeUrl object:nil];
+    NSString* completeUrl = [NSString stringWithFormat:@"%@&offset=%d&limit=%d",url,offset,count];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loadMoreHandler:) name:completeUrl object:nil];
     
-    [[HTTPHelper sharedInstance]beginPostRequest:url withDictionary:nil];
+    [[HTTPHelper sharedInstance]beginPostRequest:completeUrl withDictionary:nil];
 }
 
 // 获取到了更多数据
--(void)categoryDataLoadMoreHandler:(NSNotification*)notification
+-(void)loadMoreHandler:(NSNotification*)notification
 {
-    //这个url不对，想其他办法，比如enumerate
-    NSString* url = (currentPageIndex<urlArray.count)?[urlArray objectAtIndex:currentPageIndex]:kDefaultCategoryUrl;
     // : 保存当前的频道数据
-    id obj = [notification.userInfo objectForKey:url];
-    if ([obj isKindOfClass:[NSData class]])
-    {
-        [[NSNotificationCenter defaultCenter]removeObserver:self];
-        
-        // TODO 加载完毕，通知回调
-        if(loadMoreComplete)
+    NSInteger pos = 0;
+    NSArray* allKeys = [notification.userInfo allKeys];
+    if (allKeys.count) {
+        id obj = [notification.userInfo objectForKey:[allKeys objectAtIndex:0]];
+        if ([obj isKindOfClass:[NSData class]])
         {
-            loadMoreComplete(3);
-            [loadMoreComplete release];
+            [[NSNotificationCenter defaultCenter]removeObserver:self];
+            
+            // TODO: 解析数据，追加到列表的底部(需要考虑是否有更多数据的问题，当前返回的数量，当前数组的数量，然后确定是否有更多数据)
+            NSMutableArray* ret = [NSMutableArray array];
+            [self Json2Array:(NSData*)obj forArray:ret];
+            
+            pos = ret.count;
+            [myTableView.tableInfoArray addObjectsFromArray:ret];
         }
+    }
+    
+    // 加载完毕，通知回调
+    if(loadMoreComplete)
+    {
+        loadMoreComplete(pos);
     }
 }
 
 // 刷新数据完毕
--(void)categoryDataRefeshHandler:(NSNotification*)notification
+-(void)refeshHandler:(NSNotification*)notification
 {
     NSString* url = (currentPageIndex<urlArray.count)?[urlArray objectAtIndex:currentPageIndex]:kDefaultCategoryUrl;
     // : 保存当前的频道数据
@@ -212,13 +208,73 @@ NSString* kUrlKey = @"Url";
     if ([obj isKindOfClass:[NSData class]])
     {
         [[NSNotificationCenter defaultCenter]removeObserver:self];
-        // TODO 刷新完毕，通知回调
-        if (refreshComplete)
-        {
-            refreshComplete();
-            [refreshComplete release];
+        // : 解析json数据，并设置到列表中
+        [self Json2Array:(NSData*)obj forArray:myTableView.tableInfoArray];
+        
+        //  数据缓存:见鬼，key带下划线不能保存成功
+        NSMutableArray* cacheArray = [NSMutableArray array];
+        for (NSDictionary* item in myTableView.tableInfoArray) {
+            NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithDictionary:item];
+            [dict removeObjectForKey:kWordCount];
+            [dict removeObjectForKey:kUrlKey];
+            NSString* leadImageUrl = [dict objectForKey:kLeadImageUrl];
+            [dict removeObjectForKey:kLeadImageUrl];
+            
+            //FIXME: url may be relative url,fix it from server
+//            [dict setObject:leadImageUrl forKey:kImageUrl];
+            [cacheArray addObject:dict];
+        }
+        
+        NSString* filePath = [HomeViewController categoryDataFilePath:url];
+        [HomeViewController saveArray2File:filePath withArray:cacheArray];
+        
+        /*
+        NSArray* ret = [HomeViewController restoreArrayFromFile:filePath];
+        NSLog(@"%@",ret);
+        */
+    }
+    // 刷新完毕，通知回调
+    if (refreshComplete)
+    {
+        refreshComplete();
+    }
+}
+
+// 解析返回的频道数据，设置到数据中，并返回总数量
+-(NSInteger)Json2Array:(NSData*)data forArray:(NSMutableArray*)array
+{
+    if (array) {
+        [array removeAllObjects];
+    }
+    NSInteger count = 0;
+    NSError* error;
+    id obj = data;
+    if ([obj isKindOfClass:[NSData class] ]) {
+        id res = [NSJSONSerialization JSONObjectWithData:(NSData*)obj  options:NSJSONReadingMutableContainers error:&error];
+        
+        if (res && [res isKindOfClass:[NSDictionary class]]) {
+            count = [((NSString*)[res objectForKey:@"count"]) intValue];
+            res = [res objectForKey:@"data"];
+            if (res && [res isKindOfClass:[NSArray class]]) {
+                
+                if (!array) {
+                    return count;
+                }
+                
+                NSArray* items = (NSArray*)res;
+                for (NSDictionary* dict in  items) {
+                    NSString* base64EncodedString = [NSString stringWithBase64EncodedString:[dict objectForKey:kContentKey]];
+                    id tmp = [NSJSONSerialization JSONObjectWithData:[base64EncodedString dataUsingEncoding:NSUTF8StringEncoding]  options:NSJSONReadingMutableContainers error:&error];
+                    
+                    if ([tmp isKindOfClass:[NSDictionary class]]) {
+                        [array addObject:tmp];
+                    }
+                }
+                
+            }
         }
     }
+    return count;
 }
 
 #pragma mark Notifier impl

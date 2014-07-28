@@ -39,5 +39,5 @@
 - (NSString *)stringByLinkifyingURLs;
 
 // DEPRECIATED - Please use NSString stringByConvertingHTMLToPlainText
-- (NSString *)stringByStrippingTags __attribute__((deprecated));
+- (NSString *)stringByStrippingTags;// __attribute__((deprecated));
 @end

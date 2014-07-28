@@ -11,4 +11,7 @@
 @interface HomeViewCell : UITableViewCell
 
 @property (retain, nonatomic) IBOutlet UIImageView *headerImageView;
+@property (retain, nonatomic) IBOutlet UILabel *titleLabel;
+@property (retain, nonatomic) IBOutlet UILabel *summaryLabel;
+
 @end

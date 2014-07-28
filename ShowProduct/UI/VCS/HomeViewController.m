@@ -15,6 +15,7 @@
 #import "Header.h"
 #import "HTTPHelper.h"
 #import "TouchViewModel.h"
+#import "ASIDownloadCache.h"
 
 NSString* kAppSettingUrl = @"http://novelists.duapp.com/crawler/category.php";//?column=ZhongYi";
 NSUInteger kDefaultCategoryCount = 3;// 用户没有订阅时的推荐订阅数目
@@ -113,11 +114,12 @@ NSString* kCategoryUrlKey = @"url";
         
         allCategories = [[NSMutableArray alloc]initWithArray:[HomeViewController Json2Array:(NSData*)obj] ];
         //FIXME 测试保存和恢复（此部分数据将用于频道的自定义功能）
-        /*NSString* file = [HomeViewController categoryFilePath];
-         [HomeViewController saveArray2File:file withArray:ret];
-         ret = nil;
-         ret = [HomeViewController restoreArrayFromFile:file];
-         */
+        /*
+        NSString* file = [HomeViewController categoryFilePath];
+         [HomeViewController saveArray2File:file withArray:allCategories];
+         allCategories = nil;
+         allCategories = [HomeViewController restoreArrayFromFile:file];
+        */
         
         [[NSNotificationCenter defaultCenter]removeObserver:self];
         
@@ -336,6 +338,17 @@ NSString* kCategoryUrlKey = @"url";
                                                          NSUserDomainMask, YES);
     return [[paths objectAtIndex:0]
             stringByAppendingPathComponent:@"category.out"];
+    
+}
+
+//频道数据的缓存路径
++(NSString*)categoryDataFilePath:(NSString*)url
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
+                                                         NSUserDomainMask, YES);
+    NSString* fileName = [NSString stringWithFormat:@"%@.out",[ASIDownloadCache keyForURL:[NSURL URLWithString:url]]];
+    return [[paths objectAtIndex:0]
+            stringByAppendingPathComponent:fileName];
     
 }
 

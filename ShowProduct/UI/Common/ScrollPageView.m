@@ -8,6 +8,8 @@
 
 #import "ScrollPageView.h"
 #import "HomeViewCell.h"
+#import "jsonKeys.h"
+#import "NSString+HTML.h"
 
 @interface ScrollPageView()
 {
@@ -212,8 +214,15 @@
         vCell = [[[NSBundle mainBundle] loadNibNamed:@"HomeViewCell" owner:self options:nil] lastObject];
     }
     
+    NSDictionary* dict = [tableViewWithPullRefreshLoadMoreButton.tableInfoArray objectAtIndex:aIndexPath.row];
+    
     NSInteger vNewIndex = aIndexPath.row % 4 + 1;
     vCell.headerImageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"new%d",vNewIndex]];
+    vCell.titleLabel.text = [dict objectForKey:kLowercaseTitleKey];
+    NSString* htmlString = [dict objectForKey:kLowercaseContentKey];
+    
+    vCell.summaryLabel.text = [htmlString stringByStrippingTags];
+    
     return vCell;
 }
 
