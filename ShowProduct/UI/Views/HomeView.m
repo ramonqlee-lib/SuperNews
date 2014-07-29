@@ -209,13 +209,16 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
             NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithDictionary:item];
             [dict removeObjectForKey:kWordCount];
             [dict removeObjectForKey:kUrlKey];
-//            NSString* leadImageUrl = [dict objectForKey:kLeadImageUrl];
-            [dict removeObjectForKey:kLeadImageUrl];
-            
+            NSString* leadImageUrl = [dict objectForKey:kLeadImageUrl];
             //FIXME: url may be relative url,fix it from server
-//            [dict setObject:leadImageUrl forKey:kImageUrl];
+            if (leadImageUrl) {
+                [dict removeObjectForKey:kLeadImageUrl];
+                [dict setObject:leadImageUrl forKey:kImageUrl];
+            }
             [cacheArray addObject:dict];
         }
+        [myTableView.tableInfoArray removeAllObjects];
+        [myTableView.tableInfoArray addObjectsFromArray:cacheArray];
         
         NSString* filePath = [HomeViewController categoryDataFilePath:url];
         [HomeViewController saveArray2File:filePath withArray:cacheArray];

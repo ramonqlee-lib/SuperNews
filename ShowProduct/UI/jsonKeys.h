@@ -17,5 +17,7 @@
 
 #define kWordCount @"word_count"
 #define kLeadImageUrl @"lead_image_url"
-#define kImageUrl @"imageUrl"
+#define kImageUrl @"leadImageUrl"
+
+
 #endif//JSON_KEY_H__

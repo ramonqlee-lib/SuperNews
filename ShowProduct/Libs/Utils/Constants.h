@@ -5,6 +5,6 @@
 //  Created by  on 12-1-5.
 //  Copyright (c) 2012年 YouMi Mobile Co. Ltd. All rights reserved.
 //
-//deprecated 
-//#import "appConstants.h"
 
+#define kHTTP @"http"
+#define kTableCellPlaceHolderImage @"tablecellplaceholder.png"

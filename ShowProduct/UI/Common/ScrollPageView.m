@@ -10,6 +10,7 @@
 #import "HomeViewCell.h"
 #import "jsonKeys.h"
 #import "NSString+HTML.h"
+#import "UIImageView+WebCache.h"
 
 @interface ScrollPageView()
 {
@@ -226,8 +227,11 @@
     
     NSDictionary* dict = [tableViewWithPullRefreshLoadMoreButton.tableInfoArray objectAtIndex:aIndexPath.row];
     
-    NSInteger vNewIndex = aIndexPath.row % 4 + 1;
-    vCell.headerImageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"new%d",vNewIndex]];
+    id imageUrl = [dict objectForKey:kImageUrl];
+    if (imageUrl && [imageUrl isKindOfClass:[NSString class]] && [[imageUrl lowercaseString] hasPrefix:kHTTP]) {
+        NSLog(@"icon image: %@",imageUrl);
+        [vCell.headerImageView setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:kTableCellPlaceHolderImage]];
+    }
     vCell.titleLabel.text = [dict objectForKey:kLowercaseTitleKey];
     NSString* htmlString = [dict objectForKey:kLowercaseContentKey];
     
