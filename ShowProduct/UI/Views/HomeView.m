@@ -48,15 +48,6 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
 -(void)commInit{
     // TODO:此处需要读取缓存数据，进行展示
     // 缓存的频道列表和频道数据
-    
-    vButtonItemArray = @[@{NOMALKEY: @"normal.png",
-                           HEIGHTKEY:@"helight.png",
-                           TITLEKEY:@"头条",
-                           TITLEWIDTH:[NSNumber numberWithFloat:60]
-                           }
-                         ];
-     
-    [self resetContent];
 }
 
 -(void)resetContent
@@ -80,8 +71,21 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
     }
     
     [mScrollPageView setContentOfTables:vButtonItemArray.count];
+    
+    [self loadCache];
+    
     //默认选中第一个button
     [mHorizontalMenu clickButtonAtIndex:0];
+}
+
+//    读取缓存，并显示
+-(void)loadCache
+{
+    NSString* url = (currentPageIndex<urlArray.count)?[urlArray objectAtIndex:currentPageIndex]:kDefaultCategoryUrl;
+    NSArray* ret = [HomeViewController restoreArrayFromFile:[HomeViewController categoryDataFilePath:url]];
+    if (ret && ret.count) {
+        [mScrollPageView freshContentTableAtIndex:currentPageIndex withData:ret];
+    }
 }
 #pragma mark 内存相关
 -(void)dealloc{
@@ -147,18 +151,6 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refeshHandler:) name:url object:nil];
     
     [[HTTPHelper sharedInstance]beginPostRequest:url withDictionary:nil];
-    
-    // TODO 读取缓存，并显示
-    if (myTableView && myTableView.tableInfoArray) {
-        NSArray* ret = [HomeViewController restoreArrayFromFile:[HomeViewController categoryDataFilePath:url]];
-        if (ret && ret.count) {
-            [myTableView.tableInfoArray addObjectsFromArray:ret];
-            if (refreshComplete)
-            {
-                refreshComplete();
-            }
-        }
-    }
     return YES;
 }
 
@@ -217,7 +209,7 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
             NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithDictionary:item];
             [dict removeObjectForKey:kWordCount];
             [dict removeObjectForKey:kUrlKey];
-            NSString* leadImageUrl = [dict objectForKey:kLeadImageUrl];
+//            NSString* leadImageUrl = [dict objectForKey:kLeadImageUrl];
             [dict removeObjectForKey:kLeadImageUrl];
             
             //FIXME: url may be relative url,fix it from server

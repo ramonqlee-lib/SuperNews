@@ -67,7 +67,7 @@
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if ([_delegate respondsToSelector:@selector(numberOfRowsInTableView:InSection:FromView:)]) {
-       NSInteger vRows = [_dataSource numberOfRowsInTableView:tableView InSection:section FromView:self];
+        NSInteger vRows = [_dataSource numberOfRowsInTableView:tableView InSection:section FromView:self];
         mRowCount = vRows;
         return vRows + 1;
     }
@@ -85,6 +85,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *vMoreCellIdentify = @"loadMoreCell";
     if (indexPath.row == mRowCount) {
+        NSLog(@"loadMoreCell");
         LoadMoreCell *vCell = [tableView dequeueReusableCellWithIdentifier:vMoreCellIdentify];
         if (vCell == Nil) {
             vCell = [[[NSBundle mainBundle] loadNibNamed:@"LoadMoreCell" owner:self options:Nil] lastObject];
@@ -92,6 +93,7 @@
         
         return vCell;
     }else{
+        NSLog(@"tableViewCell");
         if ([_dataSource respondsToSelector:@selector(cellForRowInTableView:IndexPath:FromView:)]) {
             UITableViewCell *vCell = [_dataSource cellForRowInTableView:tableView IndexPath:indexPath FromView:self];
             return vCell;
@@ -140,11 +142,12 @@
 }
 
 - (void)doneLoadingTableViewData{
-	
+    
 	//  model should call this when its done loading
 	_reloading = NO;
 	[_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.homeTableView];
     [self.homeTableView reloadData];
+    NSLog(@"doneLoadingTableViewData");
 }
 
 
@@ -175,10 +178,10 @@
 }
 
 - (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view{
-//	if ([_delegate respondsToSelector:@selector(tableViewEgoRefreshTableHeaderDataSourceIsLoading:FromView:)]) {
-//        BOOL vIsLoading = [_delegate tableViewEgoRefreshTableHeaderDataSourceIsLoading:view FromView:self];
-//        return vIsLoading;
-//    }
+    //	if ([_delegate respondsToSelector:@selector(tableViewEgoRefreshTableHeaderDataSourceIsLoading:FromView:)]) {
+    //        BOOL vIsLoading = [_delegate tableViewEgoRefreshTableHeaderDataSourceIsLoading:view FromView:self];
+    //        return vIsLoading;
+    //    }
 	return _reloading; // should return if data source model is reloading
 	
 }

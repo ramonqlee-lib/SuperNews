@@ -199,7 +199,7 @@ Impl_Singleton(HTTPHelper)
                 NSString* postKey = (NSString*)[request.userInfo objectForKey:@"Url"];
                 dict = [NSDictionary dictionaryWithObject:request.responseData forKey:postKey];
                 postObject = responseData;
-                NSLog(@"responseData: %@",responseData);
+//                NSLog(@"responseData: %@",responseData);
             }
         }
         NSString* postKey = [request.userInfo objectForKey:@"Url"];

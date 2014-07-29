@@ -71,9 +71,11 @@
     NSInteger count = (aNumerOfTables - _contentItems.count);
     if (count < 0) {
         //keep extra views, re-use them if posssible later
+        NSLog(@"setContentOfTables for reuse: %d",-count);
         return;
     }
     
+    NSLog(@"setContentOfTables: %d",count);
     for (int i = 0; i < count; i++) {
         TableViewWithPullRefreshLoadMoreButton *vCustomTableView = [[TableViewWithPullRefreshLoadMoreButton alloc] initWithFrame:CGRectMake(320 * i, 0, 320, self.frame.size.height)];
         vCustomTableView.delegate = self;
@@ -115,7 +117,15 @@
     TableViewWithPullRefreshLoadMoreButton *vTableContentView =(TableViewWithPullRefreshLoadMoreButton *)[_contentItems objectAtIndex:aIndex];
     [vTableContentView forceToFreshData];
 }
-
+-(void)freshContentTableAtIndex:(NSInteger)aIndex withData:(NSArray*)tableArray
+{
+    NSMutableArray* r = [self tableArrayAtIndex:aIndex];
+    if (r) {
+        [r removeAllObjects];
+        [r addObjectsFromArray:tableArray];
+        [self freshContentTableAtIndex:aIndex];
+    }
+}
 #pragma mark 添加HeaderView
 -(void)addLoopScrollowView:(TableViewWithPullRefreshLoadMoreButton *)aTableView {
     tableViewWithPullRefreshLoadMoreButton = aTableView;
