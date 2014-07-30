@@ -258,7 +258,7 @@
     NSString* title = [dict objectForKey:kLowercaseTitleKey];
 //    NSString* url = [dict objectForKey:kUrlKey];//@"http://www.baidu.com";
     SVWebViewController* webViewController = [[[SVWebViewController alloc]init]autorelease];
-    webViewController.htmlBody = content;
+    webViewController.htmlBody = [content stringByLinkifyingURLs];
     
     
     UINavigationController* controller = [[UINavigationController alloc]initWithRootViewController:webViewController];
