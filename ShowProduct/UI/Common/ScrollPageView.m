@@ -256,20 +256,29 @@
     NSDictionary* dict = [tableViewWithPullRefreshLoadMoreButton.tableInfoArray objectAtIndex:aIndexPath.row];
     NSString* content = [dict objectForKey:kLowercaseContentKey];
     NSString* title = [dict objectForKey:kLowercaseTitleKey];
-    NSString* url = [dict objectForKey:kUrlKey];//@"http://www.baidu.com";
-    SVWebViewController* webViewController = [[[SVWebViewController alloc]initWithURL:[NSURL URLWithString:url]]autorelease];
-//    webViewController url = url;
-//    webViewController.content = content;
-//    webViewController.title = title;
-  
+//    NSString* url = [dict objectForKey:kUrlKey];//@"http://www.baidu.com";
+    SVWebViewController* webViewController = [[[SVWebViewController alloc]init]autorelease];
+    webViewController.htmlBody = content;
+    
+    
     UINavigationController* controller = [[UINavigationController alloc]initWithRootViewController:webViewController];
     controller.title = title;
-//    controller.navigationBarHidden = YES;
+    UIBarButtonItem *BackBtn = [[UIBarButtonItem alloc] initWithTitle:@"Back"
+                                                                style:UIBarButtonItemStylePlain
+                                                               target:self
+                                                               action:@selector(BackAction:)];
+    
+    webViewController.navigationItem.leftBarButtonItem = BackBtn;
     
     UIViewController* rootController = [[[UIApplication sharedApplication]keyWindow]rootViewController];
     [rootController presentViewController:controller animated:YES completion:nil];
 }
 
+-(IBAction)BackAction:(id)sender
+{
+    UIViewController* rootController = [[[UIApplication sharedApplication]keyWindow]rootViewController];
+    [rootController dismissViewControllerAnimated:YES completion:nil];
+}
 //更新tableview数据
 -(void)updateTableViewDataOnly:(NSArray*)data
 {

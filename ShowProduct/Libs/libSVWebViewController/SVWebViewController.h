@@ -15,6 +15,8 @@
 - (id)initWithAddress:(NSString*)urlString;
 - (id)initWithURL:(NSURL*)URL;
 
-@property (nonatomic, readwrite) SVWebViewControllerAvailableActions availableActions;
 
+@property (nonatomic, readwrite) SVWebViewControllerAvailableActions availableActions;
+@property (nonatomic, copy) NSString* titleString;
+@property (nonatomic, copy) NSString* htmlBody;
 @end

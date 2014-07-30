@@ -16,9 +16,8 @@
 		30CD171D1987DA3500600D6D /* GifView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CD171C1987DA3500600D6D /* GifView.m */; };
 		30CD18821989227400600D6D /* libUIViewControllerExt_Simulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30CD18811989227400600D6D /* libUIViewControllerExt_Simulator.a */; };
 		30CD18841989227E00600D6D /* libUIViewControllerExt_Phone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30CD18831989227E00600D6D /* libUIViewControllerExt_Phone.a */; };
-		30CD18BF198928C800600D6D /* libSVWebViewController_Phone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30CD18BA198928C800600D6D /* libSVWebViewController_Phone.a */; };
-		30CD18C0198928C800600D6D /* libSVWebViewController_Simulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30CD18BB198928C800600D6D /* libSVWebViewController_Simulator.a */; };
 		30CD18C1198928C800600D6D /* SVWebViewController.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 30CD18BD198928C800600D6D /* SVWebViewController.bundle */; };
+		30CD18C319892C3500600D6D /* libSVWebViewController.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30CD18C219892C3500600D6D /* libSVWebViewController.a */; };
 		30E6DA8D197D532A00D5DF95 /* order_back_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 30E6DA8B197D532A00D5DF95 /* order_back_down.png */; };
 		30E6DA8E197D532A00D5DF95 /* order_back_up.png in Resources */ = {isa = PBXBuildFile; fileRef = 30E6DA8C197D532A00D5DF95 /* order_back_up.png */; };
 		30E6DA93198689FE00D5DF95 /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E6DA92198689FE00D5DF95 /* Base64.m */; settings = {COMPILER_FLAGS = " -fobjc-arc"; }; };
@@ -126,11 +125,10 @@
 		30CD18801989200000600D6D /* RMViewController+Aux.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RMViewController+Aux.h"; sourceTree = "<group>"; };
 		30CD18811989227400600D6D /* libUIViewControllerExt_Simulator.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUIViewControllerExt_Simulator.a; sourceTree = "<group>"; };
 		30CD18831989227E00600D6D /* libUIViewControllerExt_Phone.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUIViewControllerExt_Phone.a; sourceTree = "<group>"; };
-		30CD18BA198928C800600D6D /* libSVWebViewController_Phone.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSVWebViewController_Phone.a; sourceTree = "<group>"; };
-		30CD18BB198928C800600D6D /* libSVWebViewController_Simulator.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSVWebViewController_Simulator.a; sourceTree = "<group>"; };
 		30CD18BC198928C800600D6D /* SVModalWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVModalWebViewController.h; sourceTree = "<group>"; };
 		30CD18BD198928C800600D6D /* SVWebViewController.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVWebViewController.bundle; sourceTree = "<group>"; };
 		30CD18BE198928C800600D6D /* SVWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVWebViewController.h; sourceTree = "<group>"; };
+		30CD18C219892C3500600D6D /* libSVWebViewController.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSVWebViewController.a; sourceTree = "<group>"; };
 		30E6DA8B197D532A00D5DF95 /* order_back_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = order_back_down.png; sourceTree = "<group>"; };
 		30E6DA8C197D532A00D5DF95 /* order_back_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = order_back_up.png; sourceTree = "<group>"; };
 		30E6DA8F1986862200D5DF95 /* jsonKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jsonKeys.h; sourceTree = "<group>"; };
@@ -280,10 +278,9 @@
 				3E99694319319718003CA4C6 /* SystemConfiguration.framework in Frameworks */,
 				8B460957192D968300B28082 /* CoreGraphics.framework in Frameworks */,
 				8B460959192D968300B28082 /* UIKit.framework in Frameworks */,
-				30CD18C0198928C800600D6D /* libSVWebViewController_Simulator.a in Frameworks */,
 				8B460955192D968300B28082 /* Foundation.framework in Frameworks */,
 				30FCD63F197BC0CE000F7015 /* libFlurry_4.3.2.a in Frameworks */,
-				30CD18BF198928C800600D6D /* libSVWebViewController_Phone.a in Frameworks */,
+				30CD18C319892C3500600D6D /* libSVWebViewController.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -343,8 +340,7 @@
 		30CD18B9198928C800600D6D /* libSVWebViewController */ = {
 			isa = PBXGroup;
 			children = (
-				30CD18BA198928C800600D6D /* libSVWebViewController_Phone.a */,
-				30CD18BB198928C800600D6D /* libSVWebViewController_Simulator.a */,
+				30CD18C219892C3500600D6D /* libSVWebViewController.a */,
 				30CD18BC198928C800600D6D /* SVModalWebViewController.h */,
 				30CD18BD198928C800600D6D /* SVWebViewController.bundle */,
 				30CD18BE198928C800600D6D /* SVWebViewController.h */,
