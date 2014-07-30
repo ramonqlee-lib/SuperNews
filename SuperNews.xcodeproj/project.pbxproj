@@ -14,6 +14,11 @@
 		30CD17181987D93100600D6D /* SDWebImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CD17101987D93100600D6D /* SDWebImageManager.m */; };
 		30CD17191987D93100600D6D /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CD17131987D93100600D6D /* UIImageView+WebCache.m */; };
 		30CD171D1987DA3500600D6D /* GifView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CD171C1987DA3500600D6D /* GifView.m */; };
+		30CD18821989227400600D6D /* libUIViewControllerExt_Simulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30CD18811989227400600D6D /* libUIViewControllerExt_Simulator.a */; };
+		30CD18841989227E00600D6D /* libUIViewControllerExt_Phone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30CD18831989227E00600D6D /* libUIViewControllerExt_Phone.a */; };
+		30CD18BF198928C800600D6D /* libSVWebViewController_Phone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30CD18BA198928C800600D6D /* libSVWebViewController_Phone.a */; };
+		30CD18C0198928C800600D6D /* libSVWebViewController_Simulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30CD18BB198928C800600D6D /* libSVWebViewController_Simulator.a */; };
+		30CD18C1198928C800600D6D /* SVWebViewController.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 30CD18BD198928C800600D6D /* SVWebViewController.bundle */; };
 		30E6DA8D197D532A00D5DF95 /* order_back_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 30E6DA8B197D532A00D5DF95 /* order_back_down.png */; };
 		30E6DA8E197D532A00D5DF95 /* order_back_up.png in Resources */ = {isa = PBXBuildFile; fileRef = 30E6DA8C197D532A00D5DF95 /* order_back_up.png */; };
 		30E6DA93198689FE00D5DF95 /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E6DA92198689FE00D5DF95 /* Base64.m */; settings = {COMPILER_FLAGS = " -fobjc-arc"; }; };
@@ -118,6 +123,14 @@
 		30CD17131987D93100600D6D /* UIImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WebCache.m"; sourceTree = "<group>"; };
 		30CD171B1987DA3500600D6D /* GifView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GifView.h; sourceTree = "<group>"; };
 		30CD171C1987DA3500600D6D /* GifView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GifView.m; sourceTree = "<group>"; };
+		30CD18801989200000600D6D /* RMViewController+Aux.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RMViewController+Aux.h"; sourceTree = "<group>"; };
+		30CD18811989227400600D6D /* libUIViewControllerExt_Simulator.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUIViewControllerExt_Simulator.a; sourceTree = "<group>"; };
+		30CD18831989227E00600D6D /* libUIViewControllerExt_Phone.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUIViewControllerExt_Phone.a; sourceTree = "<group>"; };
+		30CD18BA198928C800600D6D /* libSVWebViewController_Phone.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSVWebViewController_Phone.a; sourceTree = "<group>"; };
+		30CD18BB198928C800600D6D /* libSVWebViewController_Simulator.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSVWebViewController_Simulator.a; sourceTree = "<group>"; };
+		30CD18BC198928C800600D6D /* SVModalWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVModalWebViewController.h; sourceTree = "<group>"; };
+		30CD18BD198928C800600D6D /* SVWebViewController.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVWebViewController.bundle; sourceTree = "<group>"; };
+		30CD18BE198928C800600D6D /* SVWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVWebViewController.h; sourceTree = "<group>"; };
 		30E6DA8B197D532A00D5DF95 /* order_back_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = order_back_down.png; sourceTree = "<group>"; };
 		30E6DA8C197D532A00D5DF95 /* order_back_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = order_back_up.png; sourceTree = "<group>"; };
 		30E6DA8F1986862200D5DF95 /* jsonKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jsonKeys.h; sourceTree = "<group>"; };
@@ -261,12 +274,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				30FCD641197BC16F000F7015 /* libz.dylib in Frameworks */,
+				30CD18841989227E00600D6D /* libUIViewControllerExt_Phone.a in Frameworks */,
+				30CD18821989227400600D6D /* libUIViewControllerExt_Simulator.a in Frameworks */,
 				3E99694519319729003CA4C6 /* MobileCoreServices.framework in Frameworks */,
 				3E99694319319718003CA4C6 /* SystemConfiguration.framework in Frameworks */,
 				8B460957192D968300B28082 /* CoreGraphics.framework in Frameworks */,
 				8B460959192D968300B28082 /* UIKit.framework in Frameworks */,
+				30CD18C0198928C800600D6D /* libSVWebViewController_Simulator.a in Frameworks */,
 				8B460955192D968300B28082 /* Foundation.framework in Frameworks */,
 				30FCD63F197BC0CE000F7015 /* libFlurry_4.3.2.a in Frameworks */,
+				30CD18BF198928C800600D6D /* libSVWebViewController_Phone.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,6 +330,28 @@
 			path = Gifview;
 			sourceTree = "<group>";
 		};
+		30CD187A19891F8400600D6D /* libUIViewControllerExt */ = {
+			isa = PBXGroup;
+			children = (
+				30CD18831989227E00600D6D /* libUIViewControllerExt_Phone.a */,
+				30CD18811989227400600D6D /* libUIViewControllerExt_Simulator.a */,
+				30CD18801989200000600D6D /* RMViewController+Aux.h */,
+			);
+			path = libUIViewControllerExt;
+			sourceTree = "<group>";
+		};
+		30CD18B9198928C800600D6D /* libSVWebViewController */ = {
+			isa = PBXGroup;
+			children = (
+				30CD18BA198928C800600D6D /* libSVWebViewController_Phone.a */,
+				30CD18BB198928C800600D6D /* libSVWebViewController_Simulator.a */,
+				30CD18BC198928C800600D6D /* SVModalWebViewController.h */,
+				30CD18BD198928C800600D6D /* SVWebViewController.bundle */,
+				30CD18BE198928C800600D6D /* SVWebViewController.h */,
+			);
+			path = libSVWebViewController;
+			sourceTree = "<group>";
+		};
 		30E6DA90198689FE00D5DF95 /* Base64 */ = {
 			isa = PBXGroup;
 			children = (
@@ -348,6 +387,8 @@
 		30FCD5D3197B31D6000F7015 /* Libs */ = {
 			isa = PBXGroup;
 			children = (
+				30CD18B9198928C800600D6D /* libSVWebViewController */,
+				30CD187A19891F8400600D6D /* libUIViewControllerExt */,
 				30CD171A1987DA3500600D6D /* Gifview */,
 				30CD17051987D93100600D6D /* SDWebImage */,
 				30E6DA90198689FE00D5DF95 /* Base64 */,
@@ -691,6 +732,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				"zh-Hans",
 			);
 			mainGroup = 8B460948192D968300B28082;
 			productRefGroup = 8B460952192D968300B28082 /* Products */;
@@ -712,6 +754,7 @@
 				30E6DA8D197D532A00D5DF95 /* order_back_down.png in Resources */,
 				8B4609AE192DF0AC00B28082 /* tablecellplaceholder.png in Resources */,
 				30FCD5CA1976BCC5000F7015 /* order_background.png in Resources */,
+				30CD18C1198928C800600D6D /* SVWebViewController.bundle in Resources */,
 				30FCD5CB1976BCC5000F7015 /* order_drag_move_bg.png in Resources */,
 				8B46099A192DC3C600B28082 /* normal.png in Resources */,
 				30CD17151987D93100600D6D /* README.md in Resources */,
@@ -915,6 +958,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ShowProduct/Libs/umeng_ios_social_sdk_3.3.5/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ShowProduct/SuperNews-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -927,6 +974,14 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ShowProduct/Libs/Flurry",
+					"$(PROJECT_DIR)/ShowProduct/Libs/umeng_ios_social_sdk_3.3.5/UMSocial_Sdk_3.3.5",
+					"$(PROJECT_DIR)/ShowProduct/Libs/umeng_ios_social_sdk_3.3.5/UMSocial_Sdk_Extra_Frameworks/LaiWang",
+					"$(PROJECT_DIR)/ShowProduct/Libs/umeng_ios_social_sdk_3.3.5/UMSocial_Sdk_Extra_Frameworks/Wechat",
+					"$(PROJECT_DIR)/ShowProduct/Libs/umeng_ios_social_sdk_3.3.5/UMSocial_Sdk_Extra_Frameworks/YiXin",
+					"$(PROJECT_DIR)/ShowProduct/Libs/UMFeedback_iOS_1.4",
+					"$(PROJECT_DIR)/ShowProduct/Libs/ios_api",
+					"$(PROJECT_DIR)/ShowProduct/Libs/libUIViewControllerExt",
+					"$(PROJECT_DIR)/ShowProduct/Libs/libSVWebViewController",
 				);
 				OTHER_LDFLAGS = (
 					"-lxml2",
@@ -945,6 +1000,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ShowProduct/Libs/umeng_ios_social_sdk_3.3.5/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ShowProduct/SuperNews-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -957,6 +1016,14 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ShowProduct/Libs/Flurry",
+					"$(PROJECT_DIR)/ShowProduct/Libs/umeng_ios_social_sdk_3.3.5/UMSocial_Sdk_3.3.5",
+					"$(PROJECT_DIR)/ShowProduct/Libs/umeng_ios_social_sdk_3.3.5/UMSocial_Sdk_Extra_Frameworks/LaiWang",
+					"$(PROJECT_DIR)/ShowProduct/Libs/umeng_ios_social_sdk_3.3.5/UMSocial_Sdk_Extra_Frameworks/Wechat",
+					"$(PROJECT_DIR)/ShowProduct/Libs/umeng_ios_social_sdk_3.3.5/UMSocial_Sdk_Extra_Frameworks/YiXin",
+					"$(PROJECT_DIR)/ShowProduct/Libs/UMFeedback_iOS_1.4",
+					"$(PROJECT_DIR)/ShowProduct/Libs/ios_api",
+					"$(PROJECT_DIR)/ShowProduct/Libs/libUIViewControllerExt",
+					"$(PROJECT_DIR)/ShowProduct/Libs/libSVWebViewController",
 				);
 				OTHER_LDFLAGS = (
 					"-lxml2",

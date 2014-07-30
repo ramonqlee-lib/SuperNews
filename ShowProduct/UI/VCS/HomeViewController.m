@@ -16,6 +16,7 @@
 #import "HTTPHelper.h"
 #import "TouchViewModel.h"
 #import "ASIDownloadCache.h"
+#import "RMViewController+Aux.h"
 
 NSString* kAppSettingUrl = @"http://novelists.duapp.com/crawler/category.php";//?column=ZhongYi";
 NSUInteger kDefaultCategoryCount = 3;// 用户没有订阅时的推荐订阅数目
@@ -69,13 +70,16 @@ NSString* kCategoryUrlKey = @"url";
     if (IS_IOS7) {
         self.edgesForExtendedLayout =UIRectEdgeNone ;
     }
+#if 1
+    //contentView大小设置
     //contentView大小设置
     int vWidth = (int)([UIScreen mainScreen].bounds.size.width);
     int vHeight = (int)([UIScreen mainScreen].bounds.size.height);
-    //contentView大小设置
-    
     CGRect vViewRect = CGRectMake(0, 0, vWidth, vHeight -44 -20);
     UIView *vContentView = [[UIView alloc] initWithFrame:vViewRect];
+#else
+    UIView* vContentView = [self clientView];
+#endif
     if (mHomeView == nil) {
         mHomeView = [[HomeView alloc] initWithFrame:vContentView.frame];
         [mySubscriptionDataObservers addObject:mHomeView];

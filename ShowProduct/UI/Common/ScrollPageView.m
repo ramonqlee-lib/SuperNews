@@ -11,6 +11,7 @@
 #import "jsonKeys.h"
 #import "NSString+HTML.h"
 #import "UIImageView+WebCache.h"
+#import "SVWebViewController.h"
 
 @interface ScrollPageView()
 {
@@ -246,7 +247,27 @@
     return vCell.frame.size.height;
 }
 
--(void)didSelectedRowAthIndexPath:(UITableView *)aTableView IndexPath:(NSIndexPath *)aIndexPath FromView:(TableViewWithPullRefreshLoadMoreButton *)aView{
+-(void)didSelectedRowAthIndexPath:(UITableView *)aTableView IndexPath:(NSIndexPath *)aIndexPath FromView:(TableViewWithPullRefreshLoadMoreButton *)aView
+{
+    //check before going on
+    [aTableView deselectRowAtIndexPath:aIndexPath animated:YES];
+    
+//    UIViewController* presentController = nil;
+    NSDictionary* dict = [tableViewWithPullRefreshLoadMoreButton.tableInfoArray objectAtIndex:aIndexPath.row];
+    NSString* content = [dict objectForKey:kLowercaseContentKey];
+    NSString* title = [dict objectForKey:kLowercaseTitleKey];
+    NSString* url = [dict objectForKey:kUrlKey];//@"http://www.baidu.com";
+    SVWebViewController* webViewController = [[[SVWebViewController alloc]initWithURL:[NSURL URLWithString:url]]autorelease];
+//    webViewController url = url;
+//    webViewController.content = content;
+//    webViewController.title = title;
+  
+    UINavigationController* controller = [[UINavigationController alloc]initWithRootViewController:webViewController];
+    controller.title = title;
+//    controller.navigationBarHidden = YES;
+    
+    UIViewController* rootController = [[[UIApplication sharedApplication]keyWindow]rootViewController];
+    [rootController presentViewController:controller animated:YES completion:nil];
 }
 
 //更新tableview数据
@@ -271,15 +292,15 @@
     
     /*
      NSMutableArray* data = [NSMutableArray arrayWithArray:aView.tableInfoArray];
-    for (int i = 0; i < 4; i++) {
-        [data  addObject:@"0"];
-    }
-    [self updateTableViewDataOnly:data];
-    
-    // 数据更新完毕，该刷新view了
-    if (complete) {
-        complete(4);
-    }
+     for (int i = 0; i < 4; i++) {
+     [data  addObject:@"0"];
+     }
+     [self updateTableViewDataOnly:data];
+     
+     // 数据更新完毕，该刷新view了
+     if (complete) {
+     complete(4);
+     }
      */
 }
 
@@ -297,18 +318,18 @@
         }
         
         /*
-        // 全新的数据集
-        NSMutableArray* data = [NSMutableArray array];
-        for (int i = 0; i < 4; i++) {
-            [data  addObject:@"0"];
-        }
-        [self updateTableViewDataOnly:data];
-        
-        //改变header显示图片
-        [self changeHeaderContentWithCustomTable:aView];
-        if (complete) {
-            complete();
-        }
+         // 全新的数据集
+         NSMutableArray* data = [NSMutableArray array];
+         for (int i = 0; i < 4; i++) {
+         [data  addObject:@"0"];
+         }
+         [self updateTableViewDataOnly:data];
+         
+         //改变header显示图片
+         [self changeHeaderContentWithCustomTable:aView];
+         if (complete) {
+         complete();
+         }
          */
     });
 }

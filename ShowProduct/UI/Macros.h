@@ -39,6 +39,7 @@
 #define IS_IPHONE                                  ( [ [ [ UIDevice currentDevice ] model ] isEqualToString: @"iPhone" ] || [ [ [ UIDevice currentDevice ] model ] isEqualToString: @"iPhone Simulator" ])
 #define IS_IPOD                                    ( [ [ [ UIDevice currentDevice ] model ] isEqualToString: @"iPod touch" ] )
 #define IS_IPHONE_5                                ( IS_IPHONE && IS_WIDESCREEN )
+#define isPad (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 
 //判断字符串是否为空
 #define IFISNIL(v)                                 (v = (v != nil) ? v : @"")
