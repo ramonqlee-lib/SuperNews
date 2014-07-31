@@ -85,7 +85,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *vMoreCellIdentify = @"loadMoreCell";
     if (indexPath.row == mRowCount) {
-        NSLog(@"loadMoreCell");
+//        NSLog(@"loadMoreCell");
         LoadMoreCell *vCell = [tableView dequeueReusableCellWithIdentifier:vMoreCellIdentify];
         if (vCell == Nil) {
             vCell = [[[NSBundle mainBundle] loadNibNamed:@"LoadMoreCell" owner:self options:Nil] lastObject];
@@ -93,7 +93,7 @@
         
         return vCell;
     }else{
-        NSLog(@"tableViewCell");
+//        NSLog(@"tableViewCell");
         if ([_dataSource respondsToSelector:@selector(cellForRowInTableView:IndexPath:FromView:)]) {
             UITableViewCell *vCell = [_dataSource cellForRowInTableView:tableView IndexPath:indexPath FromView:self];
             return vCell;
@@ -147,7 +147,7 @@
 	_reloading = NO;
 	[_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.homeTableView];
     [self.homeTableView reloadData];
-    NSLog(@"doneLoadingTableViewData");
+//    NSLog(@"doneLoadingTableViewData");
 }
 
 

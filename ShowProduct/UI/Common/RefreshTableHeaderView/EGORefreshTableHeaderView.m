@@ -245,7 +245,7 @@
 	if ([_delegate respondsToSelector:@selector(egoRefreshTableHeaderDataSourceIsLoading:)]) {
 		_loading = [_delegate egoRefreshTableHeaderDataSourceIsLoading:self];
 	}
-	NSLog(@"scrollView.contentOffset.y:%f",scrollView.contentOffset.y);
+//	NSLog(@"scrollView.contentOffset.y:%f",scrollView.contentOffset.y);
 	if (scrollView.contentOffset.y <= - 65.0f && !_loading) {
 		
 		if ([_delegate respondsToSelector:@selector(egoRefreshTableHeaderDidTriggerRefresh:)]) {
@@ -275,7 +275,7 @@
 	if ([_delegate respondsToSelector:@selector(egoRefreshTableHeaderDataSourceIsLoading:)]) {
 		_loading = [_delegate egoRefreshTableHeaderDataSourceIsLoading:self];
 	}
-	NSLog(@"scrollView.contentOffset.y:%f",aScrollView.contentOffset.y);
+//	NSLog(@"scrollView.contentOffset.y:%f",aScrollView.contentOffset.y);
 	if (!_loading)
     {
 		

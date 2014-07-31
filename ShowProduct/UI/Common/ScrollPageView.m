@@ -43,7 +43,7 @@
     }
     if (_scrollView == nil) {
         _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
-        NSLog(@"ScrollViewFrame:(%f,%f)",self.frame.size.width,self.frame.size.height);
+//        NSLog(@"ScrollViewFrame:(%f,%f)",self.frame.size.width,self.frame.size.height);
         _scrollView.pagingEnabled = YES;
         _scrollView.delegate = self;
     }
@@ -77,7 +77,7 @@
         return;
     }
     
-    NSLog(@"setContentOfTables: %d",count);
+//    NSLog(@"setContentOfTables: %d",count);
     for (int i = 0; i < count; i++) {
         
         // 放到合适的位置
@@ -233,7 +233,7 @@
     
     id imageUrl = [dict objectForKey:kImageUrl];
     if (imageUrl && [imageUrl isKindOfClass:[NSString class]] && [[imageUrl lowercaseString] hasPrefix:kHTTP]) {
-        NSLog(@"icon image: %@",imageUrl);
+//        NSLog(@"icon image: %@",imageUrl);
         [vCell.headerImageView setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:kTableCellPlaceHolderImage]];
     }
     vCell.titleLabel.text = [dict objectForKey:kLowercaseTitleKey];

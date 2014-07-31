@@ -128,15 +128,15 @@ NSString* kCategoryUrlKey = @"url";
         
         [[NSNotificationCenter defaultCenter]removeObserver:self];
         
-        OrderButton* orderButton = [self orderButton];
-        UIBarButtonItem* barButtonItem = [[[UIBarButtonItem alloc]initWithCustomView:orderButton]autorelease];
-        [orderButton addTarget:self action:@selector(orderViewOut:) forControlEvents:UIControlEventTouchUpInside];
-        
-        self.navigationItem.rightBarButtonItem = barButtonItem;
-        
         // 通知频道数据发生了变化
         [self notifySubscriptionChange ];
     }
+    
+    OrderButton* orderButton = [self orderButton];
+    UIBarButtonItem* barButtonItem = [[[UIBarButtonItem alloc]initWithCustomView:orderButton]autorelease];
+    [orderButton addTarget:self action:@selector(orderViewOut:) forControlEvents:UIControlEventTouchUpInside];
+    
+    self.navigationItem.rightBarButtonItem = barButtonItem;
 }
 
 #pragma mark category Button
@@ -375,23 +375,6 @@ NSString* kCategoryUrlKey = @"url";
 }
 
 #pragma mark 网路返回json数据的解析
-// 在形如如下形式的数据中，提取数据，并转换为数组返回
-//[
-// {
-//     "title": "实用的中医窍门",
-//     "icon": "http://checknewversion.duapp.com/images/beautie_zhongyi.jpg",
-//     "data": [
-//              {
-//                  "title": "中医膳食",
-//                  "url": "http://novelists.duapp.com/article_no_image.php?table=Zhongyishanshi"
-//              },
-//              {
-//                  "title": "养生排行",
-//                  "url": "http://idreems.duapp.com/article_no_image.php?table=Yangshengpaihang"
-//              }
-//              ]
-// }
-// ]
 +(NSArray*)Json2Array:(NSData*)data
 {
     NSError* error;

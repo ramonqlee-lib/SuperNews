@@ -72,15 +72,12 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
     }
     
     [mScrollPageView setContentOfTables:vButtonItemArray.count];
-    
-    [self loadCache];
-    
     //默认选中第一个button
     [mHorizontalMenu clickButtonAtIndex:0];
 }
 
 //    读取缓存，并显示
--(void)loadCache
+-(BOOL)loadCache
 {
     NSString* url = (currentPageIndex<urlArray.count)?[urlArray objectAtIndex:currentPageIndex]:kDefaultCategoryUrl;
     NSArray* ret = [CommonHelper readArchiver:[HomeViewController categoryDataFilePath:url]];
@@ -88,7 +85,9 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
     if (ret && ret.count) {
         NSLog(@"cache out");
         [mScrollPageView freshContentTableAtIndex:currentPageIndex withData:ret];
+        return YES;
     }
+    return NO;
 }
 #pragma mark 内存相关
 -(void)dealloc{
@@ -100,19 +99,24 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
 #pragma mark - 其他辅助功能
 #pragma mark MenuHrizontalDelegate
 -(void)didMenuHrizontalClickedButtonAtIndex:(NSInteger)aIndex{
-    NSLog(@"第%d个Button点击了",aIndex);
+//    NSLog(@"第%d个Button点击了",aIndex);
     [mScrollPageView moveScrollowViewAthIndex:aIndex];
 }
 
 #pragma mark ScrollPageViewDelegate
 -(void)didScrollPageViewChangedPage:(NSInteger)aPage{
-    NSLog(@"CurrentPage:%d",aPage);
+//    NSLog(@"CurrentPage:%d",aPage);
     [mHorizontalMenu changeButtonStateAtIndex:aPage];
 
     // TODO 发起数据请求，首先从本地存储读取，然后从网络获取
     currentPageIndex= aPage;
-    //刷新当页数据
-    [mScrollPageView freshContentTableAtIndex:aPage];
+    
+    // 加载缓存并刷新数据
+    if(![self loadCache])
+    {
+        //刷新当页数据
+        [mScrollPageView freshContentTableAtIndex:aPage];
+    }
 }
 
 // 加载更多时的数据加载
@@ -190,7 +194,7 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
         [myTableView.tableInfoArray addObjectsFromArray:cacheArray];
         
         NSString* filePath = [HomeViewController categoryDataFilePath:url];
-        
+        NSLog(@"cache file under %@",filePath);
         [CommonHelper saveArchiver:cacheArray path:filePath];
 //        NSArray* ret = [CommonHelper readArchiver:filePath];
         //         NSLog(@"%@",ret);
