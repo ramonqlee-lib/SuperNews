@@ -79,7 +79,10 @@
     
     NSLog(@"setContentOfTables: %d",count);
     for (int i = 0; i < count; i++) {
-        TableViewWithPullRefreshLoadMoreButton *vCustomTableView = [[TableViewWithPullRefreshLoadMoreButton alloc] initWithFrame:CGRectMake(320 * i, 0, 320, self.frame.size.height)];
+        
+        // 放到合适的位置
+        NSInteger index = _contentItems.count;
+        TableViewWithPullRefreshLoadMoreButton *vCustomTableView = [[TableViewWithPullRefreshLoadMoreButton alloc] initWithFrame:CGRectMake(320 * index, 0, 320, self.frame.size.height)];
         vCustomTableView.delegate = self;
         vCustomTableView.dataSource = self;
         

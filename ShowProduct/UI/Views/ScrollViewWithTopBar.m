@@ -84,7 +84,9 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
 {
     NSString* url = (currentPageIndex<urlArray.count)?[urlArray objectAtIndex:currentPageIndex]:kDefaultCategoryUrl;
     NSArray* ret = [CommonHelper readArchiver:[HomeViewController categoryDataFilePath:url]];
+    // FIXME: 已经加载了同样的数据，就不要加载了
     if (ret && ret.count) {
+        NSLog(@"cache out");
         [mScrollPageView freshContentTableAtIndex:currentPageIndex withData:ret];
     }
 }
