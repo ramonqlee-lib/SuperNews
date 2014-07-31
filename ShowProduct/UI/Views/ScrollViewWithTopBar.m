@@ -6,11 +6,12 @@
 //  Copyright (c) 2014年 @"". All rights reserved.
 //
 
-#import "HomeView.h"
+#import "ScrollViewWithTopBar.h"
 #import "HomeViewCell.h"
 #import "HTTPHelper.h"
 #import "jsonKeys.h"
 #import "Base64.h"
+#import "CommonHelper.h"
 
 NSString* kDefaultCategoryTableName = @"Duanzi";
 NSString* kDefaultCategoryUrl = @"http://novelists.duapp.com/crawler/refer.php?tableName=DuanZi";
@@ -20,7 +21,7 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
 
 #define MENUHEIHT 40
 
-@interface HomeView()
+@interface ScrollViewWithTopBar()
 {
     NSArray* titleArray;
     NSArray* urlArray;
@@ -32,7 +33,7 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
     void(^refreshComplete)(); // 重新获取数据完成的数据刷新
 }
 @end
-@implementation HomeView
+@implementation ScrollViewWithTopBar
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -82,7 +83,7 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
 -(void)loadCache
 {
     NSString* url = (currentPageIndex<urlArray.count)?[urlArray objectAtIndex:currentPageIndex]:kDefaultCategoryUrl;
-    NSArray* ret = [HomeViewController restoreArrayFromFile:[HomeViewController categoryDataFilePath:url]];
+    NSArray* ret = [CommonHelper readArchiver:[HomeViewController categoryDataFilePath:url]];
     if (ret && ret.count) {
         [mScrollPageView freshContentTableAtIndex:currentPageIndex withData:ret];
     }
@@ -154,6 +155,53 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
     return YES;
 }
 
+
+// 刷新数据完毕
+-(void)refeshHandler:(NSNotification*)notification
+{
+    NSString* url = (currentPageIndex<urlArray.count)?[urlArray objectAtIndex:currentPageIndex]:kDefaultCategoryUrl;
+    // : 保存当前的频道数据
+    id obj = [notification.userInfo objectForKey:url];
+    if ([obj isKindOfClass:[NSData class]])
+    {
+        [[NSNotificationCenter defaultCenter]removeObserver:self];
+        // : 解析json数据，并设置到列表中
+        [self Json2Array:(NSData*)obj forArray:myTableView.tableInfoArray];
+        
+        //  数据缓存:见鬼，key带下划线不能保存成功
+        NSMutableArray* cacheArray = [NSMutableArray array];
+        for (NSDictionary* item in myTableView.tableInfoArray) {
+            NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithDictionary:item];
+            [dict removeObjectForKey:kWordCount];
+            [dict removeObjectForKey:kUrlKey];
+//            NSString* leadImageUrl = [dict objectForKey:kLeadImageUrl];
+            //FIXME: url may be relative url,fix it from server
+//            if (leadImageUrl)
+            {
+//                [dict removeObjectForKey:kLeadImageUrl];
+                [dict removeObjectForKey:kWordCount];
+//                [dict setObject:leadImageUrl forKey:kImageUrl];
+            }
+            [cacheArray addObject:dict];
+        }
+        [myTableView.tableInfoArray removeAllObjects];
+        [myTableView.tableInfoArray addObjectsFromArray:cacheArray];
+        
+        NSString* filePath = [HomeViewController categoryDataFilePath:url];
+        
+        [CommonHelper saveArchiver:cacheArray path:filePath];
+//        NSArray* ret = [CommonHelper readArchiver:filePath];
+        //         NSLog(@"%@",ret);
+        
+        
+    }
+    // 刷新完毕，通知回调
+    if (refreshComplete)
+    {
+        refreshComplete();
+    }
+}
+
 -(void)loadMore:(NSInteger)offset withNumber:(NSInteger)count
 {
     NSString* url = (currentPageIndex<urlArray.count)?[urlArray objectAtIndex:currentPageIndex]:kDefaultCategoryUrl;
@@ -191,49 +239,6 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
     }
 }
 
-// 刷新数据完毕
--(void)refeshHandler:(NSNotification*)notification
-{
-    NSString* url = (currentPageIndex<urlArray.count)?[urlArray objectAtIndex:currentPageIndex]:kDefaultCategoryUrl;
-    // : 保存当前的频道数据
-    id obj = [notification.userInfo objectForKey:url];
-    if ([obj isKindOfClass:[NSData class]])
-    {
-        [[NSNotificationCenter defaultCenter]removeObserver:self];
-        // : 解析json数据，并设置到列表中
-        [self Json2Array:(NSData*)obj forArray:myTableView.tableInfoArray];
-        
-        //  数据缓存:见鬼，key带下划线不能保存成功
-        NSMutableArray* cacheArray = [NSMutableArray array];
-        for (NSDictionary* item in myTableView.tableInfoArray) {
-            NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithDictionary:item];
-            [dict removeObjectForKey:kWordCount];
-            [dict removeObjectForKey:kUrlKey];
-            NSString* leadImageUrl = [dict objectForKey:kLeadImageUrl];
-            //FIXME: url may be relative url,fix it from server
-            if (leadImageUrl) {
-                [dict removeObjectForKey:kLeadImageUrl];
-                [dict setObject:leadImageUrl forKey:kImageUrl];
-            }
-            [cacheArray addObject:dict];
-        }
-        [myTableView.tableInfoArray removeAllObjects];
-        [myTableView.tableInfoArray addObjectsFromArray:cacheArray];
-        
-        NSString* filePath = [HomeViewController categoryDataFilePath:url];
-        [HomeViewController saveArray2File:filePath withArray:cacheArray];
-        
-        /*
-        NSArray* ret = [HomeViewController restoreArrayFromFile:filePath];
-        NSLog(@"%@",ret);
-        */
-    }
-    // 刷新完毕，通知回调
-    if (refreshComplete)
-    {
-        refreshComplete();
-    }
-}
 
 // 解析返回的频道数据，设置到数据中，并返回总数量
 -(NSInteger)Json2Array:(NSData*)data forArray:(NSMutableArray*)array

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		30BF90D81989A56400DCF8EF /* libSVWebViewController_Phone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30BF90D71989A56400DCF8EF /* libSVWebViewController_Phone.a */; };
 		30CD17141987D93100600D6D /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 30CD17061987D93100600D6D /* LICENSE */; };
 		30CD17151987D93100600D6D /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 30CD17071987D93100600D6D /* README.md */; };
 		30CD17161987D93100600D6D /* SDImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 30CD17091987D93100600D6D /* SDImageCache.m */; };
@@ -84,7 +85,7 @@
 		8B460978192D968300B28082 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8B460976192D968300B28082 /* InfoPlist.strings */; };
 		8B46097A192D968300B28082 /* ShowProductTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B460979192D968300B28082 /* ShowProductTests.m */; };
 		8B46098A192D97CB00B28082 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B460989192D97CB00B28082 /* HomeViewController.m */; };
-		8B46098D192D997000B28082 /* HomeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B46098C192D997000B28082 /* HomeView.m */; };
+		8B46098D192D997000B28082 /* ScrollViewWithTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B46098C192D997000B28082 /* ScrollViewWithTopBar.m */; };
 		8B460990192D9C4800B28082 /* HomeViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B46098F192D9C4800B28082 /* HomeViewCell.m */; };
 		8B460992192D9C9300B28082 /* HomeViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B460991192D9C9300B28082 /* HomeViewCell.xib */; };
 		8B460995192DA32400B28082 /* MenuHrizontal.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B460994192DA32400B28082 /* MenuHrizontal.m */; };
@@ -106,6 +107,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		30BF90D71989A56400DCF8EF /* libSVWebViewController_Phone.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSVWebViewController_Phone.a; sourceTree = "<group>"; };
 		30CD17061987D93100600D6D /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		30CD17071987D93100600D6D /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		30CD17081987D93100600D6D /* SDImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDImageCache.h; sourceTree = "<group>"; };
@@ -249,8 +251,8 @@
 		8B460979192D968300B28082 /* ShowProductTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShowProductTests.m; sourceTree = "<group>"; };
 		8B460988192D97CB00B28082 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
 		8B460989192D97CB00B28082 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
-		8B46098B192D997000B28082 /* HomeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeView.h; sourceTree = "<group>"; };
-		8B46098C192D997000B28082 /* HomeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeView.m; sourceTree = "<group>"; };
+		8B46098B192D997000B28082 /* ScrollViewWithTopBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollViewWithTopBar.h; sourceTree = "<group>"; };
+		8B46098C192D997000B28082 /* ScrollViewWithTopBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollViewWithTopBar.m; sourceTree = "<group>"; };
 		8B46098E192D9C4800B28082 /* HomeViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewCell.h; sourceTree = "<group>"; };
 		8B46098F192D9C4800B28082 /* HomeViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewCell.m; sourceTree = "<group>"; };
 		8B460991192D9C9300B28082 /* HomeViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeViewCell.xib; sourceTree = "<group>"; };
@@ -273,6 +275,7 @@
 			files = (
 				30FCD641197BC16F000F7015 /* libz.dylib in Frameworks */,
 				30CD18841989227E00600D6D /* libUIViewControllerExt_Phone.a in Frameworks */,
+				30BF90D81989A56400DCF8EF /* libSVWebViewController_Phone.a in Frameworks */,
 				30CD18821989227400600D6D /* libUIViewControllerExt_Simulator.a in Frameworks */,
 				3E99694519319729003CA4C6 /* MobileCoreServices.framework in Frameworks */,
 				3E99694319319718003CA4C6 /* SystemConfiguration.framework in Frameworks */,
@@ -340,6 +343,7 @@
 		30CD18B9198928C800600D6D /* libSVWebViewController */ = {
 			isa = PBXGroup;
 			children = (
+				30BF90D71989A56400DCF8EF /* libSVWebViewController_Phone.a */,
 				30CD18C219892C3500600D6D /* libSVWebViewController.a */,
 				30CD18BC198928C800600D6D /* SVModalWebViewController.h */,
 				30CD18BD198928C800600D6D /* SVWebViewController.bundle */,
@@ -630,8 +634,8 @@
 		8B460985192D96FE00B28082 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				8B46098B192D997000B28082 /* HomeView.h */,
-				8B46098C192D997000B28082 /* HomeView.m */,
+				8B46098B192D997000B28082 /* ScrollViewWithTopBar.h */,
+				8B46098C192D997000B28082 /* ScrollViewWithTopBar.m */,
 				8B46098E192D9C4800B28082 /* HomeViewCell.h */,
 				8B46098F192D9C4800B28082 /* HomeViewCell.m */,
 				8B460991192D9C9300B28082 /* HomeViewCell.xib */,
@@ -800,7 +804,7 @@
 				8B46098A192D97CB00B28082 /* HomeViewController.m in Sources */,
 				30FCD615197B31E9000F7015 /* ASICloudFilesContainer.m in Sources */,
 				30FCD63A197BC070000F7015 /* NSString+StringThatFits.m in Sources */,
-				8B46098D192D997000B28082 /* HomeView.m in Sources */,
+				8B46098D192D997000B28082 /* ScrollViewWithTopBar.m in Sources */,
 				30FCD60F197B31E9000F7015 /* ASIFormDataRequest.m in Sources */,
 				30FCD60D197B31E9000F7015 /* ASIDataDecompressor.m in Sources */,
 				8B460965192D968300B28082 /* AppDelegate.m in Sources */,

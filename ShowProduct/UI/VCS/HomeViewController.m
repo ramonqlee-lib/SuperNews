@@ -7,7 +7,7 @@
 //
 
 #import "HomeViewController.h"
-#import "HomeView.h"
+#import "ScrollViewWithTopBar.h"
 #import "Macros.h"
 #import "OrderViewController.h"
 #import "OrderButton.h"
@@ -17,6 +17,7 @@
 #import "TouchViewModel.h"
 #import "ASIDownloadCache.h"
 #import "RMViewController+Aux.h"
+#import "CommonHelper.h"
 
 NSString* kAppSettingUrl = @"http://novelists.duapp.com/crawler/category.php";//?column=ZhongYi";
 NSUInteger kDefaultCategoryCount = 3;// 用户没有订阅时的推荐订阅数目
@@ -25,7 +26,7 @@ NSString* kCategoryUrlKey = @"url";
 
 @interface HomeViewController ()
 {
-    HomeView *mHomeView;
+    ScrollViewWithTopBar *mHomeView;
     NSArray* allCategories;// FIXME:将数据缓存到本地，不再内存中保留，降低内存占用
     NSMutableArray* mySubscriptionDataObservers;
 }
@@ -81,7 +82,7 @@ NSString* kCategoryUrlKey = @"url";
     UIView* vContentView = [self clientView];
 #endif
     if (mHomeView == nil) {
-        mHomeView = [[HomeView alloc] initWithFrame:vContentView.frame];
+        mHomeView = [[ScrollViewWithTopBar alloc] initWithFrame:vContentView.frame];
         [mySubscriptionDataObservers addObject:mHomeView];
     }
     [vContentView addSubview:mHomeView];
@@ -178,8 +179,8 @@ NSString* kCategoryUrlKey = @"url";
     // 如果用户自定义过分类，则使用用户自定义的分类；否则使用缺省的分类
     //缺省的分类：将前几项作为缺省的分类
     // 获取了缺省的分类（如果联网失败，则弹出网络提示）
-    NSArray* mySubscriptionSavedCategories = [HomeViewController categories:[HomeViewController topCategorySavePath]];
-    NSArray* moreSavedCategories = [HomeViewController categories:[HomeViewController bottomCategorySavePath]];
+    NSArray* mySubscriptionSavedCategories = [CommonHelper readArchiver:[HomeViewController topCategorySavePath]];
+    NSArray* moreSavedCategories = [CommonHelper readArchiver:[HomeViewController bottomCategorySavePath]];
     
     // 用户还没来得及自定义我的订阅，为用户推荐几个？
     //整理成频道名和频道对应的url的数组
@@ -309,8 +310,8 @@ NSString* kCategoryUrlKey = @"url";
         [orderVC.view setFrame:CGRectMake(0, - self.view.bounds.size.height, self.view.bounds.size.width, self.view.bounds.size.height)];
         
     } completion:^(BOOL finished){
-        [HomeViewController saveCategories:[orderVC topViewModels] path:[HomeViewController topCategorySavePath]];
-        [HomeViewController saveCategories:[orderVC bottomViewModels] path:[HomeViewController bottomCategorySavePath]];
+        [CommonHelper saveArchiver:[orderVC topViewModels] path:[HomeViewController topCategorySavePath]];
+        [CommonHelper saveArchiver:[orderVC bottomViewModels] path:[HomeViewController bottomCategorySavePath]];
         
         [[[self.childViewControllers  objectAtIndex:0] view] removeFromSuperview];
         [orderVC removeFromParentViewController];
@@ -355,24 +356,6 @@ NSString* kCategoryUrlKey = @"url";
             stringByAppendingPathComponent:fileName];
     
 }
-
-#pragma mark 频道分类数据的保存和读取
-// 保存分类
-+(void)saveCategories:(NSArray*)data path:(NSString*)filePath
-{
-    if (!data || !filePath) {
-        return;
-    }
-    NSData * ret = [NSKeyedArchiver archivedDataWithRootObject:data];
-    [ret writeToFile:filePath atomically:YES];
-}
-
-// 获取分类
-+(NSArray*)categories:(NSString*)filePath
-{
-    return [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
-}
-
 
 // 将数组保存到文件
 +(void)saveArray2File:(NSString*)file withArray:(NSArray*)array

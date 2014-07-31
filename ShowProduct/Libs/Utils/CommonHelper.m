@@ -466,4 +466,21 @@
     return  theImage;//[self getImageAreaFromImage:theImage atFrame:r];
 }
 
+#pragma mark 频道分类数据的保存和读取
+// 保存分类
++(void)saveArchiver:(NSArray*)data path:(NSString*)filePath
+{
+    if (!data || !filePath) {
+        return;
+    }
+    NSData * ret = [NSKeyedArchiver archivedDataWithRootObject:data];
+    [ret writeToFile:filePath atomically:YES];
+}
+
+// 获取分类
++(NSArray*)readArchiver:(NSString*)filePath
+{
+    return [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+}
+
 @end

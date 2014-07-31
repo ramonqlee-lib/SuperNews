@@ -15,7 +15,7 @@
 #define kLowercaseContentKey  @"content"
 #define kLowercaseTitleKey @"title"
 
-#define kWordCount @"word_count"
+#define kWordCount @"wordCount"
 #define kLeadImageUrl @"lead_image_url"
 #define kImageUrl @"leadImageUrl"
 

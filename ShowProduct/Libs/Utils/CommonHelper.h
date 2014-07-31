@@ -76,4 +76,9 @@ return s##className;\
 +(NSString*)displayName;
 //获取当前屏幕内容
 + (UIImage *)imageFromView:(UIView *)view;
+
+
++(void)saveArchiver:(NSArray*)data path:(NSString*)filePath;
++(NSArray*)readArchiver:(NSString*)filePath;
+
 @end
