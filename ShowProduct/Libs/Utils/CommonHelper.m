@@ -89,15 +89,6 @@
     return [fileManager fileExistsAtPath:fileName];
 }
 
-+(float)getProgress:(float)totalSize currentSize:(float)currentSize
-{
-    const float kZero = 0.01;
-    if (currentSize<kZero || totalSize < kZero) {
-        return 0;
-    }
-    return currentSize/totalSize;
-}
-
 #define kDotString @"."
 #define kZipPackage @".zip"
 #define kRarPackage @".rar"
@@ -291,42 +282,6 @@
     
     return filename;
 }
-
-
-+(void)addRecommanButton:(UIView*)currentView withButtonFrame:(CGRect)rc
-{
-    if(!currentView)
-    {
-        return;
-    }
-
-    UIView* view = [CommonHelper getRecommanButton];
-    if(view)
-    {
-        [currentView addSubview:view];
-    }
-}
-
-+(void)addBannerView:(UIView*)currentView withController:(UIViewController*)controller withFrame:(CGRect)frame
-{
-    UIView* mAdView = [CommonHelper getBannerView:controller];
-    
-    if (mAdView) {
-        //view added already
-        NSArray* subViews = [currentView subviews];
-        for (UIView* currentChild in subViews) {
-            if ([currentChild isKindOfClass:[mAdView class]]) {
-                NSLog(@"ad view added already");
-                return;
-            }
-        }
-        //设置广告显示位置
-        mAdView.frame = frame;
-        
-        [currentView addSubview:mAdView];
-    }
-}
-
 
 +(BOOL)saveDefaultsForInt:(NSString*)key withValue:(NSInteger)value
 {

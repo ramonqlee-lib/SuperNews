@@ -44,9 +44,6 @@ return s##className;\
 +(NSString*) getTargetBookPath:(NSString*)bookName;//得到当前书籍的保存目录
 +(BOOL)isExistFile:(NSString *)fileName;//检查文件名是否存在
 
-//传入文件总大小和当前大小，得到文件的下载进度
-+(CGFloat) getProgress:(float)totalSize currentSize:(float)currentSize;
-
 //extract packaged file to desFile
 //zip,rar are supported right now
 +(void)extractFile:(NSString*)srcFile toFile:(NSString*)desFilePath fileType:(NSString*)fileType;
@@ -57,9 +54,8 @@ return s##className;\
                          newVersion : (NSString *)newVersion;
 +(id)performSelector:(NSObject*)obj selector:(SEL)selector withObject:(id)p1 withObject:(id)p2 withObject:(id)p3;
 + (UIViewController *)getCurrentRootViewController;
-+(NSString*)appStoreUrl;
+
 +(NSString*)xor_string:(NSString*)stream key:(int)key;
-+(NSDictionary*)getAdPostReqParams;
 + (NSString *)cachePathForKey:(NSString *)key;
 
 
