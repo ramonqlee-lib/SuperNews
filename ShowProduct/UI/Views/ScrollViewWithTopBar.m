@@ -76,14 +76,19 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
     [mHorizontalMenu clickButtonAtIndex:0];
 }
 
-//    读取缓存，并显示
+// 读取缓存，并显示
 -(BOOL)loadCache
 {
     NSString* url = (currentPageIndex<urlArray.count)?[urlArray objectAtIndex:currentPageIndex]:kDefaultCategoryUrl;
     NSArray* ret = [CommonHelper readArchiver:[HomeViewController categoryDataFilePath:url]];
-    // FIXME: 已经加载了同样的数据，就不要加载了
     if (ret && ret.count) {
-        NSLog(@"cache out");
+        // FIXME: 已经加载了同样的数据，就不要加载了
+        // 简单算法，看总数一致
+        if (ret.count == [mScrollPageView tableArrayAtIndex:currentPageIndex].count) {
+            NSLog(@"same cache loaded again,just igore");
+            return YES;
+        }
+        NSLog(@"loadd cache & refresh tableview");
         [mScrollPageView freshContentTableAtIndex:currentPageIndex withData:ret];
         return YES;
     }
@@ -99,15 +104,15 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
 #pragma mark - 其他辅助功能
 #pragma mark MenuHrizontalDelegate
 -(void)didMenuHrizontalClickedButtonAtIndex:(NSInteger)aIndex{
-//    NSLog(@"第%d个Button点击了",aIndex);
+    //    NSLog(@"第%d个Button点击了",aIndex);
     [mScrollPageView moveScrollowViewAthIndex:aIndex];
 }
 
 #pragma mark ScrollPageViewDelegate
 -(void)didScrollPageViewChangedPage:(NSInteger)aPage{
-//    NSLog(@"CurrentPage:%d",aPage);
+    //    NSLog(@"CurrentPage:%d",aPage);
     [mHorizontalMenu changeButtonStateAtIndex:aPage];
-
+    
     // TODO 发起数据请求，首先从本地存储读取，然后从网络获取
     currentPageIndex= aPage;
     
@@ -165,29 +170,27 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
 // 刷新数据完毕
 -(void)refeshHandler:(NSNotification*)notification
 {
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
+    
     NSString* url = (currentPageIndex<urlArray.count)?[urlArray objectAtIndex:currentPageIndex]:kDefaultCategoryUrl;
-    // : 保存当前的频道数据
     id obj = [notification.userInfo objectForKey:url];
+    // : 解析json数据，并设置到列表中
+    NSMutableArray* temp = [NSMutableArray array];
     if ([obj isKindOfClass:[NSData class]])
     {
-        [[NSNotificationCenter defaultCenter]removeObserver:self];
-        // : 解析json数据，并设置到列表中
-        [self Json2Array:(NSData*)obj forArray:myTableView.tableInfoArray];
-        
+        [self Json2Array:(NSData*)obj forArray:temp];
+    }
+    if (temp.count)
+    {
+        [myTableView.tableInfoArray removeAllObjects];
+        [myTableView.tableInfoArray addObjectsFromArray:temp];
         //  数据缓存:见鬼，key带下划线不能保存成功
         NSMutableArray* cacheArray = [NSMutableArray array];
         for (NSDictionary* item in myTableView.tableInfoArray) {
             NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithDictionary:item];
             [dict removeObjectForKey:kWordCount];
             [dict removeObjectForKey:kUrlKey];
-//            NSString* leadImageUrl = [dict objectForKey:kLeadImageUrl];
-            //FIXME: url may be relative url,fix it from server
-//            if (leadImageUrl)
-            {
-//                [dict removeObjectForKey:kLeadImageUrl];
-                [dict removeObjectForKey:kWordCount];
-//                [dict setObject:leadImageUrl forKey:kImageUrl];
-            }
+            [dict removeObjectForKey:kWordCount];
             [cacheArray addObject:dict];
         }
         [myTableView.tableInfoArray removeAllObjects];
@@ -196,10 +199,8 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
         NSString* filePath = [HomeViewController categoryDataFilePath:url];
         NSLog(@"cache file under %@",filePath);
         [CommonHelper saveArchiver:cacheArray path:filePath];
-//        NSArray* ret = [CommonHelper readArchiver:filePath];
+        //        NSArray* ret = [CommonHelper readArchiver:filePath];
         //         NSLog(@"%@",ret);
-        
-        
     }
     // 刷新完毕，通知回调
     if (refreshComplete)
