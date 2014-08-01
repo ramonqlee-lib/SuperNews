@@ -79,15 +79,16 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
 // 读取缓存，并显示
 -(BOOL)loadCache
 {
+    // FIXME: 缓存加载优化：已经加载了数据，就不要再加载了
+    if ([mScrollPageView tableArrayAtIndex:currentPageIndex].count) {
+        NSLog(@"same cache loaded again,just igore");
+        return YES;
+    }
+    
+    // 加载缓存，并尝试刷新数据
     NSString* url = (currentPageIndex<urlArray.count)?[urlArray objectAtIndex:currentPageIndex]:kDefaultCategoryUrl;
     NSArray* ret = [CommonHelper readArchiver:[HomeViewController categoryDataFilePath:url]];
     if (ret && ret.count) {
-        // FIXME: 已经加载了同样的数据，就不要加载了
-        // 简单算法，看总数一致
-        if (ret.count == [mScrollPageView tableArrayAtIndex:currentPageIndex].count) {
-            NSLog(@"same cache loaded again,just igore");
-            return YES;
-        }
         NSLog(@"loadd cache & refresh tableview");
         [mScrollPageView freshContentTableAtIndex:currentPageIndex withData:ret];
         return YES;
