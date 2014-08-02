@@ -99,15 +99,34 @@
 	if ([_delegate respondsToSelector:@selector(egoRefreshTableHeaderDataSourceLastUpdated:)]) {
 		
 		NSDate *date = [_delegate egoRefreshTableHeaderDataSourceLastUpdated:self];
-		
+        NSString* updateText = nil;
+#if 1
 		NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
 		[formatter setAMSymbol:@"AM"];
 		[formatter setPMSymbol:@"PM"];
 		[formatter setDateFormat:@"MM/dd/yyyy hh:mm:a"];
-		_lastUpdatedLabel.text = [NSString stringWithFormat:@"Last Updated: %@", [formatter stringFromDate:date]];
+        updateText = [NSString stringWithFormat:@"Last Updated: %@", [formatter stringFromDate:date]];
+        NSLog(@"%@",updateText);
+		_lastUpdatedLabel.text = updateText;
+		[formatter release];
+#endif
+        const NSInteger ONE_MIN = 60;
+        NSTimeInterval timeInterval = [date timeIntervalSinceNow];
+        timeInterval = (timeInterval>0)?timeInterval:-timeInterval;
+        updateText = [NSString stringWithFormat:@"%d 分钟前更新",(int)timeInterval/ONE_MIN];
+        // 小于1分钟
+        if (timeInterval < ONE_MIN) {
+            updateText = @"刚刚更新过";
+        }
+        else if(timeInterval >ONE_MIN*60)//大于1小时
+        {
+            updateText = @"有段时间没更新了";
+        }
+        
+        _lastUpdatedLabel.text = updateText;
+		
 		[[NSUserDefaults standardUserDefaults] setObject:_lastUpdatedLabel.text forKey:@"EGORefreshTableView_LastRefresh"];
 		[[NSUserDefaults standardUserDefaults] synchronize];
-		[formatter release];
 		
 	} else {
 		
@@ -122,7 +141,7 @@
 	switch (aState) {
 		case EGOOPullRefreshPulling:
 			
-			_statusLabel.text = NSLocalizedString(@"Release to refresh...", @"Release to refresh status");
+			_statusLabel.text = NSLocalizedString(@"松开可以刷新...", @"松开可以刷新");
 			[CATransaction begin];
 			[CATransaction setAnimationDuration:FLIP_ANIMATION_DURATION];
 			_arrowImage.transform = CATransform3DMakeRotation((M_PI / 180.0) * 180.0f, 0.0f, 0.0f, 1.0f);
@@ -142,7 +161,7 @@
                 [_circleView setNeedsDisplay];
             }
 			
-			_statusLabel.text = NSLocalizedString(@"Pull down to refresh...", @"Pull down to refresh status");
+			_statusLabel.text = NSLocalizedString(@"下拉刷新数据...", @"下拉刷新数据");
 			[_activityView stopAnimating];
 			[CATransaction begin];
 			[CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions]; 
@@ -155,7 +174,7 @@
 			break;
 		case EGOOPullRefreshLoading:
 			
-			_statusLabel.text = NSLocalizedString(@"Loading...", @"Loading Status");
+			_statusLabel.text = NSLocalizedString(@"加载数据中...", @"加载数据中");
 			[_activityView startAnimating];
 			[CATransaction begin];
 			[CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions]; 
