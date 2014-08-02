@@ -45,17 +45,37 @@
     
     [self createMenuItems:aItemsArray];
 }
+- (UIImage*) createImageWithColor: (UIColor*) color
+{
+    CGRect rect=CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    UIImage*theImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return theImage;
+}
+
 -(void)createMenuItems:(NSArray *)aItemsArray{
     int i = 0;
     float menuWidth = 0.0;
     for (NSDictionary *lDic in aItemsArray) {
         NSString *vNormalImageStr = [lDic objectForKey:NOMALKEY];
-        NSString *vHeligtImageStr = [lDic objectForKey:HEIGHTKEY];
+        NSString *vHeligtImageStr = [lDic objectForKey:HILIGHTKEY];
         NSString *vTitleStr = [lDic objectForKey:TITLEKEY];
         float vButtonWidth = [[lDic objectForKey:TITLEWIDTH] floatValue];
         UIButton *vButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [vButton setBackgroundImage:[UIImage imageNamed:vNormalImageStr] forState:UIControlStateNormal];
-        [vButton setBackgroundImage:[UIImage imageNamed:vHeligtImageStr] forState:UIControlStateSelected];
+        UIColor* selectedColor = [lDic objectForKey:HILIGHT_COLOR_KEY];//优先级高于背景图片
+        if (selectedColor) {
+            [vButton setBackgroundImage:[self createImageWithColor:selectedColor] forState:UIControlStateSelected];
+        }
+        else if(vHeligtImageStr)
+        {
+            [vButton setBackgroundImage:[UIImage imageNamed:vHeligtImageStr] forState:UIControlStateSelected];
+        }
+
         [vButton setTitle:vTitleStr forState:UIControlStateNormal];
         [vButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [vButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];

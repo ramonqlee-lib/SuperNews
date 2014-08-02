@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 
 #define NOMALKEY   @"normalKey" // 正常背景
-#define HEIGHTKEY  @"helightKey" // 选中背景
+#define HILIGHTKEY  @"hilightKey" // 选中背景
+#define HILIGHT_COLOR_KEY  @"hilightColorKey" // 选中背景颜色（优先级高于HILIGHTKEY）
 #define TITLEKEY   @"titleKey"
 #define TITLEWIDTH @"titleWidth"
 #define TOTALWIDTH @"totalWidth"

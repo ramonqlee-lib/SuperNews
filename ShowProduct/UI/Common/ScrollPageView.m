@@ -282,13 +282,13 @@
     UINavigationController* controller = [[UINavigationController alloc]initWithNavigationBarClass:[PrettyNavigationBar class] toolbarClass:[PrettyToolbar class]];
     [controller setViewControllers:@[webViewController]];
     controller.title = title;
-    UIBarButtonItem *BackBtn = [[UIBarButtonItem alloc] initWithTitle:@"Back"
+    UIBarButtonItem *BackBtn = [[UIBarButtonItem alloc] initWithTitle:@"返回"
                                                                 style:UIBarButtonItemStylePlain
                                                                target:self
                                                                action:@selector(BackAction:)];
     
     webViewController.navigationItem.leftBarButtonItem = BackBtn;
-    [self customizeNavBar:controller];
+    //[self customizeNavBar:controller];
     UIViewController* rootController = [[[UIApplication sharedApplication]keyWindow]rootViewController];
     [rootController presentViewController:controller animated:YES completion:nil];
 }

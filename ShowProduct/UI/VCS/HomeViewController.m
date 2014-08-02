@@ -90,7 +90,7 @@ NSString* kCategoryUrlKey = @"url";
         self.edgesForExtendedLayout =UIRectEdgeNone ;
     }
 
-    [self customizeNavBar:self.navigationController];
+//    [self customizeNavBar:self.navigationController];
     //contentView大小设置
     int vWidth = (int)([UIScreen mainScreen].bounds.size.width);
     int vHeight = (int)([UIScreen mainScreen].bounds.size.height);
