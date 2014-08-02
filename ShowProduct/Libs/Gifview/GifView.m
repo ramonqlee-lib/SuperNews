@@ -53,13 +53,13 @@
 }
 -(void)removeFromSuperview
 {
-	NSLog(@"removeFromSuperview");
+//	NSLog(@"removeFromSuperview");
 	[timer invalidate];
 	timer = nil;
 	[super removeFromSuperview];
 }
 - (void)dealloc {
-		NSLog(@"dealloc");
+//		NSLog(@"dealloc");
 	CFRelease(gif);
 	[gifProperties release];
     [super dealloc];
