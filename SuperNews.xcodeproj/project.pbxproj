@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		308093C1198D01EC007BBC60 /* Toast+UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 308093C0198D01EC007BBC60 /* Toast+UIView.m */; };
 		30BF90D81989A56400DCF8EF /* libSVWebViewController_Phone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30BF90D71989A56400DCF8EF /* libSVWebViewController_Phone.a */; };
 		30BF90E2198C6F0600DCF8EF /* tablecellOddplaceholder.gif in Resources */ = {isa = PBXBuildFile; fileRef = 30BF90E0198C6F0600DCF8EF /* tablecellOddplaceholder.gif */; };
 		30BF90E4198C74C900DCF8EF /* tablecellEvenPlaceholder.gif in Resources */ = {isa = PBXBuildFile; fileRef = 30BF90E3198C74C900DCF8EF /* tablecellEvenPlaceholder.gif */; };
@@ -108,6 +109,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		308093BF198D01EC007BBC60 /* Toast+UIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Toast+UIView.h"; sourceTree = "<group>"; };
+		308093C0198D01EC007BBC60 /* Toast+UIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Toast+UIView.m"; sourceTree = "<group>"; };
 		30BF90D71989A56400DCF8EF /* libSVWebViewController_Phone.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSVWebViewController_Phone.a; sourceTree = "<group>"; };
 		30BF90E0198C6F0600DCF8EF /* tablecellOddplaceholder.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = tablecellOddplaceholder.gif; sourceTree = "<group>"; };
 		30BF90E3198C74C900DCF8EF /* tablecellEvenPlaceholder.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = tablecellEvenPlaceholder.gif; sourceTree = "<group>"; };
@@ -302,6 +305,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		308093BE198D01EC007BBC60 /* Toast */ = {
+			isa = PBXGroup;
+			children = (
+				308093BF198D01EC007BBC60 /* Toast+UIView.h */,
+				308093C0198D01EC007BBC60 /* Toast+UIView.m */,
+			);
+			path = Toast;
+			sourceTree = "<group>";
+		};
 		30CD17051987D93100600D6D /* SDWebImage */ = {
 			isa = PBXGroup;
 			children = (
@@ -389,6 +401,7 @@
 		30FCD5D3197B31D6000F7015 /* Libs */ = {
 			isa = PBXGroup;
 			children = (
+				308093BE198D01EC007BBC60 /* Toast */,
 				30CD18B9198928C800600D6D /* libSVWebViewController */,
 				30CD187A19891F8400600D6D /* libUIViewControllerExt */,
 				30CD171A1987DA3500600D6D /* Gifview */,
@@ -795,6 +808,7 @@
 				30FCD61E197B31E9000F7015 /* ASIS3BucketRequest.m in Sources */,
 				30FCD614197B31E9000F7015 /* ASICloudFilesCDNRequest.m in Sources */,
 				30CD17181987D93100600D6D /* SDWebImageManager.m in Sources */,
+				308093C1198D01EC007BBC60 /* Toast+UIView.m in Sources */,
 				3E32271C192E2B3500D5C95C /* LoadMoreCell.m in Sources */,
 				3E322728192E3DDC00D5C95C /* RMTableView.m in Sources */,
 				30FCD61F197B31E9000F7015 /* ASIS3ObjectRequest.m in Sources */,

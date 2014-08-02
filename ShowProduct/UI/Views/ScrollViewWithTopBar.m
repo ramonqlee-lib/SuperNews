@@ -12,6 +12,7 @@
 #import "jsonKeys.h"
 #import "Base64.h"
 #import "CommonHelper.h"
+#import "Toast+UIView.h"
 
 NSString* kDefaultCategoryTableName = @"Duanzi";
 NSString* kDefaultCategoryUrl = @"http://novelists.duapp.com/crawler/refer.php?tableName=DuanZi";
@@ -190,7 +191,7 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
         NSString* filePath = [HomeViewController categoryDataFilePath:url];
         NSLog(@"receive http data &refresh tableview & cache file under %@",filePath);
         [CommonHelper saveArchiver:temp path:filePath];
-
+        
         NSArray* ret = [CommonHelper readArchiver:filePath];
         NSLog(@"cache count: %d/%d",ret.count,temp.count);
     }
@@ -223,11 +224,12 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
         {
             [[NSNotificationCenter defaultCenter]removeObserver:self];
             
-            // TODO: 解析数据，追加到列表的底部(需要考虑是否有更多数据的问题，当前返回的数量，当前数组的数量，然后确定是否有更多数据)
+            // : 解析数据，追加到列表的底部(需要考虑是否有更多数据的问题，当前返回的数量，当前数组的数量，然后确定是否有更多数据)
             NSMutableArray* ret = [NSMutableArray array];
             [self Json2Array:(NSData*)obj forArray:ret];
-            if(0==ret.count)
+            if( 0==ret.count )
             {
+                [self makeToast:@"没有更多数据了o(╯□╰)o "];
                 NSLog(@"no more data,just return");
                 return;
             }
