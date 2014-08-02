@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "TableViewWithPullRefreshLoadMoreButton.h"
+#import "RMTableView.h"
 
 
 @protocol ScrollPageViewDelegate <NSObject>
@@ -38,7 +38,7 @@
 -(void)freshContentTableAtIndex:(NSInteger)aIndex withData:(NSArray*)tableArray;
 
 #pragma mark 改变TableView上面滚动栏的内容
--(void)changeHeaderContentWithCustomTable:(TableViewWithPullRefreshLoadMoreButton *)aTableContent;
+-(void)changeHeaderContentWithCustomTable:(RMTableView *)aTableContent;
 
 #pragma mark 返回某个页面的数据集合
 -(NSMutableArray*)tableArrayAtIndex:(NSInteger)aIndex;

@@ -31,7 +31,22 @@
         [manager downloadWithURL:url delegate:self];
     }
 }
-
+- (void)setImageWithURL:(NSURL *)url imageFile:(NSString *)placeholderImageFile
+{
+    SDWebImageManager *manager = [SDWebImageManager sharedManager];
+    
+    // Remove in progress downloader from queue
+    [manager cancelForDelegate:self];
+    
+    //self.image = placeholder;
+    NSData* imageData = [NSData dataWithContentsOfFile:placeholderImageFile];
+    [self webImageManager:placeholderImageFile didFinishWithImage:imageData];
+    
+    if (url)
+    {
+        [manager downloadWithURL:url delegate:self];
+    }
+}
 - (void)cancelCurrentImageLoad
 {
     [[SDWebImageManager sharedManager] cancelForDelegate:self];
@@ -40,7 +55,7 @@
 - (void)webImageManager:(NSString *)imageURL didFinishWithImage:(NSData *)imageData
 {
     self.image = [UIImage imageWithData:imageData];
-    if (nil!=imageURL && [imageURL hasSuffix:@".gif"])
+    if( nil!=imageURL && [[imageURL lowercaseString] hasSuffix:@".gif"])
     {
         CGSize imageSize = self.image.size;
         if (imageSize.height < 0.001) {//0.001 mean a small number

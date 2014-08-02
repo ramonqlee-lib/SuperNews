@@ -10,7 +10,7 @@
 #import "MenuHrizontal.h"
 #import "ScrollPageView.h"
 #import "HomeViewController.h"
-#import "TableViewWithPullRefreshLoadMoreButton.h"
+#import "RMTableView.h"
 
 @interface ScrollViewWithTopBar : UIView<HorizontalMenuDelegate,ScrollPageViewDelegate,Notifier,TableViewWithPullRefreshLoadMoreButtonDelegate>
 {

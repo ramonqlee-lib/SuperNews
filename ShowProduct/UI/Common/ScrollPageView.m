@@ -15,7 +15,7 @@
 
 @interface ScrollPageView()
 {
-    TableViewWithPullRefreshLoadMoreButton * tableViewWithPullRefreshLoadMoreButton;
+    RMTableView * tableViewWithPullRefreshLoadMoreButton;
 }
 @end
 
@@ -82,7 +82,7 @@
         
         // 放到合适的位置
         NSInteger index = _contentItems.count;
-        TableViewWithPullRefreshLoadMoreButton *vCustomTableView = [[TableViewWithPullRefreshLoadMoreButton alloc] initWithFrame:CGRectMake(320 * index, 0, 320, self.frame.size.height)];
+        RMTableView *vCustomTableView = [[RMTableView alloc] initWithFrame:CGRectMake(320 * index, 0, 320, self.frame.size.height)];
         vCustomTableView.delegate = self;
         vCustomTableView.dataSource = self;
         
@@ -110,7 +110,7 @@
     if (_contentItems.count < aIndex) {
         return nil;
     }
-    TableViewWithPullRefreshLoadMoreButton *vTableContentView =(TableViewWithPullRefreshLoadMoreButton *)[_contentItems objectAtIndex:aIndex];
+    RMTableView *vTableContentView =(RMTableView *)[_contentItems objectAtIndex:aIndex];
     return vTableContentView.tableInfoArray;
 }
 
@@ -119,7 +119,7 @@
     if (_contentItems.count < aIndex) {
         return;
     }
-    TableViewWithPullRefreshLoadMoreButton *vTableContentView =(TableViewWithPullRefreshLoadMoreButton *)[_contentItems objectAtIndex:aIndex];
+    RMTableView *vTableContentView =(RMTableView *)[_contentItems objectAtIndex:aIndex];
     [vTableContentView forceToFreshData];
 }
 -(void)freshContentTableAtIndex:(NSInteger)aIndex withData:(NSArray*)tableArray
@@ -132,7 +132,7 @@
     }
 }
 #pragma mark 添加HeaderView
--(void)addLoopScrollowView:(TableViewWithPullRefreshLoadMoreButton *)aTableView {
+-(void)addLoopScrollowView:(RMTableView *)aTableView {
     tableViewWithPullRefreshLoadMoreButton = aTableView;
     
     //添加一张默认图片
@@ -144,7 +144,7 @@
 }
 
 #pragma mark 改变TableView上面滚动栏的内容
--(void)changeHeaderContentWithCustomTable:(TableViewWithPullRefreshLoadMoreButton *)aTableContent{
+-(void)changeHeaderContentWithCustomTable:(RMTableView *)aTableContent{
     int length = 4;
     NSMutableArray *tempArray = [NSMutableArray array];
     for (int i = 0 ; i < length; i++)
@@ -216,11 +216,11 @@
 }
 
 #pragma mark - CustomTableViewDataSource
--(NSInteger)numberOfRowsInTableView:(UITableView *)aTableView InSection:(NSInteger)section FromView:(TableViewWithPullRefreshLoadMoreButton *)aView{
+-(NSInteger)numberOfRowsInTableView:(UITableView *)aTableView InSection:(NSInteger)section FromView:(RMTableView *)aView{
     return aView.tableInfoArray.count;
 }
 
--(UITableViewCell *)cellForRowInTableView:(UITableView *)aTableView IndexPath:(NSIndexPath *)aIndexPath FromView:(TableViewWithPullRefreshLoadMoreButton *)aView{
+-(UITableViewCell *)cellForRowInTableView:(UITableView *)aTableView IndexPath:(NSIndexPath *)aIndexPath FromView:(RMTableView *)aView{
     tableViewWithPullRefreshLoadMoreButton = aView;
     
     static NSString *vCellIdentify = @"homeCell";
@@ -231,11 +231,16 @@
     
     NSDictionary* dict = [tableViewWithPullRefreshLoadMoreButton.tableInfoArray objectAtIndex:aIndexPath.row];
     
+    NSString* placeHolderImage = (0==aIndexPath.row%2)?kOddTableCellPlaceHolderImage:kEvenTableCellPlaceHolderImage;
+    placeHolderImage = [NSString stringWithFormat:@"%@/%@",[[NSBundle mainBundle]resourcePath],placeHolderImage];
     id imageUrl = [dict objectForKey:kImageUrl];
+    NSURL* urlForImage = nil;
     if (imageUrl && [imageUrl isKindOfClass:[NSString class]] && [[imageUrl lowercaseString] hasPrefix:kHTTP]) {
-//        NSLog(@"icon image: %@",imageUrl);
-        [vCell.headerImageView setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:kTableCellPlaceHolderImage]];
+        urlForImage = [NSURL URLWithString:imageUrl];
     }
+    
+    [vCell.headerImageView setImageWithURL:urlForImage imageFile:placeHolderImage];
+    
     vCell.titleLabel.text = [dict objectForKey:kLowercaseTitleKey];
     NSString* htmlString = [dict objectForKey:kLowercaseContentKey];
     
@@ -245,12 +250,12 @@
 }
 
 #pragma mark CustomTableViewDelegate
--(float)heightForRowAthIndexPath:(UITableView *)aTableView IndexPath:(NSIndexPath *)aIndexPath FromView:(TableViewWithPullRefreshLoadMoreButton *)aView{
+-(float)heightForRowAthIndexPath:(UITableView *)aTableView IndexPath:(NSIndexPath *)aIndexPath FromView:(RMTableView *)aView{
     HomeViewCell *vCell = [[[NSBundle mainBundle] loadNibNamed:@"HomeViewCell" owner:self options:nil] lastObject];
     return vCell.frame.size.height;
 }
 
--(void)didSelectedRowAthIndexPath:(UITableView *)aTableView IndexPath:(NSIndexPath *)aIndexPath FromView:(TableViewWithPullRefreshLoadMoreButton *)aView
+-(void)didSelectedRowAthIndexPath:(UITableView *)aTableView IndexPath:(NSIndexPath *)aIndexPath FromView:(RMTableView *)aView
 {
     //check before going on
     [aTableView deselectRowAtIndexPath:aIndexPath animated:YES];
@@ -294,7 +299,7 @@
 }
 
 // 加载更多时的数据加载
--(void)loadData:(void(^)(int aAddedRowCount))complete FromView:(TableViewWithPullRefreshLoadMoreButton *)aView{
+-(void)loadData:(void(^)(int aAddedRowCount))complete FromView:(RMTableView *)aView{
     tableViewWithPullRefreshLoadMoreButton = aView;
     
     // 加载更多数据，并更新到tableview中(现有数据保留，在其后面加载了新数据)
@@ -317,7 +322,7 @@
 }
 
 // 下拉刷新时的加载
--(void)refreshData:(void(^)())complete FromView:(TableViewWithPullRefreshLoadMoreButton *)aView{
+-(void)refreshData:(void(^)())complete FromView:(RMTableView *)aView{
     tableViewWithPullRefreshLoadMoreButton = aView;
     
     double delayInSeconds = 1.0;
@@ -346,7 +351,7 @@
     });
 }
 
-- (BOOL)tableViewEgoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view FromView:(TableViewWithPullRefreshLoadMoreButton *)aView{
+- (BOOL)tableViewEgoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view FromView:(RMTableView *)aView{
     return  aView.reloading;
 }
 

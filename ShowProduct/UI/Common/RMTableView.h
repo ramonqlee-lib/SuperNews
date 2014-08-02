@@ -11,29 +11,29 @@
 #import "SGFocusImageFrame.h"
 #import "SGFocusImageItem.h"
 
-@class TableViewWithPullRefreshLoadMoreButton;
+@class RMTableView;
 
 @protocol TableViewWithPullRefreshLoadMoreButtonDelegate <NSObject>
 
 @optional;
--(float)heightForRowAthIndexPath:(UITableView *)aTableView IndexPath:(NSIndexPath *)aIndexPath FromView:(TableViewWithPullRefreshLoadMoreButton *)aView;
+-(float)heightForRowAthIndexPath:(UITableView *)aTableView IndexPath:(NSIndexPath *)aIndexPath FromView:(RMTableView *)aView;
 
--(void)didSelectedRowAthIndexPath:(UITableView *)aTableView IndexPath:(NSIndexPath *)aIndexPath FromView:(TableViewWithPullRefreshLoadMoreButton *)aView;
+-(void)didSelectedRowAthIndexPath:(UITableView *)aTableView IndexPath:(NSIndexPath *)aIndexPath FromView:(RMTableView *)aView;
 
--(void)loadData:(void(^)(int aAddedRowCount))complete FromView:(TableViewWithPullRefreshLoadMoreButton *)aView;
+-(void)loadData:(void(^)(int aAddedRowCount))complete FromView:(RMTableView *)aView;
 
--(void)refreshData:(void(^)())complete FromView:(TableViewWithPullRefreshLoadMoreButton *)aView;
+-(void)refreshData:(void(^)())complete FromView:(RMTableView *)aView;
 @end
 
 
 @protocol TableViewWithPullRefreshLoadMoreButtonDataSource <NSObject>
 @required;
--(NSInteger)numberOfRowsInTableView:(UITableView *)aTableView InSection:(NSInteger)section FromView:(TableViewWithPullRefreshLoadMoreButton *)aView;
--(UITableViewCell *)cellForRowInTableView:(UITableView *)aTableView IndexPath:(NSIndexPath *)aIndexPath FromView:(TableViewWithPullRefreshLoadMoreButton *)aView;
+-(NSInteger)numberOfRowsInTableView:(UITableView *)aTableView InSection:(NSInteger)section FromView:(RMTableView *)aView;
+-(UITableViewCell *)cellForRowInTableView:(UITableView *)aTableView IndexPath:(NSIndexPath *)aIndexPath FromView:(RMTableView *)aView;
 
 @end
 
-@interface TableViewWithPullRefreshLoadMoreButton : UIView<UITableViewDataSource,UITableViewDelegate,EGORefreshTableHeaderDelegate,SGFocusImageFrameDelegate>
+@interface RMTableView : UIView<UITableViewDataSource,UITableViewDelegate,EGORefreshTableHeaderDelegate,SGFocusImageFrameDelegate>
 {
     EGORefreshTableHeaderView *_refreshHeaderView;
     NSInteger     mRowCount;

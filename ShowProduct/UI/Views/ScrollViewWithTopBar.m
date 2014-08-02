@@ -28,7 +28,7 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
     NSArray *vButtonItemArray; // 顶部button相关
     NSInteger currentPageIndex;// 当前所处的页面
     
-    TableViewWithPullRefreshLoadMoreButton * myTableView;
+    RMTableView * myTableView;
     void(^loadMoreComplete)(int); // 加载更多完毕时的数据刷新
     void(^refreshComplete)(); // 重新获取数据完成的数据刷新
 }
@@ -127,7 +127,7 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
 
 // 加载更多时的数据加载
 #pragma refresh & load more delegate
--(void)loadData:(void(^)(int aAddedRowCount))complete FromView:(TableViewWithPullRefreshLoadMoreButton *)aView{
+-(void)loadData:(void(^)(int aAddedRowCount))complete FromView:(RMTableView *)aView{
     // 联网获取数据，然后刷新本地数据
     myTableView = aView;
     NSLog(@"loadMore from offset: %d",aView.tableInfoArray.count);
@@ -137,7 +137,7 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
 }
 
 // 刷新数据
--(void)refreshData:(void(^)())complete FromView:(TableViewWithPullRefreshLoadMoreButton *)aView
+-(void)refreshData:(void(^)())complete FromView:(RMTableView *)aView
 {
     myTableView = aView;
     refreshComplete = Block_copy(complete);
@@ -198,7 +198,7 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
         [myTableView.tableInfoArray addObjectsFromArray:cacheArray];
         
         NSString* filePath = [HomeViewController categoryDataFilePath:url];
-        NSLog(@"cache file under %@",filePath);
+        NSLog(@"receive http data &refresh tableview & cache file under %@",filePath);
         [CommonHelper saveArchiver:cacheArray path:filePath];
         //        NSArray* ret = [CommonHelper readArchiver:filePath];
         //         NSLog(@"%@",ret);

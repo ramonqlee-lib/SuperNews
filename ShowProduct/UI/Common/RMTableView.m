@@ -6,10 +6,10 @@
 //  Copyright (c) 2014年 @"". All rights reserved.
 //
 
-#import "TableViewWithPullRefreshLoadMoreButton.h"
+#import "RMTableView.h"
 #import "LoadMoreCell.h"
 
-@implementation TableViewWithPullRefreshLoadMoreButton
+@implementation RMTableView
 
 - (id)initWithFrame:(CGRect)frame
 {

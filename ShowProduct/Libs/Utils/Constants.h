@@ -7,4 +7,5 @@
 //
 
 #define kHTTP @"http"
-#define kTableCellPlaceHolderImage @"tablecellplaceholder.png"
+#define kOddTableCellPlaceHolderImage @"tablecellOddplaceholder.gif"
+#define kEvenTableCellPlaceHolderImage @"tablecellEvenPlaceholder.gif"
