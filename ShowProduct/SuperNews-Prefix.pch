@@ -18,4 +18,5 @@
 #import "Header.h"
 #import "Constants.h"
 #import "Macros.h"
+#import "CommonHelper.h"
 #endif

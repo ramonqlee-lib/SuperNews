@@ -8,8 +8,6 @@
 
 #import "MenuHrizontal.h"
 
-#define BUTTONITEMWIDTH   70
-
 @implementation MenuHrizontal
 - (id)initWithFrame:(CGRect)frame ButtonItems:(NSArray *)aItemsArray  withRightPadding:(CGFloat)rPadding
 {
@@ -45,17 +43,6 @@
     
     [self createMenuItems:aItemsArray];
 }
-- (UIImage*) createImageWithColor: (UIColor*) color
-{
-    CGRect rect=CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
-    UIGraphicsBeginImageContext(rect.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetFillColorWithColor(context, [color CGColor]);
-    CGContextFillRect(context, rect);
-    UIImage*theImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return theImage;
-}
 
 -(void)createMenuItems:(NSArray *)aItemsArray{
     int i = 0;
@@ -69,7 +56,7 @@
         [vButton setBackgroundImage:[UIImage imageNamed:vNormalImageStr] forState:UIControlStateNormal];
         UIColor* selectedColor = [lDic objectForKey:HILIGHT_COLOR_KEY];//优先级高于背景图片
         if (selectedColor) {
-            [vButton setBackgroundImage:[self createImageWithColor:selectedColor] forState:UIControlStateSelected];
+            [vButton setBackgroundImage:[CommonHelper createImageWithColor:selectedColor] forState:UIControlStateSelected];
         }
         else if(vHeligtImageStr)
         {

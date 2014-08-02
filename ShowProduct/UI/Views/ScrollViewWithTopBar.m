@@ -19,9 +19,6 @@ NSString* kDefaultCategoryUrl = @"http://novelists.duapp.com/crawler/refer.php?t
 NSUInteger kDefaultCategoryDataLength = 20; //缺省请求的数量
 NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数量
 
-
-#define MENUHEIHT 40
-
 @interface ScrollViewWithTopBar()
 {
     NSArray* titleArray;
@@ -36,7 +33,7 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
 }
 @end
 @implementation ScrollViewWithTopBar
-@synthesize topBarRightPadding;
+@synthesize topBarRightPadding,topBarHeight;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -57,7 +54,7 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
 -(void)resetContent
 {
     if (mHorizontalMenu == nil) {
-        mHorizontalMenu = [[MenuHrizontal alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, MENUHEIHT) ButtonItems:vButtonItemArray withRightPadding:topBarRightPadding];
+        mHorizontalMenu = [[MenuHrizontal alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, topBarHeight) ButtonItems:vButtonItemArray withRightPadding:topBarRightPadding];
         mHorizontalMenu.delegate = self;
         [self addSubview:mHorizontalMenu];
     }
@@ -68,7 +65,7 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
     
     //初始化滑动列表
     if (mScrollPageView == nil) {
-        mScrollPageView = [[ScrollPageView alloc] initWithFrame:CGRectMake(0, MENUHEIHT, self.frame.size.width, self.frame.size.height - MENUHEIHT)];
+        mScrollPageView = [[ScrollPageView alloc] initWithFrame:CGRectMake(0, topBarHeight, self.frame.size.width, self.frame.size.height - topBarHeight)];
         mScrollPageView.delegate = self;
         mScrollPageView.dataDelegate = self;
         [self addSubview:mScrollPageView];

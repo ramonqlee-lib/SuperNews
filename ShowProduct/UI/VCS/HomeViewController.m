@@ -20,6 +20,8 @@
 #import "CommonHelper.h"
 #import "PrettyKit.h"
 
+#define MENUHEIGHT 40
+
 NSString* kAppSettingUrl = @"http://novelists.duapp.com/crawler/category.php";//?column=ZhongYi";
 NSUInteger kDefaultCategoryCount = 3;// 用户没有订阅时的推荐订阅数目
 NSString* kCategoryTitleKey = @"title";
@@ -98,6 +100,7 @@ NSString* kCategoryUrlKey = @"url";
     UIView *vContentView = [[UIView alloc] initWithFrame:vViewRect];
     if (mHomeView == nil) {
         mHomeView = [[ScrollViewWithTopBar alloc] initWithFrame:vContentView.frame];
+        mHomeView.topBarHeight = MENUHEIGHT;
         mHomeView.topBarRightPadding = [self orderButtonReframed].frame.size.width;
         [mySubscriptionDataObservers addObject:mHomeView];
     }
@@ -157,13 +160,18 @@ NSString* kCategoryUrlKey = @"url";
 -(OrderButton*)orderButtonReframed
 {
     OrderButton* orderButton = [self orderButton];
+    
+    UIColor* color = [UIColor grayColor];//[UIColor colorWithRed:(float)0x53/255.0 green:(float)0xa4/255.0 blue:(float)0xde/255.0 alpha:1.0];
+    UIImage* image = [CommonHelper createImageWithColor:color];
+    [orderButton setBackgroundImage:image forState:UIControlStateNormal];
+    
     // 显示在靠右边的clientview处
     CGRect frame = orderButton.frame;
-    const CGFloat PADDING = 10;
+    CGFloat scale = frame.size.width/frame.size.height;
+    frame.size.width = MENUHEIGHT*scale;
+    frame.size.height = MENUHEIGHT;// 参考上部滚动条的高度
+    
     frame.origin.x = self.view.frame.size.width - frame.size.width;
-    if (frame.size.width > frame.size.height) {
-        frame.origin.x += frame.size.width-frame.size.height - PADDING;
-    }
     frame.origin.y = 0;
     orderButton.frame = frame;
 

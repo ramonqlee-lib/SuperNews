@@ -77,4 +77,5 @@ return s##className;\
 +(void)saveArchiver:(NSArray*)data path:(NSString*)filePath;
 +(NSArray*)readArchiver:(NSString*)filePath;
 
++ (UIImage*) createImageWithColor: (UIColor*) color;
 @end
