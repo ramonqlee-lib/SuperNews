@@ -66,7 +66,7 @@
     [_homeTableView setContentOffset:CGPointMake(_homeTableView.contentOffset.x,  - 66) animated:NO];
     NSLog(@"setContentOffset: (%f,%f)",_homeTableView.contentOffset.x,  _homeTableView.contentOffset.y);
     
-    double delayInSeconds = 2;
+    double delayInSeconds = 0.2;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         [_refreshHeaderView forceToRefresh:_homeTableView];

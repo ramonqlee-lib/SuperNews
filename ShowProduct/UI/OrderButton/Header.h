@@ -8,6 +8,10 @@
 
 #ifndef ifengNewsOrderDemo_Header_h
 #define ifengNewsOrderDemo_Header_h
+
+
+#define NSLog(...)
+
 #define KOrderButtonFrameOriginX 257.0
 #define KOrderButtonFrameOriginY 20
 #define KOrderButtonFrameSizeX 63
