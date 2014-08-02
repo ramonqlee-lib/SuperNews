@@ -71,16 +71,12 @@ NSString* kCategoryUrlKey = @"url";
     if (IS_IOS7) {
         self.edgesForExtendedLayout =UIRectEdgeNone ;
     }
-#if 1
-    //contentView大小设置
+
     //contentView大小设置
     int vWidth = (int)([UIScreen mainScreen].bounds.size.width);
     int vHeight = (int)([UIScreen mainScreen].bounds.size.height);
     CGRect vViewRect = CGRectMake(0, 0, vWidth, vHeight -44 -20);
     UIView *vContentView = [[UIView alloc] initWithFrame:vViewRect];
-#else
-    UIView* vContentView = [self clientView];
-#endif
     if (mHomeView == nil) {
         mHomeView = [[ScrollViewWithTopBar alloc] initWithFrame:vContentView.frame];
         [mySubscriptionDataObservers addObject:mHomeView];
@@ -133,10 +129,24 @@ NSString* kCategoryUrlKey = @"url";
     }
     
     OrderButton* orderButton = [self orderButton];
-    UIBarButtonItem* barButtonItem = [[[UIBarButtonItem alloc]initWithCustomView:orderButton]autorelease];
     [orderButton addTarget:self action:@selector(orderViewOut:) forControlEvents:UIControlEventTouchUpInside];
+#if 0
+    UIBarButtonItem* barButtonItem = [[[UIBarButtonItem alloc]initWithCustomView:orderButton]autorelease];
     
     self.navigationItem.rightBarButtonItem = barButtonItem;
+#else
+    // 显示在靠右边的clientview处
+    CGRect frame = orderButton.frame;
+    const CGFloat PADDING = 10;
+    frame.origin.x = self.view.frame.size.width - frame.size.width;
+    if (frame.size.width > frame.size.height) {
+        frame.origin.x += frame.size.width-frame.size.height - PADDING;
+    }
+    frame.origin.y = 0;
+    orderButton.frame = frame;
+    
+    [self.view addSubview:orderButton];
+#endif
 }
 
 #pragma mark category Button
@@ -286,7 +296,7 @@ NSString* kCategoryUrlKey = @"url";
     [orderButton addTarget:self action:@selector(backAction:) forControlEvents:UIControlEventTouchUpInside];
     [orderButton setImage:[UIImage imageNamed:KOrderButtonUpImage] forState:UIControlStateNormal];
     
-    [self.view addSubview:orderView];
+    [self.view insertSubview:orderView belowSubview:orderButton];
     [self addChildViewController:orderVC];
     [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionLayoutSubviews animations:^{
         [orderView setFrame:CGRectMake(0, 0, orderButton.vc.view.bounds.size.width, orderButton.vc.view.bounds.size.height)];
