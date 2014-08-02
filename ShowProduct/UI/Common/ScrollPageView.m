@@ -241,10 +241,14 @@
     
     [vCell.headerImageView setImageWithURL:urlForImage imageFile:placeHolderImage];
     
+    // TODO 是一个空白的cell，后续采用广告位填充
+    // 广告采用插件方式
     vCell.titleLabel.text = [dict objectForKey:kLowercaseTitleKey];
     NSString* htmlString = [dict objectForKey:kLowercaseContentKey];
-    
     vCell.summaryLabel.text = [htmlString stringByStrippingTags];
+    if ( (vCell.titleLabel.text && vCell.titleLabel.text.length==0) || (vCell.summaryLabel.text && vCell.summaryLabel.text.length==0)) {
+        vCell.titleLabel.text = @"这是一个预留的位置，投放个性化内容在此";
+    }
     
     return vCell;
 }
