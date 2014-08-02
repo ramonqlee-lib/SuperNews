@@ -266,7 +266,7 @@
 		_loading = [_delegate egoRefreshTableHeaderDataSourceIsLoading:self];
 	}
 	NSLog(@"egoRefreshScrollViewDidEndDragging scrollView.contentOffset.y:%f",scrollView.contentOffset.y);
-	if (/*scrollView.contentOffset.y <= - 65.0f && */!_loading) {
+	if (scrollView.contentOffset.y <= - 65.0f && !_loading) {
 		
 		if ([_delegate respondsToSelector:@selector(egoRefreshTableHeaderDidTriggerRefresh:)]) {
 			[_delegate egoRefreshTableHeaderDidTriggerRefresh:self];

@@ -250,7 +250,7 @@
         vCell.titleLabel.text = @"这是一个预留的位置，投放个性化内容在此";
     }
     
-    NSLog(@"cell title:%@",vCell.titleLabel.text);
+//    NSLog(@"cell title:%@",vCell.titleLabel.text);
     return vCell;
 }
 

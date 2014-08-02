@@ -161,7 +161,7 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
     }
     
     NSString* url = (currentPageIndex<urlArray.count)?[urlArray objectAtIndex:currentPageIndex]:kDefaultCategoryUrl;
-    
+    NSLog(@"refresh from url: %@",url);
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refeshHandler:) name:url object:nil];
     
     [[HTTPHelper sharedInstance]beginPostRequest:url withDictionary:nil];
@@ -205,6 +205,7 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
 {
     NSString* url = (currentPageIndex<urlArray.count)?[urlArray objectAtIndex:currentPageIndex]:kDefaultCategoryUrl;
     NSString* completeUrl = [NSString stringWithFormat:@"%@&offset=%d&limit=%d",url,offset,count];
+    NSLog(@"loadMore from url: %@",completeUrl);
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loadMoreHandler:) name:completeUrl object:nil];
     
     [[HTTPHelper sharedInstance]beginPostRequest:completeUrl withDictionary:nil];
@@ -214,8 +215,8 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
 -(void)loadMoreHandler:(NSNotification*)notification
 {
     // : 保存当前的频道数据
-    NSInteger pos = 0;
     NSArray* allKeys = [notification.userInfo allKeys];
+    const NSInteger formerCount = myTableView.tableInfoArray.count;
     if (allKeys.count) {
         id obj = [notification.userInfo objectForKey:[allKeys objectAtIndex:0]];
         if ([obj isKindOfClass:[NSData class]])
@@ -225,16 +226,22 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
             // TODO: 解析数据，追加到列表的底部(需要考虑是否有更多数据的问题，当前返回的数量，当前数组的数量，然后确定是否有更多数据)
             NSMutableArray* ret = [NSMutableArray array];
             [self Json2Array:(NSData*)obj forArray:ret];
+            if(0==ret.count)
+            {
+                NSLog(@"no more data,just return");
+                return;
+            }
             
-            pos = ret.count;
             [myTableView.tableInfoArray addObjectsFromArray:ret];
         }
     }
     
+    NSLog(@"loadMore count: %d",myTableView.tableInfoArray.count-formerCount);
+    
     // 加载完毕，通知回调
     if(loadMoreComplete)
     {
-        loadMoreComplete(pos);
+        loadMoreComplete(myTableView.tableInfoArray.count-formerCount);
     }
 }
 
