@@ -137,10 +137,11 @@
 }
 
 - (void)setState:(EGOPullRefreshState)aState{
-	
+	NSLog(@"setState: %d-->%d",_state,aState);
+    
 	switch (aState) {
 		case EGOOPullRefreshPulling:
-			
+			NSLog(@"松开可以刷新...");
 			_statusLabel.text = NSLocalizedString(@"松开可以刷新...", @"松开可以刷新");
 			[CATransaction begin];
 			[CATransaction setAnimationDuration:FLIP_ANIMATION_DURATION];
@@ -160,7 +161,7 @@
                 _circleView.progress = 0;
                 [_circleView setNeedsDisplay];
             }
-			
+			NSLog(@"下拉刷新数据...");
 			_statusLabel.text = NSLocalizedString(@"下拉刷新数据...", @"下拉刷新数据");
 			[_activityView stopAnimating];
 			[CATransaction begin];
@@ -173,7 +174,7 @@
 			
 			break;
 		case EGOOPullRefreshLoading:
-			
+			NSLog(@"加载数据中...");
 			_statusLabel.text = NSLocalizedString(@"加载数据中...", @"加载数据中");
 			[_activityView startAnimating];
 			[CATransaction begin];
@@ -264,8 +265,8 @@
 	if ([_delegate respondsToSelector:@selector(egoRefreshTableHeaderDataSourceIsLoading:)]) {
 		_loading = [_delegate egoRefreshTableHeaderDataSourceIsLoading:self];
 	}
-//	NSLog(@"scrollView.contentOffset.y:%f",scrollView.contentOffset.y);
-	if (scrollView.contentOffset.y <= - 65.0f && !_loading) {
+	NSLog(@"egoRefreshScrollViewDidEndDragging scrollView.contentOffset.y:%f",scrollView.contentOffset.y);
+	if (/*scrollView.contentOffset.y <= - 65.0f && */!_loading) {
 		
 		if ([_delegate respondsToSelector:@selector(egoRefreshTableHeaderDidTriggerRefresh:)]) {
 			[_delegate egoRefreshTableHeaderDidTriggerRefresh:self];
@@ -294,10 +295,8 @@
 	if ([_delegate respondsToSelector:@selector(egoRefreshTableHeaderDataSourceIsLoading:)]) {
 		_loading = [_delegate egoRefreshTableHeaderDataSourceIsLoading:self];
 	}
-//	NSLog(@"scrollView.contentOffset.y:%f",aScrollView.contentOffset.y);
-	if (!_loading)
-    {
-		
+	NSLog(@"forceToRefresh scrollView.contentOffset.y:%f",aScrollView.contentOffset.y);
+	if (!_loading) {
 		if ([_delegate respondsToSelector:@selector(egoRefreshTableHeaderDidTriggerRefresh:)]) {
 			[_delegate egoRefreshTableHeaderDidTriggerRefresh:self];
 		}
@@ -320,6 +319,7 @@
 	[scrollView setContentInset:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
 	[UIView commitAnimations];
 
+    [self setState:EGOOPullRefreshNormal];
     double delayInSeconds = 0.2;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){

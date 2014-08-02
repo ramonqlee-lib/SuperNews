@@ -62,12 +62,19 @@
 #pragma mark 其他辅助功能
 #pragma mark 强制列表刷新
 -(void)forceToFreshData{
+    // FIXME 暂时性
     [_homeTableView setContentOffset:CGPointMake(_homeTableView.contentOffset.x,  - 66) animated:YES];
+    NSLog(@"setContentOffset: (%f,%f)",_homeTableView.contentOffset.x,  -66.0);
+#if 1
     double delayInSeconds = .2;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         [_refreshHeaderView forceToRefresh:_homeTableView];
+        NSLog(@"try to forceToFreshData");
     });
+#else
+    [_refreshHeaderView forceToRefresh:_homeTableView];
+#endif
 }
 
 #pragma mark - UITableViewDataSource
@@ -153,7 +160,7 @@
 	_reloading = NO;
 	[_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.homeTableView];
     [self.homeTableView reloadData];
-//    NSLog(@"doneLoadingTableViewData");
+    NSLog(@"doneLoadingTableViewData,now reloadData");
     if (lastUpdated) {
         [lastUpdated release];
     }

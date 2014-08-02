@@ -106,13 +106,13 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
 #pragma mark - 其他辅助功能
 #pragma mark MenuHrizontalDelegate
 -(void)didMenuHrizontalClickedButtonAtIndex:(NSInteger)aIndex{
-    //    NSLog(@"第%d个Button点击了",aIndex);
+    NSLog(@"第%d个Button点击了",aIndex);
     [mScrollPageView moveScrollowViewAthIndex:aIndex];
 }
 
 #pragma mark ScrollPageViewDelegate
 -(void)didScrollPageViewChangedPage:(NSInteger)aPage{
-    //    NSLog(@"CurrentPage:%d",aPage);
+    NSLog(@"didScrollPageViewChangedPage:%d",aPage);
     [mHorizontalMenu changeButtonStateAtIndex:aPage];
     
     // TODO 发起数据请求，首先从本地存储读取，然后从网络获取
@@ -144,10 +144,10 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
     refreshComplete = Block_copy(complete);
     if( [self refesh] )
     {
+        NSLog(@"refreshing data");
         return;
     }
     
-    NSLog(@"refresh");
     if (complete) {
         complete();
     }
@@ -186,23 +186,13 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
     {
         [myTableView.tableInfoArray removeAllObjects];
         [myTableView.tableInfoArray addObjectsFromArray:temp];
-        //  数据缓存:见鬼，key带下划线不能保存成功
-        NSMutableArray* cacheArray = [NSMutableArray array];
-        for (NSDictionary* item in myTableView.tableInfoArray) {
-            NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithDictionary:item];
-            [dict removeObjectForKey:kWordCount];
-            [dict removeObjectForKey:kUrlKey];
-            [dict removeObjectForKey:kWordCount];
-            [cacheArray addObject:dict];
-        }
-        [myTableView.tableInfoArray removeAllObjects];
-        [myTableView.tableInfoArray addObjectsFromArray:cacheArray];
         
         NSString* filePath = [HomeViewController categoryDataFilePath:url];
         NSLog(@"receive http data &refresh tableview & cache file under %@",filePath);
-        [CommonHelper saveArchiver:cacheArray path:filePath];
-        //        NSArray* ret = [CommonHelper readArchiver:filePath];
-        //         NSLog(@"%@",ret);
+        [CommonHelper saveArchiver:temp path:filePath];
+
+        NSArray* ret = [CommonHelper readArchiver:filePath];
+        NSLog(@"cache count: %d/%d",ret.count,temp.count);
     }
     // 刷新完毕，通知回调
     if (refreshComplete)

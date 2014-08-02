@@ -104,9 +104,11 @@
 
 #pragma mark 移动button到可视的区域
 -(void)moveScrolViewWithIndex:(NSInteger)aIndex{
+    NSLog(@"moveScrolViewWithIndex: %d",aIndex);
     if (mItemInfoArray.count < aIndex) {
         return;
     }
+    
     //宽度小于320肯定不需要移动
     if (mTotalWidth <= 320) {
         return;
@@ -116,16 +118,19 @@
     if (vButtonOrigin >= 300) {
         if ((vButtonOrigin + 180) >= mScrollView.contentSize.width) {
             [mScrollView setContentOffset:CGPointMake(mScrollView.contentSize.width - 320, mScrollView.contentOffset.y) animated:YES];
+            NSLog(@"setContentOffset: (%f,%f)",mScrollView.contentSize.width - 320, mScrollView.contentOffset.y);
             return;
         }
         
         float vMoveToContentOffset = vButtonOrigin - 180;
         if (vMoveToContentOffset > 0) {
             [mScrollView setContentOffset:CGPointMake(vMoveToContentOffset, mScrollView.contentOffset.y) animated:YES];
+            NSLog(@"setContentOffset: (%f,%f)",vMoveToContentOffset, mScrollView.contentOffset.y);
         }
         //        NSLog(@"scrollwOffset.x:%f,ButtonOrigin.x:%f,mscrollwContentSize.width:%f",mScrollView.contentOffset.x,vButtonOrigin,mScrollView.contentSize.width);
     }else{
         [mScrollView setContentOffset:CGPointMake(0, mScrollView.contentOffset.y) animated:YES];
+        NSLog(@"setContentOffset: (%f,%f)",0.0, mScrollView.contentOffset.y);
         return;
     }
 }

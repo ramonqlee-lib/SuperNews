@@ -137,8 +137,7 @@ Impl_Singleton(HTTPHelper)
 
 -(void)requestStarted:(ASIHTTPRequest *)request
 {
-//    NSLog(@"开始了!");
-    
+    NSLog(@"requestStarted!");
 }
 - (void)request:(ASIHTTPRequest *)request didReceiveResponseHeaders:(NSDictionary *)responseHeaders
 {
@@ -200,7 +199,7 @@ Impl_Singleton(HTTPHelper)
                 dict = [NSDictionary dictionaryWithObject:request.responseData forKey:postKey];
                 postObject = responseData;
 //                NSLog(@"responseData: %@",responseData);
-//                NSLog(@"http responseData received");
+                NSLog(@"http requestFinished received");
             }
         }
         NSString* postKey = [request.userInfo objectForKey:@"Url"];

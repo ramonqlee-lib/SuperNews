@@ -97,7 +97,7 @@
 -(void)moveScrollowViewAthIndex:(NSInteger)aIndex{
     mNeedUseDelegate = NO;
     CGRect vMoveRect = CGRectMake(self.frame.size.width * aIndex, 0, self.frame.size.width, self.frame.size.width);
-    [_scrollView scrollRectToVisible:vMoveRect animated:YES];
+    [_scrollView scrollRectToVisible:vMoveRect animated:NO];
     mCurrentPage= aIndex;
     if ([_delegate respondsToSelector:@selector(didScrollPageViewChangedPage:)]) {
         [_delegate didScrollPageViewChangedPage:mCurrentPage];
@@ -250,6 +250,7 @@
         vCell.titleLabel.text = @"这是一个预留的位置，投放个性化内容在此";
     }
     
+    NSLog(@"cell title:%@",vCell.titleLabel.text);
     return vCell;
 }
 
@@ -310,19 +311,7 @@
     if (self.dataDelegate) {
         [self.dataDelegate loadData:complete FromView:aView];
     }
-    
-    /*
-     NSMutableArray* data = [NSMutableArray arrayWithArray:aView.tableInfoArray];
-     for (int i = 0; i < 4; i++) {
-     [data  addObject:@"0"];
-     }
-     [self updateTableViewDataOnly:data];
-     
-     // 数据更新完毕，该刷新view了
-     if (complete) {
-     complete(4);
-     }
-     */
+
 }
 
 // 下拉刷新时的加载
@@ -332,26 +321,10 @@
     double delayInSeconds = 1.0;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        
         if (self.dataDelegate)
         {
             [self.dataDelegate refreshData:complete FromView:aView];
         }
-        
-        /*
-         // 全新的数据集
-         NSMutableArray* data = [NSMutableArray array];
-         for (int i = 0; i < 4; i++) {
-         [data  addObject:@"0"];
-         }
-         [self updateTableViewDataOnly:data];
-         
-         //改变header显示图片
-         [self changeHeaderContentWithCustomTable:aView];
-         if (complete) {
-         complete();
-         }
-         */
     });
 }
 
