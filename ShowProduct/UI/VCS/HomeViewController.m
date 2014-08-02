@@ -98,6 +98,7 @@ NSString* kCategoryUrlKey = @"url";
     UIView *vContentView = [[UIView alloc] initWithFrame:vViewRect];
     if (mHomeView == nil) {
         mHomeView = [[ScrollViewWithTopBar alloc] initWithFrame:vContentView.frame];
+        mHomeView.topBarRightPadding = [self orderButtonReframed].frame.size.width;
         [mySubscriptionDataObservers addObject:mHomeView];
     }
     [vContentView addSubview:mHomeView];
@@ -147,13 +148,15 @@ NSString* kCategoryUrlKey = @"url";
         [self notifySubscriptionChange ];
     }
     
-    OrderButton* orderButton = [self orderButton];
-    [orderButton addTarget:self action:@selector(orderViewOut:) forControlEvents:UIControlEventTouchUpInside];
-#if 0
-    UIBarButtonItem* barButtonItem = [[[UIBarButtonItem alloc]initWithCustomView:orderButton]autorelease];
+    OrderButton* orderButton = [self orderButtonReframed];
     
-    self.navigationItem.rightBarButtonItem = barButtonItem;
-#else
+    [orderButton addTarget:self action:@selector(orderViewOut:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:orderButton];
+}
+
+-(OrderButton*)orderButtonReframed
+{
+    OrderButton* orderButton = [self orderButton];
     // 显示在靠右边的clientview处
     CGRect frame = orderButton.frame;
     const CGFloat PADDING = 10;
@@ -163,9 +166,8 @@ NSString* kCategoryUrlKey = @"url";
     }
     frame.origin.y = 0;
     orderButton.frame = frame;
-    
-    [self.view addSubview:orderButton];
-#endif
+
+    return orderButton;
 }
 
 #pragma mark category Button

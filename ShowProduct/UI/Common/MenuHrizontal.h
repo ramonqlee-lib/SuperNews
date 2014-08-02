@@ -31,9 +31,9 @@
 @property (nonatomic,assign) id <HorizontalMenuDelegate> delegate;
 
 #pragma mark 初始化菜单
-- (id)initWithFrame:(CGRect)frame ButtonItems:(NSArray *)aItemsArray;
+- (id)initWithFrame:(CGRect)frame ButtonItems:(NSArray *)aItemsArray  withRightPadding:(CGFloat)rPadding;
 
--(void)setButtonItems:(NSArray *)aItemsArray;
+-(void)setButtonItems:(NSArray *)aItemsArray  withRightPadding:(CGFloat)rPadding;
 
 #pragma mark 选中某个button
 -(void)clickButtonAtIndex:(NSInteger)aIndex;

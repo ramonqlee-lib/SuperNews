@@ -18,4 +18,5 @@
     ScrollPageView *mScrollPageView;
 }
 
+@property(nonatomic,assign)CGFloat topBarRightPadding;
 @end

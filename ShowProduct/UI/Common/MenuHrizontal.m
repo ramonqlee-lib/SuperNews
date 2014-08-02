@@ -11,16 +11,16 @@
 #define BUTTONITEMWIDTH   70
 
 @implementation MenuHrizontal
-- (id)initWithFrame:(CGRect)frame ButtonItems:(NSArray *)aItemsArray
+- (id)initWithFrame:(CGRect)frame ButtonItems:(NSArray *)aItemsArray  withRightPadding:(CGFloat)rPadding
 {
     self = [super initWithFrame:frame];
     if (self) {
-        [self setButtonItems:aItemsArray];
+        [self setButtonItems:aItemsArray withRightPadding:rPadding];
     }
     return self;
 }
 
--(void)setButtonItems:(NSArray *)aItemsArray
+-(void)setButtonItems:(NSArray *)aItemsArray  withRightPadding:(CGFloat)rPadding
 {
     if (mButtonArray == nil) {
         mButtonArray = [[NSMutableArray alloc] init];
@@ -34,7 +34,7 @@
     }
     
     if (mScrollView == nil) {
-        mScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+        mScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width-rPadding, self.frame.size.height)];
         mScrollView.showsHorizontalScrollIndicator = NO;
     }
     
@@ -93,7 +93,7 @@
         [vNewDic setObject:[NSNumber numberWithFloat:menuWidth] forKey:TOTALWIDTH];
         [mItemInfoArray addObject:vNewDic];
     }
-    
+
     [mScrollView setContentSize:CGSizeMake(menuWidth, self.frame.size.height)];
     [self addSubview:mScrollView];
     // 保存menu总长度，如果小于320则不需要移动，方便点击button时移动位置的判断
@@ -130,15 +130,16 @@
     }
     
     //宽度小于320肯定不需要移动
-    if (mTotalWidth <= 320) {
+    CGFloat scrollWidth = mScrollView.frame.size.width;
+    if (mTotalWidth <= scrollWidth) {
         return;
     }
     NSDictionary *vDic = [mItemInfoArray objectAtIndex:aIndex];
     float vButtonOrigin = [[vDic objectForKey:TOTALWIDTH] floatValue];
     if (vButtonOrigin >= 300) {
         if ((vButtonOrigin + 180) >= mScrollView.contentSize.width) {
-            [mScrollView setContentOffset:CGPointMake(mScrollView.contentSize.width - 320, mScrollView.contentOffset.y) animated:YES];
-            NSLog(@"setContentOffset: (%f,%f)",mScrollView.contentSize.width - 320, mScrollView.contentOffset.y);
+            [mScrollView setContentOffset:CGPointMake(mScrollView.contentSize.width - scrollWidth, mScrollView.contentOffset.y) animated:YES];
+            NSLog(@"setContentOffset: (%f,%f)",mScrollView.contentSize.width - scrollWidth, mScrollView.contentOffset.y);
             return;
         }
         

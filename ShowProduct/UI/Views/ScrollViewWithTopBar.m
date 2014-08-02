@@ -36,6 +36,7 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
 }
 @end
 @implementation ScrollViewWithTopBar
+@synthesize topBarRightPadding;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -56,13 +57,13 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
 -(void)resetContent
 {
     if (mHorizontalMenu == nil) {
-        mHorizontalMenu = [[MenuHrizontal alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, MENUHEIHT) ButtonItems:vButtonItemArray];
+        mHorizontalMenu = [[MenuHrizontal alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, MENUHEIHT) ButtonItems:vButtonItemArray withRightPadding:topBarRightPadding];
         mHorizontalMenu.delegate = self;
         [self addSubview:mHorizontalMenu];
     }
     else
     {
-        [mHorizontalMenu setButtonItems:vButtonItemArray];
+        [mHorizontalMenu setButtonItems:vButtonItemArray withRightPadding:topBarRightPadding];
     }
     
     //初始化滑动列表
