@@ -18,6 +18,7 @@
 #import "ASIDownloadCache.h"
 #import "RMViewController+Aux.h"
 #import "CommonHelper.h"
+#import "PrettyKit.h"
 
 NSString* kAppSettingUrl = @"http://novelists.duapp.com/crawler/category.php";//?column=ZhongYi";
 NSUInteger kDefaultCategoryCount = 3;// 用户没有订阅时的推荐订阅数目
@@ -64,6 +65,23 @@ NSString* kCategoryUrlKey = @"url";
     [super dealloc];
 }
 #endif
+- (void) customizeNavBar:(UINavigationController*)navi {
+    if (!navi) {
+        return;
+    }
+    PrettyNavigationBar *navBar = (PrettyNavigationBar *)navi.navigationBar;
+    
+    if (!navBar) {
+        return;
+    }
+    
+    navBar.topLineColor = [UIColor colorWithHex:0xFF1000];
+    navBar.gradientStartColor = [UIColor colorWithHex:0xDD0000];
+    navBar.gradientEndColor = [UIColor colorWithHex:0xAA0000];
+    navBar.bottomLineColor = [UIColor colorWithHex:0x990000];
+    navBar.tintColor = navBar.gradientEndColor;
+    navBar.roundedCornerRadius = 0;
+}
 
 // 初始View
 - (void) initView {
@@ -72,6 +90,7 @@ NSString* kCategoryUrlKey = @"url";
         self.edgesForExtendedLayout =UIRectEdgeNone ;
     }
 
+    [self customizeNavBar:self.navigationController];
     //contentView大小设置
     int vWidth = (int)([UIScreen mainScreen].bounds.size.width);
     int vHeight = (int)([UIScreen mainScreen].bounds.size.height);

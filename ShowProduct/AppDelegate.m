@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "HomeViewController.h"
+#import "PrettyKit.h"
 
 @implementation AppDelegate
 @synthesize navigationController = mNavigationController;
@@ -18,7 +19,8 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     HomeViewController *vVC = [[HomeViewController alloc] init];
-    mNavigationController = [[UINavigationController alloc] initWithRootViewController:vVC];
+    mNavigationController = (UINavigationController*)[[UINavigationController alloc ]initWithNavigationBarClass:[PrettyNavigationBar class] toolbarClass:[PrettyToolbar class]];
+    [mNavigationController setViewControllers:@[vVC]];
     self.window.rootViewController = mNavigationController;
     [vVC release];
     

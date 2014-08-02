@@ -12,6 +12,7 @@
 #import "NSString+HTML.h"
 #import "UIImageView+WebCache.h"
 #import "SVWebViewController.h"
+#import "PrettyKit.h"
 
 #define kCellHeight 76.0f
 
@@ -278,7 +279,8 @@
     webViewController.htmlBody = [content stringByLinkifyingURLs];
     
     
-    UINavigationController* controller = [[UINavigationController alloc]initWithRootViewController:webViewController];
+    UINavigationController* controller = [[UINavigationController alloc]initWithNavigationBarClass:[PrettyNavigationBar class] toolbarClass:[PrettyToolbar class]];
+    [controller setViewControllers:@[webViewController]];
     controller.title = title;
     UIBarButtonItem *BackBtn = [[UIBarButtonItem alloc] initWithTitle:@"Back"
                                                                 style:UIBarButtonItemStylePlain
@@ -286,10 +288,29 @@
                                                                action:@selector(BackAction:)];
     
     webViewController.navigationItem.leftBarButtonItem = BackBtn;
-    
+    [self customizeNavBar:controller];
     UIViewController* rootController = [[[UIApplication sharedApplication]keyWindow]rootViewController];
     [rootController presentViewController:controller animated:YES completion:nil];
 }
+
+- (void) customizeNavBar:(UINavigationController*)navi {
+    if (!navi) {
+        return;
+    }
+    PrettyNavigationBar *navBar = (PrettyNavigationBar *)navi.navigationBar;
+    
+    if (!navBar) {
+        return;
+    }
+    
+    navBar.topLineColor = [UIColor colorWithHex:0xFF1000];
+    navBar.gradientStartColor = [UIColor colorWithHex:0xDD0000];
+    navBar.gradientEndColor = [UIColor colorWithHex:0xAA0000];
+    navBar.bottomLineColor = [UIColor colorWithHex:0x990000];
+    navBar.tintColor = navBar.gradientEndColor;
+    navBar.roundedCornerRadius = 0;
+}
+
 
 -(IBAction)BackAction:(id)sender
 {
