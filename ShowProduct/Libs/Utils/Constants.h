@@ -8,4 +8,4 @@
 
 #define kHTTP @"http"
 #define kOddTableCellPlaceHolderImage @"tablecellOddplaceholder.gif"
-#define kEvenTableCellPlaceHolderImage @"tablecellEvenPlaceholder.gif"
+#define kEvenTableCellPlaceHolderImage @"tablecellEvenPlaceholder.jpg"

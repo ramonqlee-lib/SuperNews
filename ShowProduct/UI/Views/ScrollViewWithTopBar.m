@@ -26,7 +26,7 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
 {
     NSArray* titleArray;
     NSArray* urlArray;
-    NSArray *vButtonItemArray; // 顶部button相关
+    NSMutableArray *vButtonItemArray; // 顶部button相关
     NSInteger currentPageIndex;// 当前所处的页面
     BOOL cacheShouldReload;
     
@@ -133,7 +133,9 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
     // 联网获取数据，然后刷新本地数据
     myTableView = aView;
     NSLog(@"loadMore from offset: %d",aView.tableInfoArray.count);
-    
+    if (loadMoreComplete) {
+        Block_release(loadMoreComplete);
+    }
     loadMoreComplete = Block_copy(complete);
     [self loadMore:aView.tableInfoArray.count withNumber:kDefaultCategoryDataIncrement];
 }
@@ -142,6 +144,9 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
 -(void)refreshData:(void(^)())complete FromView:(RMTableView *)aView
 {
     myTableView = aView;
+    if (refreshComplete) {
+        Block_release(refreshComplete);
+    }
     refreshComplete = Block_copy(complete);
     if( [self refesh] )
     {
@@ -192,8 +197,8 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
         NSLog(@"receive http data &refresh tableview & cache file under %@",filePath);
         [CommonHelper saveArchiver:temp path:filePath];
         
-        NSArray* ret = [CommonHelper readArchiver:filePath];
-        NSLog(@"cache count: %d/%d",ret.count,temp.count);
+//        NSArray* ret = [CommonHelper readArchiver:filePath];
+//        NSLog(@"cache count: %d/%d",ret.count,temp.count);
     }
     // 刷新完毕，通知回调
     if (refreshComplete)
@@ -300,19 +305,27 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
     if ( !r  || r.count != 2) {
         return;
     }
-    
+    if (titleArray) {
+        [titleArray release];
+    }
     titleArray = [[NSArray alloc]initWithArray:[r objectAtIndex:0]];
+    
+    if (urlArray) {
+        [urlArray release];
+    }
     urlArray = [[NSArray alloc]initWithArray:[r objectAtIndex:1]];
     
     if ( !titleArray || 0 == titleArray.count || !urlArray || 0 == urlArray.count ) {
         return;
     }
     
-    NSMutableArray* itemsArray = [NSMutableArray arrayWithCapacity:titleArray.count];
-    vButtonItemArray = itemsArray;
+    if (vButtonItemArray) {
+        [vButtonItemArray release];
+    }
+    vButtonItemArray = [[NSMutableArray alloc]initWithCapacity:titleArray.count];
     for (NSString* val in titleArray) {
         // FIXME: 动态计算文本所占宽度.目前是简单的字符数定宽推断法
-        [itemsArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:@"normal.png",NOMALKEY,
+        [vButtonItemArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:@"normal.png",NOMALKEY,
                                @"helight.png",HEIGHTKEY,
                                val,TITLEKEY,
                                [NSNumber numberWithFloat:val.length*20],TITLEWIDTH, nil]];

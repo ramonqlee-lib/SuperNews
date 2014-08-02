@@ -260,7 +260,10 @@
 }
 
 - (void)egoRefreshScrollViewDidEndDragging:(UIScrollView *)scrollView {
-	
+	if (scrollView.contentOffset.y  > 0) {
+        NSLog(@"egoRefreshScrollViewDidEndDragging downwards,just return");
+        return;
+    }
 	BOOL _loading = NO;
 	if ([_delegate respondsToSelector:@selector(egoRefreshTableHeaderDataSourceIsLoading:)]) {
 		_loading = [_delegate egoRefreshTableHeaderDataSourceIsLoading:self];
@@ -317,6 +320,7 @@
 	[UIView beginAnimations:nil context:NULL];
 	[UIView setAnimationDuration:.2];
 	[scrollView setContentInset:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
+    NSLog(@"setContentInset to zero");
 	[UIView commitAnimations];
 
     [self setState:EGOOPullRefreshNormal];

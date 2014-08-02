@@ -13,6 +13,8 @@
 #import "UIImageView+WebCache.h"
 #import "SVWebViewController.h"
 
+#define kCellHeight 76.0f
+
 @interface ScrollPageView()
 {
     RMTableView * tableViewWithPullRefreshLoadMoreButton;
@@ -256,8 +258,12 @@
 
 #pragma mark CustomTableViewDelegate
 -(float)heightForRowAthIndexPath:(UITableView *)aTableView IndexPath:(NSIndexPath *)aIndexPath FromView:(RMTableView *)aView{
+#if 0
     HomeViewCell *vCell = [[[NSBundle mainBundle] loadNibNamed:@"HomeViewCell" owner:self options:nil] lastObject];
     return vCell.frame.size.height;
+#else
+    return kCellHeight;
+#endif
 }
 
 -(void)didSelectedRowAthIndexPath:(UITableView *)aTableView IndexPath:(NSIndexPath *)aIndexPath FromView:(RMTableView *)aView
@@ -265,11 +271,9 @@
     //check before going on
     [aTableView deselectRowAtIndexPath:aIndexPath animated:YES];
     
-//    UIViewController* presentController = nil;
     NSDictionary* dict = [tableViewWithPullRefreshLoadMoreButton.tableInfoArray objectAtIndex:aIndexPath.row];
     NSString* content = [dict objectForKey:kLowercaseContentKey];
     NSString* title = [dict objectForKey:kLowercaseTitleKey];
-//    NSString* url = [dict objectForKey:kUrlKey];//@"http://www.baidu.com";
     SVWebViewController* webViewController = [[[SVWebViewController alloc]init]autorelease];
     webViewController.htmlBody = [content stringByLinkifyingURLs];
     
