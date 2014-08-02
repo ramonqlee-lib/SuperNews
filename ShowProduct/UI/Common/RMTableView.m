@@ -9,6 +9,12 @@
 #import "RMTableView.h"
 #import "LoadMoreCell.h"
 
+@interface RMTableView()
+{
+    NSDate* lastUpdated;
+}
+@end
+
 @implementation RMTableView
 
 - (id)initWithFrame:(CGRect)frame
@@ -148,6 +154,10 @@
 	[_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.homeTableView];
     [self.homeTableView reloadData];
 //    NSLog(@"doneLoadingTableViewData");
+    if (lastUpdated) {
+        [lastUpdated release];
+    }
+    lastUpdated = [[NSDate alloc]initWithTimeIntervalSinceNow:0];
 }
 
 
@@ -173,7 +183,6 @@
 
 #pragma mark - EGORefreshTableHeaderDelegate Methods
 - (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view{
-	
 	[self reloadTableViewDataSource];
 }
 
@@ -188,7 +197,7 @@
 
 - (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view{
 	
-	return [NSDate date]; // should return date data source was last changed
+	return lastUpdated?lastUpdated:[NSDate date]; // should return date data source was last changed
 	
 }
 

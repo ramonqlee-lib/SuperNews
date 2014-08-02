@@ -100,7 +100,7 @@
 		
 		NSDate *date = [_delegate egoRefreshTableHeaderDataSourceLastUpdated:self];
         NSString* updateText = nil;
-#if 1
+#if 0
 		NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
 		[formatter setAMSymbol:@"AM"];
 		[formatter setPMSymbol:@"PM"];
@@ -116,7 +116,7 @@
         updateText = [NSString stringWithFormat:@"%d 分钟前更新",(int)timeInterval/ONE_MIN];
         // 小于1分钟
         if (timeInterval < ONE_MIN) {
-            updateText = @"刚刚更新过";
+            updateText = [NSString stringWithFormat:@"%d 秒前更新",(int)timeInterval];;//@"刚刚更新过";
         }
         else if(timeInterval >ONE_MIN*60)//大于1小时
         {
