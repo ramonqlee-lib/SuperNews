@@ -18,6 +18,15 @@
 		308093DF198D2880007BBC60 /* PrettyShadowPlainTableview.m in Sources */ = {isa = PBXBuildFile; fileRef = 308093D4198D2880007BBC60 /* PrettyShadowPlainTableview.m */; };
 		308093E0198D2880007BBC60 /* PrettyTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 308093D6198D2880007BBC60 /* PrettyTabBar.m */; };
 		308093E1198D2880007BBC60 /* PrettyToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 308093D8198D2880007BBC60 /* PrettyToolbar.m */; };
+		308093E9198DD3F0007BBC60 /* Icon-iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 308093E2198DD3F0007BBC60 /* Icon-iPad.png */; };
+		308093EA198DD3F0007BBC60 /* Icon-iPad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 308093E3198DD3F0007BBC60 /* Icon-iPad@2x.png */; };
+		308093EB198DD3F0007BBC60 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 308093E4198DD3F0007BBC60 /* Icon-Small-50.png */; };
+		308093EC198DD3F0007BBC60 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 308093E5198DD3F0007BBC60 /* Icon-Small.png */; };
+		308093ED198DD3F0007BBC60 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 308093E6198DD3F0007BBC60 /* Icon-Small@2x.png */; };
+		308093EE198DD3F0007BBC60 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 308093E7198DD3F0007BBC60 /* Icon.png */; };
+		308093EF198DD3F0007BBC60 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 308093E8198DD3F0007BBC60 /* Icon@2x.png */; };
+		308093F2198DD49C007BBC60 /* Icon_80.png in Resources */ = {isa = PBXBuildFile; fileRef = 308093F0198DD49C007BBC60 /* Icon_80.png */; };
+		308093F3198DD49C007BBC60 /* Icon_120.png in Resources */ = {isa = PBXBuildFile; fileRef = 308093F1198DD49C007BBC60 /* Icon_120.png */; };
 		30BF90D81989A56400DCF8EF /* libSVWebViewController_Phone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30BF90D71989A56400DCF8EF /* libSVWebViewController_Phone.a */; };
 		30BF90E2198C6F0600DCF8EF /* tablecellOddplaceholder.gif in Resources */ = {isa = PBXBuildFile; fileRef = 30BF90E0198C6F0600DCF8EF /* tablecellOddplaceholder.gif */; };
 		30CD17141987D93100600D6D /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 30CD17061987D93100600D6D /* LICENSE */; };
@@ -140,6 +149,15 @@
 		308093D6198D2880007BBC60 /* PrettyTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrettyTabBar.m; sourceTree = "<group>"; };
 		308093D7198D2880007BBC60 /* PrettyToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrettyToolbar.h; sourceTree = "<group>"; };
 		308093D8198D2880007BBC60 /* PrettyToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrettyToolbar.m; sourceTree = "<group>"; };
+		308093E2198DD3F0007BBC60 /* Icon-iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-iPad.png"; path = "Images.xcassets/AppIcon.appiconset/Icon-iPad.png"; sourceTree = "<group>"; };
+		308093E3198DD3F0007BBC60 /* Icon-iPad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-iPad@2x.png"; path = "Images.xcassets/AppIcon.appiconset/Icon-iPad@2x.png"; sourceTree = "<group>"; };
+		308093E4198DD3F0007BBC60 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small-50.png"; path = "Images.xcassets/AppIcon.appiconset/Icon-Small-50.png"; sourceTree = "<group>"; };
+		308093E5198DD3F0007BBC60 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small.png"; path = "Images.xcassets/AppIcon.appiconset/Icon-Small.png"; sourceTree = "<group>"; };
+		308093E6198DD3F0007BBC60 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small@2x.png"; path = "Images.xcassets/AppIcon.appiconset/Icon-Small@2x.png"; sourceTree = "<group>"; };
+		308093E7198DD3F0007BBC60 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = Images.xcassets/AppIcon.appiconset/Icon.png; sourceTree = "<group>"; };
+		308093E8198DD3F0007BBC60 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "Images.xcassets/AppIcon.appiconset/Icon@2x.png"; sourceTree = "<group>"; };
+		308093F0198DD49C007BBC60 /* Icon_80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon_80.png; path = Images.xcassets/AppIcon.appiconset/Icon_80.png; sourceTree = "<group>"; };
+		308093F1198DD49C007BBC60 /* Icon_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon_120.png; path = Images.xcassets/AppIcon.appiconset/Icon_120.png; sourceTree = "<group>"; };
 		30BF90D71989A56400DCF8EF /* libSVWebViewController_Phone.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSVWebViewController_Phone.a; sourceTree = "<group>"; };
 		30BF90E0198C6F0600DCF8EF /* tablecellOddplaceholder.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = tablecellOddplaceholder.gif; sourceTree = "<group>"; };
 		30CD17061987D93100600D6D /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -652,6 +670,15 @@
 				8B460963192D968300B28082 /* AppDelegate.h */,
 				8B460964192D968300B28082 /* AppDelegate.m */,
 				8B460966192D968300B28082 /* Images.xcassets */,
+				308093F0198DD49C007BBC60 /* Icon_80.png */,
+				308093F1198DD49C007BBC60 /* Icon_120.png */,
+				308093E2198DD3F0007BBC60 /* Icon-iPad.png */,
+				308093E3198DD3F0007BBC60 /* Icon-iPad@2x.png */,
+				308093E4198DD3F0007BBC60 /* Icon-Small-50.png */,
+				308093E5198DD3F0007BBC60 /* Icon-Small.png */,
+				308093E6198DD3F0007BBC60 /* Icon-Small@2x.png */,
+				308093E7198DD3F0007BBC60 /* Icon.png */,
+				308093E8198DD3F0007BBC60 /* Icon@2x.png */,
 				8B46095B192D968300B28082 /* Supporting Files */,
 			);
 			name = SuperNews;
@@ -834,17 +861,26 @@
 				30E6DA8D197D532A00D5DF95 /* order_back_down.png in Resources */,
 				30FCD5CA1976BCC5000F7015 /* order_background.png in Resources */,
 				30CD18C1198928C800600D6D /* SVWebViewController.bundle in Resources */,
+				308093EA198DD3F0007BBC60 /* Icon-iPad@2x.png in Resources */,
 				30FCD5CB1976BCC5000F7015 /* order_drag_move_bg.png in Resources */,
 				8B46099A192DC3C600B28082 /* normal.png in Resources */,
+				308093E9198DD3F0007BBC60 /* Icon-iPad.png in Resources */,
 				30CD17151987D93100600D6D /* README.md in Resources */,
+				308093F2198DD49C007BBC60 /* Icon_80.png in Resources */,
 				8B46095F192D968300B28082 /* InfoPlist.strings in Resources */,
 				8B460967192D968300B28082 /* Images.xcassets in Resources */,
+				308093EE198DD3F0007BBC60 /* Icon.png in Resources */,
+				308093EC198DD3F0007BBC60 /* Icon-Small.png in Resources */,
+				308093ED198DD3F0007BBC60 /* Icon-Small@2x.png in Resources */,
 				30FCD5C81976BCC5000F7015 /* order_back.png in Resources */,
 				30E6DA8E197D532A00D5DF95 /* order_back_up.png in Resources */,
 				30BF90E2198C6F0600DCF8EF /* tablecellOddplaceholder.gif in Resources */,
+				308093EB198DD3F0007BBC60 /* Icon-Small-50.png in Resources */,
+				308093EF198DD3F0007BBC60 /* Icon@2x.png in Resources */,
 				30CD17141987D93100600D6D /* LICENSE in Resources */,
 				30FCD5CF1976BCC5000F7015 /* topnav_orderbutton_selected_unselected.png in Resources */,
 				3E32271E192E2B4300D5C95C /* LoadMoreCell.xib in Resources */,
+				308093F3198DD49C007BBC60 /* Icon_120.png in Resources */,
 				30FCD5CE1976BCC5000F7015 /* topnav_orderbutton.png in Resources */,
 				8B460998192DC3C300B28082 /* hilight.png in Resources */,
 			);
@@ -1045,7 +1081,6 @@
 		8B46097E192D968300B28082 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Ming Li (6ZAM6HQ2F7)";
@@ -1089,7 +1124,6 @@
 		8B46097F192D968300B28082 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Ming Li (QBJ9PY6FYT)";

@@ -91,7 +91,9 @@ NSString* kCategoryUrlKey = @"url";
     if (IS_IOS7) {
         self.edgesForExtendedLayout =UIRectEdgeNone ;
     }
-
+    
+    self.title = @"揭秘历史";
+    
 //    [self customizeNavBar:self.navigationController];
     //contentView大小设置
     int vWidth = (int)([UIScreen mainScreen].bounds.size.width);
