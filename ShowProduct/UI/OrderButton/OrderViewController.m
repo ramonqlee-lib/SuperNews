@@ -49,13 +49,16 @@
     [_titleLabel setFont:[UIFont systemFontOfSize:16]];
     [_titleLabel setTextAlignment:NSTextAlignmentCenter];
     [_titleLabel setTextColor:[UIColor colorWithRed:187/255.0 green:1/255.0 blue:1/255.0 alpha:1.0]];
+    [_titleLabel setBackgroundColor:[UIColor clearColor]];
     [self.view addSubview:_titleLabel];
 
     _titleLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(10, KTableStartPointY + KButtonHeight * ([self array2StartY] - 1) + 22, 320, 20)];
     _titleLabel2.text = @"更多: 点击加入 我的订阅";
     [_titleLabel2 setFont:[UIFont systemFontOfSize:10]];
     [_titleLabel2 setTextAlignment:NSTextAlignmentCenter];
-    [_titleLabel2 setTextColor:[UIColor grayColor]];
+//    [_titleLabel2 setTextColor:[UIColor grayColor]];
+    [_titleLabel2 setTextColor:[UIColor colorWithRed:187/255.0 green:1/255.0 blue:1/255.0 alpha:1.0]];
+    [_titleLabel2 setBackgroundColor:[UIColor clearColor]];
     [self.view addSubview:_titleLabel2];
     
     // TODO 上部和下部均支持scrollview
