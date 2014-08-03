@@ -76,9 +76,7 @@ NSString* kCategoryUrlKey = @"url";
     }
     
     // set app name
-    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
-    NSString *appName = [infoDictionary objectForKey:@"CFBundleDisplayName"];
-    self.title = appName;
+    self.title = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
     
     //contentView大小设置
     int vWidth = (int)([UIScreen mainScreen].bounds.size.width);
