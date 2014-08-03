@@ -16,8 +16,8 @@
     @public
     
     NSMutableArray * _array;
-    NSMutableArray * _viewArr11;
-    NSMutableArray * _viewArr22;
+    NSMutableArray * _topViewsArr;
+    NSMutableArray * _bottomViewsArr;
 }
 @property (nonatomic,retain) UILabel * label;
 @property (nonatomic,retain) UILabel * moreChannelsLabel;

@@ -78,8 +78,8 @@
         touchView.label.text = [[topModelArray objectAtIndex:i] title];
         [touchView.label setTextAlignment:NSTextAlignmentCenter];
         [touchView setMoreChannelsLabel:_titleLabel2];
-        touchView->_viewArr11 = topViewArr;
-        touchView->_viewArr22 = bottomViewArr;
+        touchView->_topViewsArr = topViewArr;
+        touchView->_bottomViewsArr = bottomViewArr;
         [touchView setTouchViewModel:[topModelArray objectAtIndex:i]];
         
         [self.view addSubview:touchView];
@@ -98,8 +98,8 @@
         [touchView.label setTextColor:[UIColor colorWithRed:99/255.0 green:99/255.0 blue:99/255.0 alpha:1.0]];
         [touchView.label setTextAlignment:NSTextAlignmentCenter];
         [touchView setMoreChannelsLabel:_titleLabel2];
-        touchView->_viewArr11 = topViewArr;
-        touchView->_viewArr22 = bottomViewArr;
+        touchView->_topViewsArr = topViewArr;
+        touchView->_bottomViewsArr = bottomViewArr;
         [touchView setTouchViewModel:[bottomModelArray objectAtIndex:i]];
         
         [self.view addSubview:touchView];
