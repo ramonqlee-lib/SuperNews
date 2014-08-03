@@ -156,14 +156,18 @@
 	//  model should call this when its done loading
 	_reloading = NO;
 	[_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.homeTableView];
-    [self.homeTableView reloadData];
-    NSLog(@"doneLoadingTableViewData,now reloadData");
+    [self reloadData];
     if (lastUpdated) {
         [lastUpdated release];
     }
     lastUpdated = [[NSDate alloc]initWithTimeIntervalSinceNow:0];
 }
 
+-(void)reloadData
+{
+    [self.homeTableView reloadData];
+    NSLog(@"doneLoadingTableViewData,now reloadData");
+}
 
 #pragma mark -
 #pragma mark UIScrollViewDelegate Methods

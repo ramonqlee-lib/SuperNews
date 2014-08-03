@@ -19,6 +19,7 @@
 @interface ScrollPageView()
 {
     RMTableView * tableViewWithPullRefreshLoadMoreButton;
+    CGPoint mLastContentOffset;
 }
 @end
 
@@ -36,6 +37,7 @@
 }
 
 -(void)initData{
+    mLastContentOffset = CGPointZero;
     [self freshContentTableAtIndex:0];
 }
 
@@ -46,8 +48,7 @@
     }
     if (_scrollView == nil) {
         _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
-//        NSLog(@"ScrollViewFrame:(%f,%f)",self.frame.size.width,self.frame.size.height);
-        _scrollView.pagingEnabled = YES;
+        _scrollView.pagingEnabled = YES;// 这个可以防止跨页面滚动
         _scrollView.delegate = self;
     }
     [self addSubview:_scrollView];
@@ -110,7 +111,7 @@
 #pragma mark 返回某个页面的数据集合
 -(NSMutableArray*)tableArrayAtIndex:(NSInteger)aIndex
 {
-    if (_contentItems.count < aIndex) {
+    if (_contentItems.count <= aIndex || aIndex < 0) {
         return nil;
     }
     RMTableView *vTableContentView =(RMTableView *)[_contentItems objectAtIndex:aIndex];
@@ -125,13 +126,20 @@
     RMTableView *vTableContentView =(RMTableView *)[_contentItems objectAtIndex:aIndex];
     [vTableContentView forceToFreshData];
 }
+
 -(void)freshContentTableAtIndex:(NSInteger)aIndex withData:(NSArray*)tableArray
 {
+    if (_contentItems.count < aIndex || aIndex < 0) {
+        return;
+    }
+    
     NSMutableArray* r = [self tableArrayAtIndex:aIndex];
     if (r) {
         [r removeAllObjects];
         [r addObjectsFromArray:tableArray];
-        [self freshContentTableAtIndex:aIndex];
+        
+        RMTableView *vTableContentView =(RMTableView *)[_contentItems objectAtIndex:aIndex];
+        [vTableContentView reloadData];
     }
 }
 #pragma mark 添加HeaderView
@@ -196,10 +204,33 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    //  优化滑动时的效果，可以平滑的出现两个页面
+    // 1.超过当前页面边界时，可以出现第二个页面的内容，仅仅加载本地数据，不刷新
+    // 2.超过一半时，可以跳转到第二个页面了
+    NSLog(@"scrollViewDidScroll offset:(%f,%f)",scrollView.contentOffset.x,scrollView.contentOffset.y);
+    // TODO:如何计算下一个页面呢？
+    // 左右滑动即可
+    NSInteger nextPage = mCurrentPage + ((mLastContentOffset.x<scrollView.contentOffset.x)?1:-1);
+    NSLog(@"scrollViewDidScroll lastOffset:(%f,%f)",mLastContentOffset.x,mLastContentOffset.y);
+    
+    mLastContentOffset = scrollView.contentOffset;
+    
     int page = (_scrollView.contentOffset.x+320/2.0) / 320;
     if (mCurrentPage == page) {
+        // 页面没切换，但是需要显示相邻页面的本地内容
+        if ([_delegate respondsToSelector:@selector(didScrollPageViewUnchangedPage:accrossPage:)] && mNeedUseDelegate) {
+            if(nextPage >= _contentItems.count || nextPage < 0)
+            {
+                NSLog(@"scroll out of bounds,just return");
+                return;
+            }
+            
+            [_delegate didScrollPageViewUnchangedPage:mCurrentPage accrossPage:nextPage];
+        }
         return;
     }
+    
+    // 可以认为发生了页面切换
     mCurrentPage= page;
     if ([_delegate respondsToSelector:@selector(didScrollPageViewChangedPage:)] && mNeedUseDelegate) {
         [_delegate didScrollPageViewChangedPage:mCurrentPage];
@@ -208,14 +239,6 @@
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
-    if (!decelerate)
-    {
-        //        CGFloat targetX = _scrollView.contentOffset.x + _scrollView.frame.size.width;
-        //        targetX = (int)(targetX/ITEM_WIDTH) * ITEM_WIDTH;
-        //        [self moveToTargetPosition:targetX];
-    }
-    
-    
 }
 
 #pragma mark - CustomTableViewDataSource

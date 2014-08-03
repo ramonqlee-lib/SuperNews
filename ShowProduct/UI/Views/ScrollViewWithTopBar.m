@@ -47,8 +47,7 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
 
 #pragma mark UI初始化
 -(void)commInit{
-    // TODO:此处需要读取缓存数据，进行展示
-    // 缓存的频道列表和频道数据
+    currentPageIndex = -1;//暂时没有数据展示
 }
 
 -(void)resetContent
@@ -77,23 +76,37 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
 }
 
 // 读取缓存，并显示
--(BOOL)loadCache
+-(BOOL)loadCache:(NSInteger)page
 {
     // FIXME: 缓存加载优化：已经加载了数据，就不要再加载了
-    if (!cacheShouldReload && [mScrollPageView tableArrayAtIndex:currentPageIndex].count) {
+    NSArray* tableArr = [mScrollPageView tableArrayAtIndex:page];
+    if ((tableArr && tableArr.count) ) {
         NSLog(@"same cache loaded again,just igore");
         return YES;
     }
     
     // 加载缓存，并尝试刷新数据
-    NSString* url = (currentPageIndex<urlArray.count)?[urlArray objectAtIndex:currentPageIndex]:kDefaultCategoryUrl;
+    if (page < 0 && page >= urlArray.count) {
+        return NO;
+    }
+    NSString* url = [urlArray objectAtIndex:page];
     NSArray* ret = [CommonHelper readArchiver:[HomeViewController categoryDataFilePath:url]];
     if (ret && ret.count) {
         NSLog(@"loadd cache & refresh tableview");
-        [mScrollPageView freshContentTableAtIndex:currentPageIndex withData:ret];
+        [mScrollPageView freshContentTableAtIndex:page withData:ret];
         return YES;
     }
     return NO;
+}
+-(BOOL)loadCache
+{
+    // FIXME: 缓存加载优化：已经加载了数据，就不要再加载了
+    NSArray* tableArr = [mScrollPageView tableArrayAtIndex:currentPageIndex];
+    if (!cacheShouldReload || (tableArr && tableArr.count) ) {
+        NSLog(@"same cache loaded again,just igore");
+        return YES;
+    }
+    return  [self loadCache:currentPageIndex];
 }
 #pragma mark 内存相关
 -(void)dealloc{
@@ -118,13 +131,19 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
     cacheShouldReload = (currentPageIndex!=aPage);
     currentPageIndex= aPage;
     // 加载缓存并刷新数据
-    if(![self loadCache])
-    {
-        //刷新当页数据
-        [mScrollPageView freshContentTableAtIndex:aPage];
-    }
+    [self loadCache];
+    //刷新当页数据
+    [mScrollPageView freshContentTableAtIndex:aPage];
 }
 
+-(void)didScrollPageViewUnchangedPage:(NSInteger)currrentPage accrossPage:(NSInteger)nextPage
+{
+    // TODO 发起数据请求，首先从本地存储读取，然后从网络获取
+    cacheShouldReload = (currentPageIndex!=nextPage);
+    currentPageIndex= currrentPage;
+    // 加载缓存并刷新数据
+    [self loadCache:nextPage];
+}
 // 加载更多时的数据加载
 #pragma refresh & load more delegate
 -(void)loadData:(void(^)(int aAddedRowCount))complete FromView:(RMTableView *)aView{

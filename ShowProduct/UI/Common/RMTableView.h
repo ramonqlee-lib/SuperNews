@@ -51,4 +51,5 @@
 #pragma mark 强制列表刷新
 -(void)forceToFreshData;
 
+-(void)reloadData;// 类似tableview更新数据后的，刷新请求
 @end
