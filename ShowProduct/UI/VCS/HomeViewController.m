@@ -23,7 +23,7 @@
 #define MENUHEIGHT 40
 
 NSString* kAppSettingUrl = @"http://novelists.duapp.com/crawler/category.php";//?column=ZhongYi";
-NSUInteger kDefaultCategoryCount = 3;// 用户没有订阅时的推荐订阅数目
+NSUInteger kDefaultCategoryCount = 4;// 用户没有订阅时的推荐订阅数目
 NSString* kCategoryTitleKey = @"title";
 NSString* kCategoryUrlKey = @"url";
 
@@ -67,23 +67,6 @@ NSString* kCategoryUrlKey = @"url";
     [super dealloc];
 }
 #endif
-- (void) customizeNavBar:(UINavigationController*)navi {
-    if (!navi) {
-        return;
-    }
-    PrettyNavigationBar *navBar = (PrettyNavigationBar *)navi.navigationBar;
-    
-    if (!navBar) {
-        return;
-    }
-    
-    navBar.topLineColor = [UIColor colorWithHex:0xFF1000];
-    navBar.gradientStartColor = [UIColor colorWithHex:0xDD0000];
-    navBar.gradientEndColor = [UIColor colorWithHex:0xAA0000];
-    navBar.bottomLineColor = [UIColor colorWithHex:0x990000];
-    navBar.tintColor = navBar.gradientEndColor;
-    navBar.roundedCornerRadius = 0;
-}
 
 // 初始View
 - (void) initView {
@@ -94,7 +77,6 @@ NSString* kCategoryUrlKey = @"url";
     
     self.title = @"揭秘历史";
     
-//    [self customizeNavBar:self.navigationController];
     //contentView大小设置
     int vWidth = (int)([UIScreen mainScreen].bounds.size.width);
     int vHeight = (int)([UIScreen mainScreen].bounds.size.height);
@@ -163,7 +145,7 @@ NSString* kCategoryUrlKey = @"url";
 {
     OrderButton* orderButton = [self orderButton];
     
-    UIColor* color = [UIColor grayColor];//[UIColor colorWithRed:(float)0x53/255.0 green:(float)0xa4/255.0 blue:(float)0xde/255.0 alpha:1.0];
+    UIColor* color = [UIColor lightGrayColor];//[UIColor colorWithRed:(float)0x53/255.0 green:(float)0xa4/255.0 blue:(float)0xde/255.0 alpha:1.0];
     UIImage* image = [CommonHelper createImageWithColor:color];
     [orderButton setBackgroundImage:image forState:UIControlStateNormal];
     

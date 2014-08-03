@@ -321,7 +321,8 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
         [vButtonItemArray release];
     }
     vButtonItemArray = [[NSMutableArray alloc]initWithCapacity:titleArray.count];
-    UIColor* selectedColor = [UIColor colorWithRed:(float)0x53/255.0 green:(float)0xa4/255.0 blue:(float)0xde/255.0 alpha:1.0];
+//    0xDD0000
+    UIColor* selectedColor = [UIColor colorWithRed:(float)0xdd/255.0 green:(float)0x0/255.0 blue:(float)0x0/255.0 alpha:1.0];
     for (NSString* val in titleArray) {
         // FIXME: 动态计算文本所占宽度.目前是简单的字符数定宽推断法
         [vButtonItemArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:@"normal.png",NOMALKEY,
