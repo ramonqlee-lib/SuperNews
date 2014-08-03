@@ -276,12 +276,12 @@
     NSString* content = [dict objectForKey:kLowercaseContentKey];
     NSString* title = [dict objectForKey:kLowercaseTitleKey];
     SVWebViewController* webViewController = [[[SVWebViewController alloc]init]autorelease];
+    webViewController.titleString = title;
     webViewController.htmlBody = [content stringByLinkifyingURLs];
     
     
     UINavigationController* controller = [[UINavigationController alloc]initWithNavigationBarClass:[PrettyNavigationBar class] toolbarClass:[PrettyToolbar class]];
     [controller setViewControllers:@[webViewController]];
-    controller.title = title;
     UIBarButtonItem *BackBtn = [[UIBarButtonItem alloc] initWithTitle:@"返回"
                                                                 style:UIBarButtonItemStylePlain
                                                                target:self
