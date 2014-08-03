@@ -33,6 +33,15 @@
 		30809404198DD9C0007BBC60 /* normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 308093FD198DD9C0007BBC60 /* normal.png */; };
 		30809405198DD9C0007BBC60 /* tablecellEvenPlaceholder.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 308093FE198DD9C0007BBC60 /* tablecellEvenPlaceholder.jpg */; };
 		30809406198DD9C0007BBC60 /* tablecellOddplaceholder.gif in Resources */ = {isa = PBXBuildFile; fileRef = 308093FF198DD9C0007BBC60 /* tablecellOddplaceholder.gif */; };
+		30885518198DF9E3005E2F90 /* JMStaticContentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 30885511198DF9E3005E2F90 /* JMStaticContentTableViewCell.m */; settings = {COMPILER_FLAGS = " -fobjc-arc"; }; };
+		30885519198DF9E3005E2F90 /* JMStaticContentTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30885513198DF9E3005E2F90 /* JMStaticContentTableViewController.m */; };
+		3088551A198DF9E3005E2F90 /* JMStaticContentTableViewSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 30885515198DF9E3005E2F90 /* JMStaticContentTableViewSection.m */; settings = {COMPILER_FLAGS = " -fobjc-arc"; }; };
+		3088551B198DF9E3005E2F90 /* StaticTextFieldTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 30885517198DF9E3005E2F90 /* StaticTextFieldTableViewCell.m */; };
+		3088551E198DFA00005E2F90 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3088551D198DFA00005E2F90 /* SettingsViewController.m */; };
+		30885520198DFB4D005E2F90 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3088551F198DFB4D005E2F90 /* Localizable.strings */; };
+		30885525198DFC38005E2F90 /* top_navigation_back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 30885522198DFC38005E2F90 /* top_navigation_back@2x.png */; };
+		30885526198DFC38005E2F90 /* UIBarButtonItem+Customed.m in Sources */ = {isa = PBXBuildFile; fileRef = 30885524198DFC38005E2F90 /* UIBarButtonItem+Customed.m */; };
+		30885528198DFC75005E2F90 /* setting_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 30885527198DFC75005E2F90 /* setting_icon.png */; };
 		30BF90D81989A56400DCF8EF /* libSVWebViewController_Phone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30BF90D71989A56400DCF8EF /* libSVWebViewController_Phone.a */; };
 		30CD17141987D93100600D6D /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 30CD17061987D93100600D6D /* LICENSE */; };
 		30CD17151987D93100600D6D /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 30CD17071987D93100600D6D /* README.md */; };
@@ -167,6 +176,22 @@
 		308093FD198DD9C0007BBC60 /* normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = normal.png; sourceTree = "<group>"; };
 		308093FE198DD9C0007BBC60 /* tablecellEvenPlaceholder.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tablecellEvenPlaceholder.jpg; sourceTree = "<group>"; };
 		308093FF198DD9C0007BBC60 /* tablecellOddplaceholder.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = tablecellOddplaceholder.gif; sourceTree = "<group>"; };
+		3088550F198DF9E3005E2F90 /* JMStaticContentTableViewBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JMStaticContentTableViewBlocks.h; sourceTree = "<group>"; };
+		30885510198DF9E3005E2F90 /* JMStaticContentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JMStaticContentTableViewCell.h; sourceTree = "<group>"; };
+		30885511198DF9E3005E2F90 /* JMStaticContentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JMStaticContentTableViewCell.m; sourceTree = "<group>"; };
+		30885512198DF9E3005E2F90 /* JMStaticContentTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JMStaticContentTableViewController.h; sourceTree = "<group>"; };
+		30885513198DF9E3005E2F90 /* JMStaticContentTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JMStaticContentTableViewController.m; sourceTree = "<group>"; };
+		30885514198DF9E3005E2F90 /* JMStaticContentTableViewSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JMStaticContentTableViewSection.h; sourceTree = "<group>"; };
+		30885515198DF9E3005E2F90 /* JMStaticContentTableViewSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JMStaticContentTableViewSection.m; sourceTree = "<group>"; };
+		30885516198DF9E3005E2F90 /* StaticTextFieldTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaticTextFieldTableViewCell.h; sourceTree = "<group>"; };
+		30885517198DF9E3005E2F90 /* StaticTextFieldTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StaticTextFieldTableViewCell.m; sourceTree = "<group>"; };
+		3088551C198DFA00005E2F90 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		3088551D198DFA00005E2F90 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		3088551F198DFB4D005E2F90 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		30885522198DFC38005E2F90 /* top_navigation_back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "top_navigation_back@2x.png"; sourceTree = "<group>"; };
+		30885523198DFC38005E2F90 /* UIBarButtonItem+Customed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+Customed.h"; sourceTree = "<group>"; };
+		30885524198DFC38005E2F90 /* UIBarButtonItem+Customed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+Customed.m"; sourceTree = "<group>"; };
+		30885527198DFC75005E2F90 /* setting_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = setting_icon.png; sourceTree = "<group>"; };
 		30BF90D71989A56400DCF8EF /* libSVWebViewController_Phone.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSVWebViewController_Phone.a; sourceTree = "<group>"; };
 		30CD17061987D93100600D6D /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		30CD17071987D93100600D6D /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
@@ -403,6 +428,7 @@
 		308093F8198DD9C0007BBC60 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				30885527198DFC75005E2F90 /* setting_icon.png */,
 				308093F9198DD9C0007BBC60 /* Default-568h@2x.png */,
 				308093FA198DD9C0007BBC60 /* Default.png */,
 				308093FB198DD9C0007BBC60 /* Default@2x.png */,
@@ -412,6 +438,32 @@
 				308093FF198DD9C0007BBC60 /* tablecellOddplaceholder.gif */,
 			);
 			path = Resource;
+			sourceTree = "<group>";
+		};
+		3088550E198DF9E3005E2F90 /* JMStaticContentTableViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3088550F198DF9E3005E2F90 /* JMStaticContentTableViewBlocks.h */,
+				30885510198DF9E3005E2F90 /* JMStaticContentTableViewCell.h */,
+				30885511198DF9E3005E2F90 /* JMStaticContentTableViewCell.m */,
+				30885512198DF9E3005E2F90 /* JMStaticContentTableViewController.h */,
+				30885513198DF9E3005E2F90 /* JMStaticContentTableViewController.m */,
+				30885514198DF9E3005E2F90 /* JMStaticContentTableViewSection.h */,
+				30885515198DF9E3005E2F90 /* JMStaticContentTableViewSection.m */,
+				30885516198DF9E3005E2F90 /* StaticTextFieldTableViewCell.h */,
+				30885517198DF9E3005E2F90 /* StaticTextFieldTableViewCell.m */,
+			);
+			path = JMStaticContentTableViewController;
+			sourceTree = "<group>";
+		};
+		30885521198DFC38005E2F90 /* CustomNaviBarButton */ = {
+			isa = PBXGroup;
+			children = (
+				30885522198DFC38005E2F90 /* top_navigation_back@2x.png */,
+				30885523198DFC38005E2F90 /* UIBarButtonItem+Customed.h */,
+				30885524198DFC38005E2F90 /* UIBarButtonItem+Customed.m */,
+			);
+			path = CustomNaviBarButton;
 			sourceTree = "<group>";
 		};
 		30CD17051987D93100600D6D /* SDWebImage */ = {
@@ -501,6 +553,8 @@
 		30FCD5D3197B31D6000F7015 /* Libs */ = {
 			isa = PBXGroup;
 			children = (
+				30885521198DFC38005E2F90 /* CustomNaviBarButton */,
+				3088550E198DF9E3005E2F90 /* JMStaticContentTableViewController */,
 				308093C4198D2880007BBC60 /* PrettyKit */,
 				308093BE198D01EC007BBC60 /* Toast */,
 				30CD18B9198928C800600D6D /* libSVWebViewController */,
@@ -708,6 +762,7 @@
 		8B46095B192D968300B28082 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				3088551F198DFB4D005E2F90 /* Localizable.strings */,
 				8B46095C192D968300B28082 /* SuperNews-Info.plist */,
 				8B46095D192D968300B28082 /* InfoPlist.strings */,
 				8B460960192D968300B28082 /* main.m */,
@@ -750,6 +805,8 @@
 		8B460984192D96D600B28082 /* VCS */ = {
 			isa = PBXGroup;
 			children = (
+				3088551C198DFA00005E2F90 /* SettingsViewController.h */,
+				3088551D198DFA00005E2F90 /* SettingsViewController.m */,
 				8B460988192D97CB00B28082 /* HomeViewController.h */,
 				8B460989192D97CB00B28082 /* HomeViewController.m */,
 			);
@@ -874,13 +931,16 @@
 				30809405198DD9C0007BBC60 /* tablecellEvenPlaceholder.jpg in Resources */,
 				30809400198DD9C0007BBC60 /* Default-568h@2x.png in Resources */,
 				30FCD5CB1976BCC5000F7015 /* order_drag_move_bg.png in Resources */,
+				30885525198DFC38005E2F90 /* top_navigation_back@2x.png in Resources */,
 				308093E9198DD3F0007BBC60 /* Icon-iPad.png in Resources */,
 				30CD17151987D93100600D6D /* README.md in Resources */,
 				308093F2198DD49C007BBC60 /* Icon_80.png in Resources */,
+				30885528198DFC75005E2F90 /* setting_icon.png in Resources */,
 				8B46095F192D968300B28082 /* InfoPlist.strings in Resources */,
 				8B460967192D968300B28082 /* Images.xcassets in Resources */,
 				308093EE198DD3F0007BBC60 /* Icon.png in Resources */,
 				30809404198DD9C0007BBC60 /* normal.png in Resources */,
+				30885520198DFB4D005E2F90 /* Localizable.strings in Resources */,
 				308093EC198DD3F0007BBC60 /* Icon-Small.png in Resources */,
 				308093ED198DD3F0007BBC60 /* Icon-Small@2x.png in Resources */,
 				30FCD5C81976BCC5000F7015 /* order_back.png in Resources */,
@@ -941,6 +1001,7 @@
 				30FCD63A197BC070000F7015 /* NSString+StringThatFits.m in Sources */,
 				8B46098D192D997000B28082 /* ScrollViewWithTopBar.m in Sources */,
 				30FCD60F197B31E9000F7015 /* ASIFormDataRequest.m in Sources */,
+				30885519198DF9E3005E2F90 /* JMStaticContentTableViewController.m in Sources */,
 				30FCD60D197B31E9000F7015 /* ASIDataDecompressor.m in Sources */,
 				8B460965192D968300B28082 /* AppDelegate.m in Sources */,
 				30FCD618197B31E9000F7015 /* ASICloudFilesObject.m in Sources */,
@@ -961,12 +1022,17 @@
 				8B460990192D9C4800B28082 /* HomeViewCell.m in Sources */,
 				8B460961192D968300B28082 /* main.m in Sources */,
 				30FCD62C197B3284000F7015 /* FileModel.m in Sources */,
+				30885518198DF9E3005E2F90 /* JMStaticContentTableViewCell.m in Sources */,
 				30FCD61B197B31E9000F7015 /* ReachabilityAs.m in Sources */,
+				3088551A198DF9E3005E2F90 /* JMStaticContentTableViewSection.m in Sources */,
 				30FCD60E197B31E9000F7015 /* ASIDownloadCache.m in Sources */,
 				308093DD198D2880007BBC60 /* PrettyDrawing.m in Sources */,
 				30FCD62E197B3284000F7015 /* StringUtil.m in Sources */,
 				308093DB198D2880007BBC60 /* PrettySegmentedControlTableViewCell.m in Sources */,
 				30CD17191987D93100600D6D /* UIImageView+WebCache.m in Sources */,
+				3088551E198DFA00005E2F90 /* SettingsViewController.m in Sources */,
+				30885526198DFC38005E2F90 /* UIBarButtonItem+Customed.m in Sources */,
+				3088551B198DF9E3005E2F90 /* StaticTextFieldTableViewCell.m in Sources */,
 				30FCD61C197B31E9000F7015 /* ASIS3Bucket.m in Sources */,
 				30FCD619197B31E9000F7015 /* ASICloudFilesObjectRequest.m in Sources */,
 				30FCD62B197B3284000F7015 /* CommonHelper.m in Sources */,

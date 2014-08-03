@@ -19,6 +19,9 @@
 #import "RMViewController+Aux.h"
 #import "CommonHelper.h"
 #import "PrettyKit.h"
+#import "UIBarButtonItem+Customed.h"
+#import "SettingsViewController.h"
+
 
 #define MENUHEIGHT 40
 
@@ -78,6 +81,13 @@ NSString* kCategoryUrlKey = @"url";
     // set app name
     self.title = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
     
+    UIBarButtonItem *button =
+    [UIBarButtonItem barItemWithImage:[UIImage imageNamed:@"setting_icon.png"]
+                        selectedImage:[UIImage imageNamed:@"setting_icon.png"]
+                               target:self
+                               action:@selector(showSetting:)];
+    self.navigationItem.rightBarButtonItem = button;
+    
     //contentView大小设置
     int vWidth = (int)([UIScreen mainScreen].bounds.size.width);
     int vHeight = (int)([UIScreen mainScreen].bounds.size.height);
@@ -97,6 +107,28 @@ NSString* kCategoryUrlKey = @"url";
     [self notifySubscriptionChange];
 }
 
+-(IBAction)showSetting:(id)sender
+{
+    SettingsViewController* vc = [[SettingsViewController alloc]init];
+    UINavigationController* controller = [[UINavigationController alloc]initWithNavigationBarClass:[PrettyNavigationBar class] toolbarClass:[PrettyToolbar class]];
+    [controller setViewControllers:@[vc]];
+    UIBarButtonItem *BackBtn = [[UIBarButtonItem alloc] initWithTitle:@"返回"
+                                                                style:UIBarButtonItemStylePlain
+                                                               target:self
+                                                               action:@selector(BackAction:)];
+    
+    vc.navigationItem.leftBarButtonItem = BackBtn;
+    //[self customizeNavBar:controller];
+    UIViewController* rootController = [[[UIApplication sharedApplication]keyWindow]rootViewController];
+    [rootController presentViewController:controller animated:YES completion:nil];
+
+}
+
+-(IBAction)BackAction:(id)sender
+{
+    UIViewController* rootController = [[[UIApplication sharedApplication]keyWindow]rootViewController];
+    [rootController dismissViewControllerAnimated:YES completion:nil];
+}
 #pragma mark 获取频道分类数据
 -(void)retrieveAppSettings
 {
