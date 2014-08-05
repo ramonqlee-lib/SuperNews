@@ -11,11 +11,12 @@
 
 @interface RMTableView()
 {
-    NSDate* lastUpdated;
+
 }
 @end
 
 @implementation RMTableView
+@synthesize lastUpdated;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -56,7 +57,11 @@
 	}
 	//  update the last update date
 	[_refreshHeaderView refreshLastUpdatedDate];
-    
+}
+-(void)setLastUpdated:(NSDate *)time
+{
+    lastUpdated = time?[time retain]:[NSDate date];
+    [_refreshHeaderView refreshLastUpdatedDate];
 }
 
 #pragma mark 其他辅助功能
@@ -204,9 +209,7 @@
 }
 
 - (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view{
-	
 	return lastUpdated?lastUpdated:[NSDate date]; // should return date data source was last changed
-	
 }
 
 #pragma mark SGFocusImageFrameDelegate

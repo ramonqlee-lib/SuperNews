@@ -37,7 +37,7 @@
 #pragma mark 刷新某个页面
 -(void)freshContentTableAtIndex:(NSInteger)aIndex; // 会发起刷新请求，因为此时还没有数据
 -(void)freshContentTableAtIndex:(NSInteger)aIndex withData:(NSArray*)tableArray;// 同步请求，直接刷新
-
+-(void)freshContentTableAtIndex:(NSInteger)aIndex withData:(NSArray*)tableArray onDate:(NSDate*)time;
 #pragma mark 改变TableView上面滚动栏的内容
 -(void)changeHeaderContentWithCustomTable:(RMTableView *)aTableContent;
 

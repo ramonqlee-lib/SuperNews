@@ -90,10 +90,13 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
         return NO;
     }
     NSString* url = [urlArray objectAtIndex:page];
-    NSArray* ret = [CommonHelper readArchiver:[HomeViewController categoryDataFilePath:url]];
+    NSString* filePath = [HomeViewController categoryDataFilePath:url];
+    NSArray* ret = [CommonHelper readArchiver:filePath];
     if (ret && ret.count) {
         NSLog(@"loadd cache & refresh tableview");
-        [mScrollPageView freshContentTableAtIndex:page withData:ret];
+        NSDictionary* dict = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:nil];
+        NSDate* lastModified = dict?[dict fileModificationDate]:nil;
+        [mScrollPageView freshContentTableAtIndex:page withData:ret onDate:lastModified];
         return YES;
     }
     return NO;

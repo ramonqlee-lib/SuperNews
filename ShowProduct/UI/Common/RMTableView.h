@@ -41,6 +41,7 @@
 //  Reloading var should really be your tableviews datasource
 //  Putting it here for demo purposes
 @property (nonatomic,assign) BOOL reloading;
+@property (nonatomic,retain) NSDate* lastUpdated;
 
 @property (nonatomic,retain) UITableView *homeTableView;
 @property (nonatomic,retain) NSMutableArray *tableInfoArray;

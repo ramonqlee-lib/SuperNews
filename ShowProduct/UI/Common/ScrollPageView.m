@@ -126,8 +126,7 @@
     RMTableView *vTableContentView =(RMTableView *)[_contentItems objectAtIndex:aIndex];
     [vTableContentView forceToFreshData];
 }
-
--(void)freshContentTableAtIndex:(NSInteger)aIndex withData:(NSArray*)tableArray
+-(void)freshContentTableAtIndex:(NSInteger)aIndex withData:(NSArray*)tableArray onDate:(NSDate*)time
 {
     if (_contentItems.count < aIndex || aIndex < 0) {
         return;
@@ -139,8 +138,13 @@
         [r addObjectsFromArray:tableArray];
         
         RMTableView *vTableContentView =(RMTableView *)[_contentItems objectAtIndex:aIndex];
+        vTableContentView.lastUpdated = time?time:[NSDate date];
         [vTableContentView reloadData];
     }
+}
+-(void)freshContentTableAtIndex:(NSInteger)aIndex withData:(NSArray*)tableArray
+{
+    [self freshContentTableAtIndex:aIndex withData:tableArray onDate:[NSDate date]];
 }
 #pragma mark 添加HeaderView
 -(void)addLoopScrollowView:(RMTableView *)aTableView {
