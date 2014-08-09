@@ -12,12 +12,12 @@
 #define kContentKey  @"Content"
 #define kUrlKey  @"Url"
 
+#define kLowercaseUrl @"url"
 #define kLowercaseContentKey  @"content"
 #define kLowercaseTitleKey @"title"
 
 #define kWordCount @"wordCount"
 #define kLeadImageUrl @"lead_image_url"
 #define kImageUrl @"leadImageUrl"
-
 
 #endif//JSON_KEY_H__

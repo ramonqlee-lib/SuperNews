@@ -121,7 +121,6 @@ NSString* kCategoryUrlKey = @"url";
     //[self customizeNavBar:controller];
     UIViewController* rootController = [[[UIApplication sharedApplication]keyWindow]rootViewController];
     [rootController presentViewController:controller animated:YES completion:nil];
-
 }
 
 -(IBAction)BackAction:(id)sender

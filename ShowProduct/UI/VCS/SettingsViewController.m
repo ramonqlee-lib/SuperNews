@@ -7,6 +7,8 @@
 //
 
 #import "SettingsViewController.h"
+#import "RMFavoriteController.h"
+#import "PrettyKit.h"
 
 @interface SettingsViewController ()
 
@@ -28,15 +30,23 @@
 
 - (void) viewDidLoad {
     [super viewDidLoad];
-
+    
 	[self addSection:^(JMStaticContentTableViewSection *section, NSUInteger sectionIndex) {
+        [section addCell:^(JMStaticContentTableViewCell *staticContentCell, UITableViewCell *cell, NSIndexPath *indexPath) {
+			cell.textLabel.text = NSLocalizedString(@"收藏", @"收藏");
+            //			cell.imageView.image = [UIImage imageNamed:@"About"];
+		} whenSelected:^(NSIndexPath *indexPath) {
+            [self openFavoriteAction:nil];
+		}];
+        
 		[section addCell:^(JMStaticContentTableViewCell *staticContentCell, UITableViewCell *cell, NSIndexPath *indexPath) {
 			cell.textLabel.text = NSLocalizedString(@"关于", @"关于");
-//			cell.imageView.image = [UIImage imageNamed:@"About"];
+            //			cell.imageView.image = [UIImage imageNamed:@"About"];
 		} whenSelected:^(NSIndexPath *indexPath) {
-            [self modalViewAction:nil];
+            [self openAboutAction:nil];
 		}];
 	}];
+    
 }
 - (void) viewDidUnload {
     [super viewDidUnload];
@@ -52,10 +62,29 @@
     [super didReceiveMemoryWarning];
 }
 
-- (IBAction)modalViewAction:(id)sender
+- (IBAction)openAboutAction:(id)sender
 {
     UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"关于" message:NSLocalizedString(@"About", @"V1.0") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK",@"确认") otherButtonTitles:nil];
     [alert show];
     [alert release];
+}
+
+- (IBAction)openFavoriteAction:(id)sender
+{
+    
+    RMFavoriteController* vc = [[[RMFavoriteController alloc]init]autorelease];
+    UINavigationController* controller = [[UINavigationController alloc]initWithNavigationBarClass:[PrettyNavigationBar class] toolbarClass:[PrettyToolbar class]];
+    [controller setViewControllers:@[vc]];
+    UIBarButtonItem *BackBtn = [[UIBarButtonItem alloc] initWithTitle:@"返回"
+                                                                style:UIBarButtonItemStylePlain
+                                                               target:self
+                                                               action:@selector(BackAction:)];
+    
+    vc.navigationItem.leftBarButtonItem = BackBtn;
+    [self presentViewController:controller animated:YES completion:nil];
+}
+-(IBAction)BackAction:(id)sender
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 @end

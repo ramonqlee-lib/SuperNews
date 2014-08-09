@@ -13,10 +13,13 @@
 #import "UIImageView+WebCache.h"
 #import "SVWebViewController.h"
 #import "PrettyKit.h"
+#import "CommandMaster.h"
+#import "RMFavoriteUtils.h"
+#import "RMArticle.h"
 
 #define kCellHeight 76.0f
 
-@interface ScrollPageView()
+@interface ScrollPageView()<CommandMasterDelegate>
 {
     RMTableView * tableViewWithPullRefreshLoadMoreButton;
     CGPoint mLastContentOffset;
@@ -280,6 +283,14 @@
         vCell.titleLabel.text = @"这是一个预留的位置，投放个性化内容在此";
     }
     
+    // FIXME: test
+    RMArticle* article = [[[RMArticle alloc]init]autorelease];
+    article.title = vCell.titleLabel.text;
+    article.content = htmlString;
+    article.thumbnailUrl = imageUrl;
+    article.url = [dict objectForKey:kLowercaseUrl];;
+    [RMFavoriteUtils addFavorite:article];
+    
 //    NSLog(@"cell title:%@",vCell.titleLabel.text);
     return vCell;
 }
@@ -303,11 +314,25 @@
     NSString* content = [dict objectForKey:kLowercaseContentKey];
     NSString* title = [dict objectForKey:kLowercaseTitleKey];
     SVWebViewController* webViewController = [[[SVWebViewController alloc]init]autorelease];
+    webViewController.availableActions = SVWebViewControllerAvailableActionsMailLink;
     webViewController.titleString = title;
     webViewController.htmlBody = [content stringByLinkifyingURLs];
     
+    // TODO 增加一个动态的toolbar
+    // 如何定义接口：事件响应；数据操作；
+    UIButton* saveButton = [CommandButton createButtonWithImage:[UIImage imageNamed:@"saveIcon"] andTitle:@"save" andMenuListItems:@[@"menu item 1", @"menu item 2", @"menu item 3"]];
+    UIButton* deleteButton = [CommandButton createButtonWithImage:[UIImage imageNamed:@"deleteIcon"] andTitle:@"delete"];
+    UIButton* helpButton = [CommandButton createButtonWithImage:[UIImage imageNamed:@"help"] andTitle:@"help"];
+    UIButton* settingButton = [CommandButton createButtonWithImage:[UIImage imageNamed:@"settings"] andTitle:@"settings"];
+    
+    [[CommandMaster sharedInstance] addButtons:@[saveButton,deleteButton,helpButton,settingButton] forGroup:@"TestGroup"];
+    [[CommandMaster sharedInstance] addToView:webViewController.view andLoadGroup:@"TestGroup"];
+    [CommandMaster sharedInstance].delegate = self;
     
     UINavigationController* controller = [[UINavigationController alloc]initWithNavigationBarClass:[PrettyNavigationBar class] toolbarClass:[PrettyToolbar class]];
+    
+    
+    
     [controller setViewControllers:@[webViewController]];
     UIBarButtonItem *BackBtn = [[UIBarButtonItem alloc] initWithTitle:@"返回"
                                                                 style:UIBarButtonItemStylePlain
@@ -384,5 +409,13 @@
     return  aView.reloading;
 }
 
+#pragma CommandMaster delegate
+- (void)didSelectMenuListItemAtIndex:(NSInteger)index ForButton:(CommandButton *)selectedButton {
+    NSLog([NSString stringWithFormat:@"index %i of button titled \"%@\"", index, selectedButton.title]);
+}
+
+- (void)didSelectButton:(CommandButton *)selectedButton {
+    NSLog([NSString stringWithFormat:@"button titled \"%@\" was selected", selectedButton.title]);
+}
 
 @end

@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3052B1551996CF8400C4A718 /* RMFavoriteUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3052B1541996CF8400C4A718 /* RMFavoriteUtils.m */; };
+		3052B1591996CFE700C4A718 /* SQLiteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3052B1581996CFE700C4A718 /* SQLiteManager.m */; };
+		3052B15C1996D07400C4A718 /* RMArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = 3052B15B1996D07400C4A718 /* RMArticle.m */; };
+		3052B1611996D1F600C4A718 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3052B1601996D1F600C4A718 /* libsqlite3.0.dylib */; };
+		3052B1641996D65900C4A718 /* RMFavoriteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3052B1631996D65900C4A718 /* RMFavoriteController.m */; };
+		3052B1681996DAFE00C4A718 /* UIScrollView+AH3DPullRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 3052B1671996DAFE00C4A718 /* UIScrollView+AH3DPullRefresh.m */; };
+		3052B1751996EB1200C4A718 /* CommandButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 3052B1721996EB1200C4A718 /* CommandButton.m */; };
+		3052B1761996EB1200C4A718 /* CommandMaster.m in Sources */ = {isa = PBXBuildFile; fileRef = 3052B1741996EB1200C4A718 /* CommandMaster.m */; };
 		308093C1198D01EC007BBC60 /* Toast+UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 308093C0198D01EC007BBC60 /* Toast+UIView.m */; };
 		308093D9198D2880007BBC60 /* PrettyCustomViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 308093C7198D2880007BBC60 /* PrettyCustomViewTableViewCell.m */; };
 		308093DA198D2880007BBC60 /* PrettyGridTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 308093C9198D2880007BBC60 /* PrettyGridTableViewCell.m */; };
@@ -139,6 +147,22 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3052B1531996CF8400C4A718 /* RMFavoriteUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMFavoriteUtils.h; sourceTree = "<group>"; };
+		3052B1541996CF8400C4A718 /* RMFavoriteUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMFavoriteUtils.m; sourceTree = "<group>"; };
+		3052B1571996CFE700C4A718 /* SQLiteManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLiteManager.h; sourceTree = "<group>"; };
+		3052B1581996CFE700C4A718 /* SQLiteManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLiteManager.m; sourceTree = "<group>"; };
+		3052B15A1996D07400C4A718 /* RMArticle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMArticle.h; sourceTree = "<group>"; };
+		3052B15B1996D07400C4A718 /* RMArticle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMArticle.m; sourceTree = "<group>"; };
+		3052B15D1996D15D00C4A718 /* RMFavoriteConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMFavoriteConstants.h; sourceTree = "<group>"; };
+		3052B1601996D1F600C4A718 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
+		3052B1621996D65900C4A718 /* RMFavoriteController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RMFavoriteController.h; path = ShowProduct/Libs/Favorite/RMFavoriteController.h; sourceTree = SOURCE_ROOT; };
+		3052B1631996D65900C4A718 /* RMFavoriteController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RMFavoriteController.m; path = ShowProduct/Libs/Favorite/RMFavoriteController.m; sourceTree = SOURCE_ROOT; };
+		3052B1661996DAFE00C4A718 /* UIScrollView+AH3DPullRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+AH3DPullRefresh.h"; sourceTree = "<group>"; };
+		3052B1671996DAFE00C4A718 /* UIScrollView+AH3DPullRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+AH3DPullRefresh.m"; sourceTree = "<group>"; };
+		3052B1711996EB1200C4A718 /* CommandButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommandButton.h; sourceTree = "<group>"; };
+		3052B1721996EB1200C4A718 /* CommandButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommandButton.m; sourceTree = "<group>"; };
+		3052B1731996EB1200C4A718 /* CommandMaster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommandMaster.h; sourceTree = "<group>"; };
+		3052B1741996EB1200C4A718 /* CommandMaster.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommandMaster.m; sourceTree = "<group>"; };
 		308093BF198D01EC007BBC60 /* Toast+UIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Toast+UIView.h"; sourceTree = "<group>"; };
 		308093C0198D01EC007BBC60 /* Toast+UIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Toast+UIView.m"; sourceTree = "<group>"; };
 		308093C6198D2880007BBC60 /* PrettyCustomViewTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrettyCustomViewTableViewCell.h; sourceTree = "<group>"; };
@@ -355,6 +379,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3052B1611996D1F600C4A718 /* libsqlite3.0.dylib in Frameworks */,
 				30FCD641197BC16F000F7015 /* libz.dylib in Frameworks */,
 				30CD18841989227E00600D6D /* libUIViewControllerExt_Phone.a in Frameworks */,
 				30BF90D81989A56400DCF8EF /* libSVWebViewController_Phone.a in Frameworks */,
@@ -382,6 +407,50 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3052B1521996CF6D00C4A718 /* Favorite */ = {
+			isa = PBXGroup;
+			children = (
+				3052B1621996D65900C4A718 /* RMFavoriteController.h */,
+				3052B1631996D65900C4A718 /* RMFavoriteController.m */,
+				3052B15A1996D07400C4A718 /* RMArticle.h */,
+				3052B15B1996D07400C4A718 /* RMArticle.m */,
+				3052B1531996CF8400C4A718 /* RMFavoriteUtils.h */,
+				3052B1541996CF8400C4A718 /* RMFavoriteUtils.m */,
+				3052B15D1996D15D00C4A718 /* RMFavoriteConstants.h */,
+			);
+			path = Favorite;
+			sourceTree = "<group>";
+		};
+		3052B1561996CFE700C4A718 /* SQLiteManager */ = {
+			isa = PBXGroup;
+			children = (
+				3052B1571996CFE700C4A718 /* SQLiteManager.h */,
+				3052B1581996CFE700C4A718 /* SQLiteManager.m */,
+			);
+			path = SQLiteManager;
+			sourceTree = "<group>";
+		};
+		3052B1651996DAFE00C4A718 /* AH3DPullRefresh */ = {
+			isa = PBXGroup;
+			children = (
+				3052B1661996DAFE00C4A718 /* UIScrollView+AH3DPullRefresh.h */,
+				3052B1671996DAFE00C4A718 /* UIScrollView+AH3DPullRefresh.m */,
+			);
+			name = AH3DPullRefresh;
+			path = ../../../../iOS_Lib/AH3DPullRefresh;
+			sourceTree = "<group>";
+		};
+		3052B1701996EB1200C4A718 /* CommandMaster */ = {
+			isa = PBXGroup;
+			children = (
+				3052B1711996EB1200C4A718 /* CommandButton.h */,
+				3052B1721996EB1200C4A718 /* CommandButton.m */,
+				3052B1731996EB1200C4A718 /* CommandMaster.h */,
+				3052B1741996EB1200C4A718 /* CommandMaster.m */,
+			);
+			path = CommandMaster;
+			sourceTree = "<group>";
+		};
 		308093BE198D01EC007BBC60 /* Toast */ = {
 			isa = PBXGroup;
 			children = (
@@ -553,6 +622,10 @@
 		30FCD5D3197B31D6000F7015 /* Libs */ = {
 			isa = PBXGroup;
 			children = (
+				3052B1701996EB1200C4A718 /* CommandMaster */,
+				3052B1651996DAFE00C4A718 /* AH3DPullRefresh */,
+				3052B1561996CFE700C4A718 /* SQLiteManager */,
+				3052B1521996CF6D00C4A718 /* Favorite */,
 				30885521198DFC38005E2F90 /* CustomNaviBarButton */,
 				3088550E198DF9E3005E2F90 /* JMStaticContentTableViewController */,
 				308093C4198D2880007BBC60 /* PrettyKit */,
@@ -724,6 +797,7 @@
 		8B460953192D968300B28082 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3052B1601996D1F600C4A718 /* libsqlite3.0.dylib */,
 				30FCD640197BC16F000F7015 /* libz.dylib */,
 				3E99694419319729003CA4C6 /* MobileCoreServices.framework */,
 				3E99694219319718003CA4C6 /* SystemConfiguration.framework */,
@@ -986,6 +1060,7 @@
 				3E32271C192E2B3500D5C95C /* LoadMoreCell.m in Sources */,
 				3E322728192E3DDC00D5C95C /* RMTableView.m in Sources */,
 				30FCD61F197B31E9000F7015 /* ASIS3ObjectRequest.m in Sources */,
+				3052B1681996DAFE00C4A718 /* UIScrollView+AH3DPullRefresh.m in Sources */,
 				30FCD617197B31E9000F7015 /* ASICloudFilesContainerXMLParserDelegate.m in Sources */,
 				308093DC198D2880007BBC60 /* PrettyTableViewCell.m in Sources */,
 				30FCD5D01976BCC5000F7015 /* TouchView.m in Sources */,
@@ -1029,20 +1104,26 @@
 				308093DD198D2880007BBC60 /* PrettyDrawing.m in Sources */,
 				30FCD62E197B3284000F7015 /* StringUtil.m in Sources */,
 				308093DB198D2880007BBC60 /* PrettySegmentedControlTableViewCell.m in Sources */,
+				3052B1641996D65900C4A718 /* RMFavoriteController.m in Sources */,
 				30CD17191987D93100600D6D /* UIImageView+WebCache.m in Sources */,
 				3088551E198DFA00005E2F90 /* SettingsViewController.m in Sources */,
 				30885526198DFC38005E2F90 /* UIBarButtonItem+Customed.m in Sources */,
+				3052B1751996EB1200C4A718 /* CommandButton.m in Sources */,
 				3088551B198DF9E3005E2F90 /* StaticTextFieldTableViewCell.m in Sources */,
 				30FCD61C197B31E9000F7015 /* ASIS3Bucket.m in Sources */,
 				30FCD619197B31E9000F7015 /* ASICloudFilesObjectRequest.m in Sources */,
+				3052B15C1996D07400C4A718 /* RMArticle.m in Sources */,
 				30FCD62B197B3284000F7015 /* CommonHelper.m in Sources */,
 				30FCD621197B31E9000F7015 /* ASIS3ServiceRequest.m in Sources */,
 				30CD17171987D93100600D6D /* SDWebImageDownloader.m in Sources */,
 				30FCD61D197B31E9000F7015 /* ASIS3BucketObject.m in Sources */,
 				30FCD62D197B3284000F7015 /* HTTPHelper.m in Sources */,
+				3052B1761996EB1200C4A718 /* CommandMaster.m in Sources */,
+				3052B1551996CF8400C4A718 /* RMFavoriteUtils.m in Sources */,
 				30FCD612197B31E9000F7015 /* ASINetworkQueue.m in Sources */,
 				30CD17161987D93100600D6D /* SDImageCache.m in Sources */,
 				30CD171D1987DA3500600D6D /* GifView.m in Sources */,
+				3052B1591996CFE700C4A718 /* SQLiteManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
