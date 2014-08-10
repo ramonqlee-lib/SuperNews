@@ -10,7 +10,7 @@
 
 #import "CommandMaster.h"
 
-#define kAppBarMinimalHeight 20
+
 #define kAppBarFullHeight ((_showButtonTitles) ? 50 : 40)
 #define kAppBarMenuListHeight ((_showButtonTitles) ? 150 : 140)
 #define kAppBarTotalHeight kAppBarMinimalHeight + kAppBarFullHeight + kAppBarMenuListHeight
@@ -28,7 +28,7 @@
     UIView *_parentView;
     UITableView *_menuList;
     NSString *_currentGroup;
-    NSArray *_menuListDataSource;
+    NSMutableArray *_menuListDataSource;
     CommandButton *_selectedButton;
     NSMutableDictionary *_buttonContainer;
 }
@@ -72,8 +72,8 @@ static CommandMaster *_sharedInstance = nil;
     _parentView = parent;
     
     // Calculate based on parentView's frame
-    _sharedInstance.frame = CGRectMake(0, (_parentView.frame.size.height - kAppBarMinimalHeight), _parentView.frame.size.width, kAppBarTotalHeight);
-    [_parentView addSubview:_sharedInstance];
+    self.frame = CGRectMake(0, (_parentView.frame.size.height - kAppBarMinimalHeight), _parentView.frame.size.width, kAppBarTotalHeight);
+    [_parentView addSubview:self];
     
     // Add one UITableView, so that it can just be refreshed with different data.
     _menuList = [[UITableView alloc] initWithFrame:CGRectMake(0, (kAppBarMinimalHeight + kAppBarFullHeight), _parentView.frame.size.width, kAppBarMenuListHeight)];
@@ -82,7 +82,7 @@ static CommandMaster *_sharedInstance = nil;
     _menuList.backgroundColor = kBackgroundColor;//[UIColor colorWithRed:(float)0xdd/255 green:0 blue:0 alpha:1.0];
     _menuList.showsVerticalScrollIndicator = NO;
     _menuList.separatorStyle = UITableViewCellSeparatorStyleNone;
-    _menuListDataSource = [[NSArray alloc] init];
+    _menuListDataSource = [[NSMutableArray alloc] init];
     [self addSubview:_menuList];
 }
 
@@ -346,14 +346,25 @@ static CommandMaster *_sharedInstance = nil;
     switch (_currentState) {
         case AppBarMinimal:
         case AppBarFull: {
-            _menuListDataSource = _selectedButton.menuListData;
+            if(!_menuListDataSource)
+            {
+                _menuListDataSource = [[NSMutableArray alloc]initWithCapacity:1];
+            }
+            [_menuListDataSource removeAllObjects];
+            [_menuListDataSource addObjectsFromArray: _selectedButton.menuListData];
             [_menuList reloadData];
             [self showMenuList];
             break;
         } case AppBarMenuList: {
             if (previousSelected != _selectedButton && previousSelected.containsMenuList) {
                 [UIView animateWithDuration:kAnimationDuration animations:^{
-                    _menuListDataSource = _selectedButton.menuListData;
+//                    _menuListDataSource = _selectedButton.menuListData;
+                    if(!_menuListDataSource)
+                    {
+                        _menuListDataSource = [[NSMutableArray alloc]initWithCapacity:1];
+                    }
+                    [_menuListDataSource removeAllObjects];
+                    [_menuListDataSource addObjectsFromArray: _selectedButton.menuListData];
                     [_menuList reloadData];
                     self.frame = CGRectMake(0, (([_selectedButton.menuListData count] >= 4) ? (_parentView.frame.size.height - (kAppBarMinimalHeight + kAppBarFullHeight + kAppBarMenuListHeight) + 10) : (_parentView.frame.size.height - (kAppBarMinimalHeight + kAppBarFullHeight + ([_selectedButton.menuListData count] * kMenuListCellHeight)))), self.frame.size.width, self.frame.size.height);
                     [self animateButtonFramesToState:AppBarFull];

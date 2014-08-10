@@ -11,6 +11,8 @@
 #import <UIKit/UIKit.h>
 #import "CommandButton.h"
 
+#define kAppBarMinimalHeight 20
+
 @protocol CommandMasterDelegate
 @optional
 - (void)didSelectMenuListItemAtIndex:(NSInteger)index ForButton:(CommandButton *)selectedButton;

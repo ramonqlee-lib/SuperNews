@@ -133,7 +133,11 @@
     // Check to make surethe menuListData exists and is > 0
     if ([menuListData count] > 0 || menuListData != nil) {
         _containsMenuList = YES;
-        _menuListData = menuListData;
+        NSMutableArray* temp = [[NSMutableArray alloc ]initWithArray:menuListData];
+        if (_menuListData) {
+            _menuListData  = nil;
+        }
+        _menuListData = temp;//menuListData;
     }
 }
 

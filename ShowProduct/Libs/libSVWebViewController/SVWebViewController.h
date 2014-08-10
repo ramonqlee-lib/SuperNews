@@ -15,8 +15,12 @@
 - (id)initWithAddress:(NSString*)urlString;
 - (id)initWithURL:(NSURL*)URL;
 
-
-@property (nonatomic, readwrite) SVWebViewControllerAvailableActions availableActions;
 @property (nonatomic, copy) NSString* titleString;
 @property (nonatomic, copy) NSString* htmlBody;
+@property (nonatomic, assign ) CGRect webviewFrame;
+
+- (void)goHome;// 返回主页
+- (void)zoomIn;// 放大文字
+- (void)zoomOut;// 缩小文字
+
 @end

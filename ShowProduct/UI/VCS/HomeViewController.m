@@ -110,7 +110,7 @@ NSString* kCategoryUrlKey = @"url";
 -(IBAction)showSetting:(id)sender
 {
     SettingsViewController* vc = [[SettingsViewController alloc]init];
-    UINavigationController* controller = [[UINavigationController alloc]initWithNavigationBarClass:[PrettyNavigationBar class] toolbarClass:[PrettyToolbar class]];
+    UINavigationController* controller = [[UINavigationController alloc]initWithNavigationBarClass:[PrettyNavigationBar class] toolbarClass:nil/*[PrettyToolbar class]*/];
     [controller setViewControllers:@[vc]];
     UIBarButtonItem *BackBtn = [[UIBarButtonItem alloc] initWithTitle:@"返回"
                                                                 style:UIBarButtonItemStylePlain

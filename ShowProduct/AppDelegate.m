@@ -19,7 +19,7 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     HomeViewController *vVC = [[HomeViewController alloc] init];
-    mNavigationController = (UINavigationController*)[[UINavigationController alloc ]initWithNavigationBarClass:[PrettyNavigationBar class] toolbarClass:[PrettyToolbar class]];
+    mNavigationController = (UINavigationController*)[[UINavigationController alloc ]initWithNavigationBarClass:[PrettyNavigationBar class] toolbarClass:nil/*[PrettyToolbar class]*/];
     [mNavigationController setViewControllers:@[vVC]];
     self.window.rootViewController = mNavigationController;
     [vVC release];

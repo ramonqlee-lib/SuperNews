@@ -17,13 +17,21 @@
 #import "NSString+HTML.h"
 #import "PrettyKit.h"
 #import "UIScrollView+AH3DPullRefresh.h"
+#import "CommandMaster.h"
 
 #define kEnableTestData NO//FIXME::测试数据
 #define kLoadMorePageCount 10//单页加载的item数目
 #define kLoadUIDelay 0.5f
 #define kCellHeight 76.0f
 
-@interface RMFavoriteController ()
+// toolbar的button编号
+#define kZoomInButtonTag 1
+#define kZoomOutTag 2
+
+@interface RMFavoriteController ()<CommandMasterDelegate>
+{
+    SVWebViewController* webViewController;
+}
 @property (nonatomic,retain) NSMutableArray *itemsArr;//列表数据
 @end
 
@@ -118,19 +126,19 @@
 {
     //check before going on
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
+    
     RMArticle* article = [self.itemsArr objectAtIndex:indexPath.row];
     //flurry
     NSDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys:article.title,kClickArticle,nil];
     [Flurry logEvent:kClickArticle withParameters:dict];
     
-    SVWebViewController* webViewController = [[[SVWebViewController alloc]init]autorelease];
-    webViewController.availableActions = SVWebViewControllerAvailableActionsMailLink;
+    webViewController = [[[SVWebViewController alloc]init]autorelease];
     webViewController.titleString = article.title;
     webViewController.htmlBody = [article.content stringByLinkifyingURLs];
+    CGRect rc = [UIScreen mainScreen].applicationFrame;
+    webViewController.webviewFrame = CGRectMake(0, 0,rc.size.width , rc.size.height-kAppBarMinimalHeight);
     
-    
-    UINavigationController* controller = [[UINavigationController alloc]initWithNavigationBarClass:[PrettyNavigationBar class] toolbarClass:[PrettyToolbar class]];
+    UINavigationController* controller = [[UINavigationController alloc]initWithNavigationBarClass:[PrettyNavigationBar class] toolbarClass:nil/*[PrettyToolbar class]*/];
     [controller setViewControllers:@[webViewController]];
     UIBarButtonItem *BackBtn = [[UIBarButtonItem alloc] initWithTitle:@"返回"
                                                                 style:UIBarButtonItemStylePlain
@@ -139,8 +147,46 @@
     
     webViewController.navigationItem.leftBarButtonItem = BackBtn;
     //[self customizeNavBar:controller];
-    [self presentViewController:controller animated:YES completion:nil];
+    [self presentViewController:controller animated:YES completion:(^(void)
+                                                                    {
+                                                                        UIButton* zoomInButton = [CommandButton createButtonWithImage:[UIImage imageNamed:@"zoomIn"] andTitle:@"放大"];
+                                                                        zoomInButton.tag = kZoomInButtonTag;
+                                                                        
+                                                                        UIButton* zoomOutButton = [CommandButton createButtonWithImage:[UIImage imageNamed:@"zoomOut"] andTitle:@"缩小"];
+                                                                        zoomOutButton.tag = kZoomOutTag;
+                                                                        
+                                                                        CommandMaster* commandMaster = [[[CommandMaster alloc]init]autorelease];
+                                                                        [commandMaster addButtons:@[zoomInButton,zoomOutButton] forGroup:@"WebviewToolbar"];
+                                                                        [commandMaster addToView:webViewController.view andLoadGroup:@"WebviewToolbar"];
+                                                                        commandMaster.delegate = self;
+                                                                    })];
 }
+
+#pragma CommandMaster delegate
+- (void)didSelectMenuListItemAtIndex:(NSInteger)index ForButton:(CommandButton *)selectedButton {
+    NSLog([NSString stringWithFormat:@"index %i of button titled \"%@\"", index, selectedButton.title]);
+}
+
+- (void)didSelectButton:(CommandButton *)selectedButton {
+    NSLog([NSString stringWithFormat:@"button titled \"%@\" was selected", selectedButton.title]);
+    if(!webViewController)
+    {
+        return;
+    }
+    
+    switch (selectedButton.tag) {
+        case kZoomInButtonTag:
+            [webViewController zoomIn];
+            break;
+        case kZoomOutTag:
+            [webViewController zoomOut];
+            break;
+            break;
+        default:
+            break;
+    }
+}
+
 
 -(IBAction)BackAction:(id)sender
 {
@@ -221,16 +267,16 @@
 -(void)updateTableViewHandler
 {
     if (self.tableView) {
-//        if ([self respondsToSelector:@selector(PullToRefreshHandler)])
-//        {
-//            [self.tableView setPullToRefreshHandler:^{
-//                [self performSelector:@selector(dataDidRefresh) withObject:nil afterDelay:kLoadUIDelay];
-//            }];
-//        }
+        //        if ([self respondsToSelector:@selector(PullToRefreshHandler)])
+        //        {
+        //            [self.tableView setPullToRefreshHandler:^{
+        //                [self performSelector:@selector(dataDidRefresh) withObject:nil afterDelay:kLoadUIDelay];
+        //            }];
+        //        }
         
-            [self.tableView setPullToLoadMoreHandler:^{
-                [self performSelector:@selector(dataDidLoadMore) withObject:nil afterDelay:kLoadUIDelay];
-            }];
+        [self.tableView setPullToLoadMoreHandler:^{
+            [self performSelector:@selector(dataDidLoadMore) withObject:nil afterDelay:kLoadUIDelay];
+        }];
     }
 }
 

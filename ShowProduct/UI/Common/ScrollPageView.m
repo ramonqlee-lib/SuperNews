@@ -17,12 +17,20 @@
 #import "RMFavoriteUtils.h"
 #import "RMArticle.h"
 
+
+// toolbar的button编号
+#define kZoomInButtonTag 1
+#define kZoomOutTag 2
+#define kAdd2FavoriteButtonTag 3
+
 #define kCellHeight 76.0f
 
 @interface ScrollPageView()<CommandMasterDelegate>
 {
     RMTableView * tableViewWithPullRefreshLoadMoreButton;
     CGPoint mLastContentOffset;
+    SVWebViewController* webViewController;
+    NSInteger selectedCellPos;
 }
 @end
 
@@ -282,15 +290,7 @@
     if ( (vCell.titleLabel.text && vCell.titleLabel.text.length==0) || (vCell.summaryLabel.text && vCell.summaryLabel.text.length==0)) {
         vCell.titleLabel.text = @"这是一个预留的位置，投放个性化内容在此";
     }
-    
-    // FIXME: test
-    RMArticle* article = [[[RMArticle alloc]init]autorelease];
-    article.title = vCell.titleLabel.text;
-    article.content = htmlString;
-    article.thumbnailUrl = imageUrl;
-    article.url = [dict objectForKey:kLowercaseUrl];;
-    [RMFavoriteUtils addFavorite:article];
-    
+
 //    NSLog(@"cell title:%@",vCell.titleLabel.text);
     return vCell;
 }
@@ -309,31 +309,18 @@
 {
     //check before going on
     [aTableView deselectRowAtIndexPath:aIndexPath animated:YES];
+    selectedCellPos = aIndexPath.row;
     
     NSDictionary* dict = [tableViewWithPullRefreshLoadMoreButton.tableInfoArray objectAtIndex:aIndexPath.row];
     NSString* content = [dict objectForKey:kLowercaseContentKey];
     NSString* title = [dict objectForKey:kLowercaseTitleKey];
-    SVWebViewController* webViewController = [[[SVWebViewController alloc]init]autorelease];
-    webViewController.availableActions = SVWebViewControllerAvailableActionsMailLink;
+    webViewController = [[[SVWebViewController alloc]init]autorelease];
     webViewController.titleString = title;
     webViewController.htmlBody = [content stringByLinkifyingURLs];
+    CGRect rc = [UIScreen mainScreen].applicationFrame;
+    webViewController.webviewFrame = CGRectMake(0, 0,rc.size.width , rc.size.height-kAppBarMinimalHeight);
     
-    // TODO 增加一个动态的toolbar
-    // 如何定义接口：事件响应；数据操作；
-    UIButton* saveButton = [CommandButton createButtonWithImage:[UIImage imageNamed:@"saveIcon"] andTitle:@"save" andMenuListItems:@[@"menu item 1", @"menu item 2", @"menu item 3"]];
-    UIButton* deleteButton = [CommandButton createButtonWithImage:[UIImage imageNamed:@"deleteIcon"] andTitle:@"delete"];
-    UIButton* helpButton = [CommandButton createButtonWithImage:[UIImage imageNamed:@"help"] andTitle:@"help"];
-    UIButton* settingButton = [CommandButton createButtonWithImage:[UIImage imageNamed:@"settings"] andTitle:@"settings"];
-    
-    [[CommandMaster sharedInstance] addButtons:@[saveButton,deleteButton,helpButton,settingButton] forGroup:@"TestGroup"];
-    [[CommandMaster sharedInstance] addToView:webViewController.view andLoadGroup:@"TestGroup"];
-    [CommandMaster sharedInstance].delegate = self;
-    
-    UINavigationController* controller = [[UINavigationController alloc]initWithNavigationBarClass:[PrettyNavigationBar class] toolbarClass:[PrettyToolbar class]];
-    
-    
-    
-    [controller setViewControllers:@[webViewController]];
+    UINavigationController* controller = [[[UINavigationController alloc]initWithRootViewController:webViewController]autorelease];
     UIBarButtonItem *BackBtn = [[UIBarButtonItem alloc] initWithTitle:@"返回"
                                                                 style:UIBarButtonItemStylePlain
                                                                target:self
@@ -342,7 +329,68 @@
     webViewController.navigationItem.leftBarButtonItem = BackBtn;
     //[self customizeNavBar:controller];
     UIViewController* rootController = [[[UIApplication sharedApplication]keyWindow]rootViewController];
-    [rootController presentViewController:controller animated:YES completion:nil];
+    [rootController presentViewController:controller animated:YES completion:(^(void)
+     {
+         UIButton* zoomInButton = [CommandButton createButtonWithImage:[UIImage imageNamed:@"zoomIn"] andTitle:@"放大"];
+         zoomInButton.tag = kZoomInButtonTag;
+         
+         // FIXME: 全局的，修改为局部的，防止在 收藏中 有添加收藏出现
+         UIButton* zoomOutButton = [CommandButton createButtonWithImage:[UIImage imageNamed:@"zoomOut"] andTitle:@"缩小"];
+         zoomOutButton.tag = kZoomOutTag;
+         
+         UIButton* add2FavoriteButton = [CommandButton createButtonWithImage:[UIImage imageNamed:@"saveIcon"] andTitle:@"收藏"];
+         add2FavoriteButton.tag = kAdd2FavoriteButtonTag;
+         CommandMaster* commandMaster = [[[CommandMaster alloc]init]autorelease];
+         [commandMaster addButtons:@[zoomInButton,zoomOutButton,add2FavoriteButton] forGroup:@"WebviewToolbar"];
+         [commandMaster addToView:webViewController.view andLoadGroup:@"WebviewToolbar"];
+         commandMaster.delegate = self;
+     })];
+   
+}
+
+
+#pragma CommandMaster delegate
+- (void)didSelectMenuListItemAtIndex:(NSInteger)index ForButton:(CommandButton *)selectedButton {
+    NSLog([NSString stringWithFormat:@"index %i of button titled \"%@\"", index, selectedButton.title]);
+}
+
+- (void)didSelectButton:(CommandButton *)selectedButton {
+    NSLog([NSString stringWithFormat:@"button titled \"%@\" was selected", selectedButton.title]);
+    if(!webViewController)
+    {
+        return;
+    }
+    
+    switch (selectedButton.tag) {
+        case kZoomInButtonTag:
+            [webViewController zoomIn];
+            break;
+        case kZoomOutTag:
+            [webViewController zoomOut];
+            break;
+        case  kAdd2FavoriteButtonTag:
+            [self add2FavoriteAction:selectedCellPos];
+            break;
+        default:
+            break;
+    }
+}
+
+-(void)add2FavoriteAction:(NSInteger)pos
+{
+    if (pos < 0 || pos >= tableViewWithPullRefreshLoadMoreButton.tableInfoArray.count) {
+        return;
+    }
+    
+    NSDictionary* dict = [tableViewWithPullRefreshLoadMoreButton.tableInfoArray objectAtIndex:pos];
+    
+    RMArticle* article = [[[RMArticle alloc]init]autorelease];
+    article.title = [dict objectForKey:kLowercaseTitleKey];
+    article.content = [dict objectForKey:kLowercaseContentKey];
+    article.thumbnailUrl = [dict objectForKey:kImageUrl];;
+    article.url = [dict objectForKey:kLowercaseUrl];
+    
+    [RMFavoriteUtils addFavorite:article];
 }
 
 - (void) customizeNavBar:(UINavigationController*)navi {
@@ -407,15 +455,6 @@
 
 - (BOOL)tableViewEgoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view FromView:(RMTableView *)aView{
     return  aView.reloading;
-}
-
-#pragma CommandMaster delegate
-- (void)didSelectMenuListItemAtIndex:(NSInteger)index ForButton:(CommandButton *)selectedButton {
-    NSLog([NSString stringWithFormat:@"index %i of button titled \"%@\"", index, selectedButton.title]);
-}
-
-- (void)didSelectButton:(CommandButton *)selectedButton {
-    NSLog([NSString stringWithFormat:@"button titled \"%@\" was selected", selectedButton.title]);
 }
 
 @end
