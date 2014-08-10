@@ -99,7 +99,7 @@
     
     NSString* placeHolderImage = (0==aIndexPath.row%2)?kOddTableCellPlaceHolderImage:kEvenTableCellPlaceHolderImage;
     placeHolderImage = [NSString stringWithFormat:@"%@/%@",[[NSBundle mainBundle]resourcePath],placeHolderImage];
-    NSString* imageUrl = article.thumbnailUrl;
+    NSString* imageUrl = article.url;
     NSURL* urlForImage = nil;
     if (imageUrl && [imageUrl isKindOfClass:[NSString class]] && [[imageUrl lowercaseString] hasPrefix:kHTTP]) {
         urlForImage = [NSURL URLWithString:imageUrl];
@@ -149,6 +149,7 @@
     //[self customizeNavBar:controller];
     [self presentViewController:controller animated:YES completion:(^(void)
                                                                     {
+                                                                        self.navigationController.toolbar.hidden = YES;
                                                                         UIButton* zoomInButton = [CommandButton createButtonWithImage:[UIImage imageNamed:@"zoomIn"] andTitle:@"放大"];
                                                                         zoomInButton.tag = kZoomInButtonTag;
                                                                         

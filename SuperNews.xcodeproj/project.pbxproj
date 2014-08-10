@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		30483A4E19970F3A0020C55C /* ZJTStatusBarAlertWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 30483A4D19970F3A0020C55C /* ZJTStatusBarAlertWindow.m */; };
 		3052B1551996CF8400C4A718 /* RMFavoriteUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3052B1541996CF8400C4A718 /* RMFavoriteUtils.m */; };
 		3052B1591996CFE700C4A718 /* SQLiteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3052B1581996CFE700C4A718 /* SQLiteManager.m */; };
 		3052B15C1996D07400C4A718 /* RMArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = 3052B15B1996D07400C4A718 /* RMArticle.m */; };
@@ -154,6 +155,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		30483A4C19970F3A0020C55C /* ZJTStatusBarAlertWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZJTStatusBarAlertWindow.h; sourceTree = "<group>"; };
+		30483A4D19970F3A0020C55C /* ZJTStatusBarAlertWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZJTStatusBarAlertWindow.m; sourceTree = "<group>"; };
 		3052B1531996CF8400C4A718 /* RMFavoriteUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMFavoriteUtils.h; sourceTree = "<group>"; };
 		3052B1541996CF8400C4A718 /* RMFavoriteUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMFavoriteUtils.m; sourceTree = "<group>"; };
 		3052B1571996CFE700C4A718 /* SQLiteManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLiteManager.h; sourceTree = "<group>"; };
@@ -421,6 +424,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		30483A4B19970F3A0020C55C /* StatusBarAlertWindow */ = {
+			isa = PBXGroup;
+			children = (
+				30483A4C19970F3A0020C55C /* ZJTStatusBarAlertWindow.h */,
+				30483A4D19970F3A0020C55C /* ZJTStatusBarAlertWindow.m */,
+			);
+			path = StatusBarAlertWindow;
+			sourceTree = "<group>";
+		};
 		3052B1521996CF6D00C4A718 /* Favorite */ = {
 			isa = PBXGroup;
 			children = (
@@ -643,6 +655,7 @@
 		30FCD5D3197B31D6000F7015 /* Libs */ = {
 			isa = PBXGroup;
 			children = (
+				30483A4B19970F3A0020C55C /* StatusBarAlertWindow */,
 				3052B1701996EB1200C4A718 /* CommandMaster */,
 				3052B1651996DAFE00C4A718 /* AH3DPullRefresh */,
 				3052B1561996CFE700C4A718 /* SQLiteManager */,
@@ -1116,6 +1129,7 @@
 				30FCD620197B31E9000F7015 /* ASIS3Request.m in Sources */,
 				30FCD5CC1976BCC5000F7015 /* OrderButton.m in Sources */,
 				30FCD639197BC070000F7015 /* NSString+HTML.m in Sources */,
+				30483A4E19970F3A0020C55C /* ZJTStatusBarAlertWindow.m in Sources */,
 				3E322725192E387C00D5C95C /* EGORefreshTableHeaderView.m in Sources */,
 				30FCD613197B31E9000F7015 /* ASIWebPageRequest.m in Sources */,
 				30FCD60B197B31E9000F7015 /* ASIAuthenticationDialog.m in Sources */,

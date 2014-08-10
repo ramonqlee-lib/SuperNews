@@ -16,6 +16,7 @@
 #import "CommandMaster.h"
 #import "RMFavoriteUtils.h"
 #import "RMArticle.h"
+#import "ZJTStatusBarAlertWindow.h"
 
 
 // toolbar的button编号
@@ -320,7 +321,9 @@
     CGRect rc = [UIScreen mainScreen].applicationFrame;
     webViewController.webviewFrame = CGRectMake(0, 0,rc.size.width , rc.size.height-kAppBarMinimalHeight);
     
-    UINavigationController* controller = [[[UINavigationController alloc]initWithRootViewController:webViewController]autorelease];
+    UINavigationController* controller = [[UINavigationController alloc]initWithNavigationBarClass:[PrettyNavigationBar class] toolbarClass:nil];
+//    UINavigationController* controller = [[[UINavigationController alloc]initWithRootViewController:webViewController]autorelease];
+    [controller setViewControllers:@[webViewController]];
     UIBarButtonItem *BackBtn = [[UIBarButtonItem alloc] initWithTitle:@"返回"
                                                                 style:UIBarButtonItemStylePlain
                                                                target:self
@@ -340,12 +343,12 @@
          
          UIButton* add2FavoriteButton = [CommandButton createButtonWithImage:[UIImage imageNamed:@"saveIcon"] andTitle:@"收藏"];
          add2FavoriteButton.tag = kAdd2FavoriteButtonTag;
+         
          CommandMaster* commandMaster = [[[CommandMaster alloc]init]autorelease];
          [commandMaster addButtons:@[zoomInButton,zoomOutButton,add2FavoriteButton] forGroup:@"WebviewToolbar"];
          [commandMaster addToView:webViewController.view andLoadGroup:@"WebviewToolbar"];
          commandMaster.delegate = self;
      })];
-   
 }
 
 
@@ -387,10 +390,19 @@
     RMArticle* article = [[[RMArticle alloc]init]autorelease];
     article.title = [dict objectForKey:kLowercaseTitleKey];
     article.content = [dict objectForKey:kLowercaseContentKey];
-    article.thumbnailUrl = [dict objectForKey:kImageUrl];;
-    article.url = [dict objectForKey:kLowercaseUrl];
+    article.url = [dict objectForKey:kImageUrl];
+    if (![article.url isKindOfClass:[NSString class]]) {
+        article.url = [dict objectForKey:kLowercaseUrl];
+    }
     
     [RMFavoriteUtils addFavorite:article];
+    
+    [[ZJTStatusBarAlertWindow getInstance]showWithString:@"添加到收藏"];
+    double delayInSeconds = 2;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        [[ZJTStatusBarAlertWindow getInstance] hide];
+    });
 }
 
 - (void) customizeNavBar:(UINavigationController*)navi {
