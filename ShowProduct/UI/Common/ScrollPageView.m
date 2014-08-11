@@ -17,6 +17,7 @@
 #import "RMFavoriteUtils.h"
 #import "RMArticle.h"
 #import "ZJTStatusBarAlertWindow.h"
+#import "Flurry.h"
 
 
 // toolbar的button编号
@@ -315,6 +316,9 @@
     NSDictionary* dict = [tableViewWithPullRefreshLoadMoreButton.tableInfoArray objectAtIndex:aIndexPath.row];
     NSString* content = [dict objectForKey:kLowercaseContentKey];
     NSString* title = [dict objectForKey:kLowercaseTitleKey];
+    
+    [Flurry logEvent:@"Title" withParameters:[NSDictionary dictionaryWithObjectsAndKeys:title ,@"Title", nil]];
+    
     webViewController = [[[SVWebViewController alloc]init]autorelease];
     webViewController.titleString = title;
     webViewController.htmlBody = [content stringByLinkifyingURLs];

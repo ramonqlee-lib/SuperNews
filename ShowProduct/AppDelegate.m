@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "HomeViewController.h"
 #import "PrettyKit.h"
+#import "Flurry.h"
 
 @implementation AppDelegate
 @synthesize navigationController = mNavigationController;
@@ -26,7 +27,8 @@
     
     [self.window makeKeyAndVisible];
     
-    
+    [Flurry startSession:@"VD57WGD28683BPMSQ9X9"];
+    [Flurry setDebugLogEnabled:YES];
     return YES;
 }
 
