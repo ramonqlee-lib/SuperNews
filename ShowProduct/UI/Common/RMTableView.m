@@ -8,6 +8,7 @@
 
 #import "RMTableView.h"
 #import "LoadMoreCell.h"
+#import "RMBaiduAd.h"
 
 @interface RMTableView()
 {
@@ -28,6 +29,11 @@
             _homeTableView.delegate = self;
             _homeTableView.dataSource = self;
             [_homeTableView setBackgroundColor:[UIColor clearColor]];
+            
+            //ad banner view
+            RMBaiduAd* baiduAd = [[RMBaiduAd alloc]init];
+            UIView* adView = [baiduAd getBaiduBanner:kDefaultBaiduPublisherId WithAppSpec:kDefaultBaiduAppSpec];
+            _homeTableView.tableHeaderView = adView;
         }
         if (_tableInfoArray == Nil) {
             _tableInfoArray = [[NSMutableArray alloc] init];

@@ -8,21 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol ButtonDelegate <NSObject>
-
--(UIBarButtonItem*)buttonItem;
--(void)buttonAction;
-
-@end
 
 @interface UIViewController(RMViewController_Aux)
 
-- (void)addNavigationButton:(UIBarButtonItem*)leftButtonItem withRightButton:(UIBarButtonItem*)rightButtonItem;
--(UIView*)getAdBanner;
--(UIView*)getMobisageRecommendListView;
 -(UIView*)clientView;
-- (IBAction)loadBaiduMobAdInterstitial:(id)sender;
-//采用一个跳动的view进行装饰当前view
--(void)pulsingView:(UIView*)decoratedView;
--(void)pulsingView:(UIView*)decoratedView withRadius:(CGFloat)radius withColor:(UIColor *)color;
+-(UIView*)getAdBanner;
+
 @end

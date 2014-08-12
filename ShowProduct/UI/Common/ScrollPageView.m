@@ -18,6 +18,8 @@
 #import "RMArticle.h"
 #import "ZJTStatusBarAlertWindow.h"
 #import "Flurry.h"
+#import "RMBaiduAd.h"
+#import "BaiduMobAdView.h"
 
 
 // toolbar的button编号
@@ -273,6 +275,34 @@
     }
     
     NSDictionary* dict = [tableViewWithPullRefreshLoadMoreButton.tableInfoArray objectAtIndex:aIndexPath.row];
+    // TODO 是一个空白的cell，后续采用广告位填充
+    NSString* title = [dict objectForKey:kLowercaseTitleKey];
+    NSString* summary = [dict objectForKey:kLowercaseContentKey];
+    
+    //remove baiduadview
+    for (UIView* view in vCell.contentView.subviews) {
+        if ([view isKindOfClass:[BaiduMobAdView class]]) {
+            [view removeFromSuperview];
+        }
+    }
+    if ( (title && title.length==0) || (summary && summary.length==0)) {
+        
+        RMBaiduAd* baiduAd = [[RMBaiduAd alloc]init];
+        UIView* adView = [baiduAd getBaiduBanner:kDefaultBaiduPublisherId WithAppSpec:kDefaultBaiduAppSpec];
+        [vCell.contentView addSubview: adView];
+        
+        //remove image and textview
+        vCell.headerImageView.image = nil;
+        vCell.titleLabel.text   = @"";
+        vCell.summaryLabel.text = @"";
+        
+        return vCell;
+    }
+    
+    // 设置数据
+    vCell.titleLabel.text = title;
+    NSString* htmlString = summary;
+    vCell.summaryLabel.text = [htmlString stringByStrippingTags];
     
     NSString* placeHolderImage = (0==aIndexPath.row%2)?kOddTableCellPlaceHolderImage:kEvenTableCellPlaceHolderImage;
     placeHolderImage = [NSString stringWithFormat:@"%@/%@",[[NSBundle mainBundle]resourcePath],placeHolderImage];
@@ -283,28 +313,27 @@
     }
     
     [vCell.headerImageView setImageWithURL:urlForImage imageFile:placeHolderImage];
-    
-    // TODO 是一个空白的cell，后续采用广告位填充
-    // 广告采用插件方式
-    vCell.titleLabel.text = [dict objectForKey:kLowercaseTitleKey];
-    NSString* htmlString = [dict objectForKey:kLowercaseContentKey];
-    vCell.summaryLabel.text = [htmlString stringByStrippingTags];
-    if ( (vCell.titleLabel.text && vCell.titleLabel.text.length==0) || (vCell.summaryLabel.text && vCell.summaryLabel.text.length==0)) {
-        vCell.titleLabel.text = @"这是一个预留的位置，投放个性化内容在此";
-    }
-
-//    NSLog(@"cell title:%@",vCell.titleLabel.text);
     return vCell;
 }
 
 #pragma mark CustomTableViewDelegate
 -(float)heightForRowAthIndexPath:(UITableView *)aTableView IndexPath:(NSIndexPath *)aIndexPath FromView:(RMTableView *)aView{
-#if 0
-    HomeViewCell *vCell = [[[NSBundle mainBundle] loadNibNamed:@"HomeViewCell" owner:self options:nil] lastObject];
-    return vCell.frame.size.height;
-#else
+    tableViewWithPullRefreshLoadMoreButton = aView;
+    
+    if (aIndexPath.row >= tableViewWithPullRefreshLoadMoreButton.tableInfoArray.count) {
+        NSLog(@"row: %d",aIndexPath.row);
+        return kCellHeight;
+    }
+    
+    NSDictionary* dict = [tableViewWithPullRefreshLoadMoreButton.tableInfoArray objectAtIndex:aIndexPath.row];
+    // TODO 是一个空白的cell，后续采用广告位填充
+    NSString* title = [dict objectForKey:kLowercaseTitleKey];
+    NSString* summary = [dict objectForKey:kLowercaseContentKey];
+    
+    if ( (title && title.length==0) || (summary && summary.length==0)) {
+        return [RMBaiduAd getBaiduBannerSize].height;
+    }
     return kCellHeight;
-#endif
 }
 
 -(void)didSelectedRowAthIndexPath:(UITableView *)aTableView IndexPath:(NSIndexPath *)aIndexPath FromView:(RMTableView *)aView
@@ -358,11 +387,11 @@
 
 #pragma CommandMaster delegate
 - (void)didSelectMenuListItemAtIndex:(NSInteger)index ForButton:(CommandButton *)selectedButton {
-    NSLog([NSString stringWithFormat:@"index %i of button titled \"%@\"", index, selectedButton.title]);
+//    NSLog([NSString stringWithFormat:@"index %i of button titled \"%@\"", index, selectedButton.title]);
 }
 
 - (void)didSelectButton:(CommandButton *)selectedButton {
-    NSLog([NSString stringWithFormat:@"button titled \"%@\" was selected", selectedButton.title]);
+//    NSLog([NSString stringWithFormat:@"button titled \"%@\" was selected", selectedButton.title]);
     if(!webViewController)
     {
         return;

@@ -18,6 +18,7 @@
 #import "PrettyKit.h"
 #import "UIScrollView+AH3DPullRefresh.h"
 #import "CommandMaster.h"
+#import "RMBaiduAd.h"
 
 #define kEnableTestData NO//FIXME::测试数据
 #define kLoadMorePageCount 10//单页加载的item数目
@@ -63,6 +64,11 @@
     
     NSDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",self.itemsArr.count],kFavoriteCount,nil];
     [Flurry logEvent:kEnterFavorite withParameters:dict];
+    
+    //ad banner view
+    RMBaiduAd* baiduAd = [[RMBaiduAd alloc]init];
+    UIView* adView = [baiduAd getBaiduBanner:kDefaultBaiduPublisherId WithAppSpec:kDefaultBaiduAppSpec];
+    self.tableView.tableHeaderView = adView;
 }
 
 - (void)didReceiveMemoryWarning
@@ -112,7 +118,8 @@
     vCell.titleLabel.text = article.title;
     NSString* htmlString = article.content;
     vCell.summaryLabel.text = [htmlString stringByStrippingTags];
-    if ( (vCell.titleLabel.text && vCell.titleLabel.text.length==0) || (vCell.summaryLabel.text && vCell.summaryLabel.text.length==0)) {
+    if ( (vCell.titleLabel.text && vCell.titleLabel.text.length==0) || (vCell.summaryLabel.text && vCell.summaryLabel.text.length==0))
+    {
         vCell.titleLabel.text = @"这是一个预留的位置，投放个性化内容在此";
     }
     
