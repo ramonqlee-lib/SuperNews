@@ -67,8 +67,10 @@
     
     //ad banner view
     RMBaiduAd* baiduAd = [[RMBaiduAd alloc]init];
-    UIView* adView = [baiduAd getBaiduBanner:kDefaultBaiduPublisherId WithAppSpec:kDefaultBaiduAppSpec];
-    self.tableView.tableHeaderView = adView;
+    UIView* adView = [baiduAd getBaiduBanner:nil WithAppSpec:nil];
+    if (adView) {
+        self.tableView.tableHeaderView = adView;
+    }
 }
 
 - (void)didReceiveMemoryWarning

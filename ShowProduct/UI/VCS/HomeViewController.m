@@ -21,7 +21,7 @@
 #import "PrettyKit.h"
 #import "UIBarButtonItem+Customed.h"
 #import "SettingsViewController.h"
-
+#import "RMBaiduAd.h"
 
 #define MENUHEIGHT 40
 
@@ -153,6 +153,12 @@ NSString* kCategoryUrlKey = @"url";
         }
         
         allCategories = [[NSMutableArray alloc]initWithArray:[HomeViewController Json2Array:(NSData*)obj] ];
+        
+        // 初始化百度ad参数
+        NSString* publisherId = [HomeViewController Json2Object:(NSData*)obj forKey:@"baiduPublisherId"];
+        NSString* appSpec = [HomeViewController Json2Object:(NSData*)obj forKey:@"baiduAppSpec"];
+        [RMBaiduAd setBaiduPublisherId:publisherId];
+        [RMBaiduAd setBaiduAppSpec:appSpec];
         //FIXME 测试保存和恢复（此部分数据将用于频道的自定义功能）
         /*
         NSString* file = [HomeViewController categoryFilePath];
@@ -429,8 +435,13 @@ NSString* kCategoryUrlKey = @"url";
     return [NSArray arrayWithContentsOfFile:file];
 }
 
-#pragma mark 网路返回json数据的解析
+#pragma mark 网络返回json数据的解析
 +(NSArray*)Json2Array:(NSData*)data
+{
+    return [HomeViewController Json2Object:data forKey:@"data"];
+}
+
++(id)Json2Object:(NSData*)data forKey:(NSString*)name
 {
     NSError* error;
     id obj = data;
@@ -443,12 +454,13 @@ NSString* kCategoryUrlKey = @"url";
             res = [NSJSONSerialization JSONObjectWithData:[val dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&error];
             if (res && [res isKindOfClass:[NSArray class]]) {
                 dict = [res objectAtIndex:0];
-                return [dict objectForKey:@"data"];
+                return [dict objectForKey:name];
             }
         }
     }
     return nil;
 }
+
 
 // 我的订阅的变更通知
 -(void)notifySubscriptionChange

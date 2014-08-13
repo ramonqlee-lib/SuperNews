@@ -1581,7 +1581,7 @@
 				PRODUCT_NAME = SuperNews;
 				PROVISIONING_PROFILE = "2C40322F-CF3E-47E4-8414-A6E7B35D5CD3";
 				TARGETED_DEVICE_FAMILY = 1;
-				VALID_ARCHS = "armv7 armv7s";
+				VALID_ARCHS = "armv7 armv7s arm64";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1628,7 +1628,7 @@
 				PRODUCT_NAME = SuperNews;
 				PROVISIONING_PROFILE = "B78982A1-6F75-4BF8-8D00-8B282718A427";
 				TARGETED_DEVICE_FAMILY = 1;
-				VALID_ARCHS = "armv7 armv7s";
+				VALID_ARCHS = "armv7 armv7s arm64";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

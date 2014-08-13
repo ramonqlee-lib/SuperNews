@@ -29,11 +29,6 @@
             _homeTableView.delegate = self;
             _homeTableView.dataSource = self;
             [_homeTableView setBackgroundColor:[UIColor clearColor]];
-            
-            //ad banner view
-            RMBaiduAd* baiduAd = [[RMBaiduAd alloc]init];
-            UIView* adView = [baiduAd getBaiduBanner:kDefaultBaiduPublisherId WithAppSpec:kDefaultBaiduAppSpec];
-            _homeTableView.tableHeaderView = adView;
         }
         if (_tableInfoArray == Nil) {
             _tableInfoArray = [[NSMutableArray alloc] init];
@@ -104,6 +99,17 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    // 尝试显示广告
+    // 首先查看是否显示过了
+    if (![RMBaiduAd viewIsKindOfBaiduBannerView:_homeTableView.tableHeaderView]) {        
+        //ad banner view
+        RMBaiduAd* baiduAd = [[RMBaiduAd alloc]init];
+        UIView* adView = [baiduAd getBaiduBanner:nil WithAppSpec:nil];
+        if (adView) {
+            _homeTableView.tableHeaderView = adView;
+        }
+    }
+    
     static NSString *vMoreCellIdentify = @"loadMoreCell";
     if (indexPath.row == mRowCount) {
 //        NSLog(@"loadMoreCell");

@@ -9,10 +9,11 @@
 #import "RMBaiduAd.h"
 #import "BaiduMobAdView.h"
 #import "BaiduMobAdDelegateProtocol.h"
+#import "CommonHelper.h"
 
 // const definitions
-#define kDefaultBaiduPublisherId @"a553d8e1"
-#define kDefaultBaiduAppSpec @"a553d8e1"
+#define kDefaultBaiduPublisherId @"kDefaultBaiduPublisherId"
+#define kDefaultBaiduAppSpec     @"kDefaultBaiduAppSpec"
 
 #define isPad (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 
@@ -26,6 +27,39 @@
 
 
 @implementation RMBaiduAd
+
++(BOOL)setBaiduPublisherId:(NSString*)val
+{
+   return [CommonHelper saveDefaultsForString:kDefaultBaiduPublisherId withValue:val];
+}
+
++(BOOL)setBaiduAppSpec:(NSString*)val
+{
+    return [CommonHelper saveDefaultsForString:kDefaultBaiduAppSpec withValue:val];
+}
+
+
++(NSString*)baiduPublisherId
+{
+    return [CommonHelper defaultsForString:kDefaultBaiduPublisherId];
+}
+
++(NSString*)baiduAppSpec
+{
+    return [CommonHelper defaultsForString:kDefaultBaiduAppSpec];
+}
+
+
+
+
++(BOOL)viewIsKindOfBaiduBannerView:(UIView*)view
+{
+    if (!view) {
+        return NO;
+    }
+    return [view isKindOfClass:[BaiduMobAdView class]];
+}
+
 +(CGSize) getBaiduBannerSize
 {
     return isPad?kBaiduAdViewBanner728x90:kBaiduAdViewBanner320x48;
@@ -33,13 +67,24 @@
 
 -(UIView*)getBaiduBanner:(NSString*)publisherId WithAppSpec:(NSString*)appSpec
 {
-    baiduPublisherId = publisherId;
-    if (!baiduPublisherId || !baiduPublisherId.length) {
-        baiduPublisherId = kDefaultBaiduPublisherId;
+    if (!publisherId || !publisherId.length) {
+        baiduPublisherId = [RMBaiduAd baiduPublisherId];
     }
-    baiduAppSpec = appSpec;
-    if (!baiduAppSpec || !baiduAppSpec.length) {
-        baiduAppSpec = kDefaultBaiduAppSpec;
+    else
+    {
+        baiduPublisherId = publisherId;
+    }
+    
+    if (!appSpec || !appSpec.length) {
+        baiduAppSpec = [RMBaiduAd baiduAppSpec];
+    }
+    else
+    {
+        baiduAppSpec = appSpec;
+    }
+    
+    if (!baiduAppSpec || 0 == baiduAppSpec.length || !baiduPublisherId || 0 == baiduPublisherId.length) {
+        return nil;
     }
     
     CGSize sz = [RMBaiduAd getBaiduBannerSize];

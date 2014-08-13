@@ -288,8 +288,10 @@
     if ( (title && title.length==0) || (summary && summary.length==0)) {
         
         RMBaiduAd* baiduAd = [[RMBaiduAd alloc]init];
-        UIView* adView = [baiduAd getBaiduBanner:kDefaultBaiduPublisherId WithAppSpec:kDefaultBaiduAppSpec];
-        [vCell.contentView addSubview: adView];
+        UIView* adView = [baiduAd getBaiduBanner:nil WithAppSpec:nil];
+        if (adView) {
+            [vCell.contentView addSubview: adView];
+        }
         
         //remove image and textview
         vCell.headerImageView.image = nil;
