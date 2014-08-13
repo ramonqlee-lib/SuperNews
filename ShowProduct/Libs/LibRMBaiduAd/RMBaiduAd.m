@@ -9,7 +9,7 @@
 #import "RMBaiduAd.h"
 #import "BaiduMobAdView.h"
 #import "BaiduMobAdDelegateProtocol.h"
-#import "CommonHelper.h"
+#import "RMDefaults.h"
 
 // const definitions
 #define kDefaultBaiduPublisherId @"kDefaultBaiduPublisherId"
@@ -30,29 +30,26 @@
 
 +(BOOL)setBaiduPublisherId:(NSString*)val
 {
-   return [CommonHelper saveDefaultsForString:kDefaultBaiduPublisherId withValue:val];
+   return [RMDefaults saveString:kDefaultBaiduPublisherId withValue:val];
 }
 
 +(BOOL)setBaiduAppSpec:(NSString*)val
 {
-    return [CommonHelper saveDefaultsForString:kDefaultBaiduAppSpec withValue:val];
+    return [RMDefaults saveString:kDefaultBaiduAppSpec withValue:val];
 }
 
 
 +(NSString*)baiduPublisherId
 {
-    return [CommonHelper defaultsForString:kDefaultBaiduPublisherId];
+    return [RMDefaults stringForKey:kDefaultBaiduPublisherId];
 }
 
 +(NSString*)baiduAppSpec
 {
-    return [CommonHelper defaultsForString:kDefaultBaiduAppSpec];
+    return [RMDefaults stringForKey:kDefaultBaiduAppSpec];
 }
 
-
-
-
-+(BOOL)viewIsKindOfBaiduBannerView:(UIView*)view
++(BOOL)isKindOfBaiduBanner:(UIView*)view
 {
     if (!view) {
         return NO;

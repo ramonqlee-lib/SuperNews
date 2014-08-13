@@ -13,13 +13,13 @@
 @interface RMBaiduAd : NSObject
 
 // 是否百度banner类
-+(BOOL)viewIsKindOfBaiduBannerView:(UIView*)view;
++(BOOL)isKindOfBaiduBanner:(UIView*)view;
 
 // 设置百度banner的参数
-
 +(BOOL)setBaiduPublisherId:(NSString*)val;
 +(BOOL)setBaiduAppSpec:(NSString*)val;
 
+// 获取百度banner参数
 +(NSString*)baiduPublisherId;
 +(NSString*)baiduAppSpec;
 

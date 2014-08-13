@@ -63,10 +63,13 @@ return s##className;\
 
 +(NSString*)sqliteEscape:(NSString*) keyWord;
 
-+(NSString*)defaultsForString:(NSString*)key;
-+(BOOL)saveDefaultsForString:(NSString*)key withValue:(NSString*)value;
-+(BOOL)saveDefaultsForInt:(NSString*)key withValue:(NSInteger)value;
-+(NSInteger)defaultsForInt:(NSString*)key;
+// deprecated methods,use RMDefaults instead
++(NSString*)defaultsForString:(NSString*)key NS_DEPRECATED(10_0, 10_4, 2_0, 2_0);
++(BOOL)saveDefaultsForString:(NSString*)key withValue:(NSString*)value NS_DEPRECATED(10_0, 10_4, 2_0, 2_0);
+
+// deprecated methods,use RMDefaults instead
++(BOOL)saveDefaultsForInt:(NSString*)key withValue:(NSInteger)value NS_DEPRECATED(10_0, 10_4, 2_0, 2_0);
++(NSInteger)defaultsForInt:(NSString*)key NS_DEPRECATED(10_0, 10_4, 2_0, 2_0);
 
 +(UIImage *)imageFromText:(NSArray*) arrContent withFont: (CGFloat)fontSize withMaxWidth:(CGFloat)width;
 +(NSString*)displayName;

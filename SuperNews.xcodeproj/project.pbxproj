@@ -90,6 +90,7 @@
 		30B12A3B199AD5B6000E3450 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 30B12A22199AD5B6000E3450 /* zip.c */; };
 		30B12A3C199AD5B6000E3450 /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30B12A25199AD5B6000E3450 /* ZipArchive.mm */; };
 		30B12A40199AD6A7000E3450 /* RMBaiduAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 30B12A3F199AD6A7000E3450 /* RMBaiduAd.m */; };
+		30B12A45199C27AB000E3450 /* RMDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 30B12A44199C27AB000E3450 /* RMDefaults.m */; };
 		30BF90D81989A56400DCF8EF /* libSVWebViewController_Phone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30BF90D71989A56400DCF8EF /* libSVWebViewController_Phone.a */; };
 		30CD17141987D93100600D6D /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 30CD17061987D93100600D6D /* LICENSE */; };
 		30CD17151987D93100600D6D /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 30CD17071987D93100600D6D /* README.md */; };
@@ -323,6 +324,8 @@
 		30B12A25199AD5B6000E3450 /* ZipArchive.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZipArchive.mm; sourceTree = "<group>"; };
 		30B12A28199AD5B6000E3450 /* RMBaiduAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMBaiduAd.h; sourceTree = "<group>"; };
 		30B12A3F199AD6A7000E3450 /* RMBaiduAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMBaiduAd.m; sourceTree = "<group>"; };
+		30B12A43199C27AB000E3450 /* RMDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMDefaults.h; sourceTree = "<group>"; };
+		30B12A44199C27AB000E3450 /* RMDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMDefaults.m; sourceTree = "<group>"; };
 		30BF90D71989A56400DCF8EF /* libSVWebViewController_Phone.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSVWebViewController_Phone.a; sourceTree = "<group>"; };
 		30CD17061987D93100600D6D /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		30CD17071987D93100600D6D /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
@@ -999,6 +1002,8 @@
 				30FCD628197B3284000F7015 /* HTTPHelper.h */,
 				30FCD629197B3284000F7015 /* HTTPHelper.m */,
 				30FCD62A197B3284000F7015 /* StringUtil.m */,
+				30B12A43199C27AB000E3450 /* RMDefaults.h */,
+				30B12A44199C27AB000E3450 /* RMDefaults.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1416,6 +1421,7 @@
 				30FCD621197B31E9000F7015 /* ASIS3ServiceRequest.m in Sources */,
 				30CD17171987D93100600D6D /* SDWebImageDownloader.m in Sources */,
 				30B12A33199AD5B6000E3450 /* CDataScanner_Extensions.m in Sources */,
+				30B12A45199C27AB000E3450 /* RMDefaults.m in Sources */,
 				30FCD61D197B31E9000F7015 /* ASIS3BucketObject.m in Sources */,
 				30FCD62D197B3284000F7015 /* HTTPHelper.m in Sources */,
 				3052B1761996EB1200C4A718 /* CommandMaster.m in Sources */,

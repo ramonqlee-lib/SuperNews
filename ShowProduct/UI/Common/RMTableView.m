@@ -101,7 +101,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     // 尝试显示广告
     // 首先查看是否显示过了
-    if (![RMBaiduAd viewIsKindOfBaiduBannerView:_homeTableView.tableHeaderView]) {        
+    if (![RMBaiduAd isKindOfBaiduBanner:_homeTableView.tableHeaderView]) {        
         //ad banner view
         RMBaiduAd* baiduAd = [[RMBaiduAd alloc]init];
         UIView* adView = [baiduAd getBaiduBanner:nil WithAppSpec:nil];

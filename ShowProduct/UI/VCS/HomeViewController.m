@@ -23,6 +23,7 @@
 #import "SettingsViewController.h"
 #import "RMBaiduAd.h"
 
+
 #define MENUHEIGHT 40
 
 NSString* kAppSettingUrl = @"http://novelists.duapp.com/crawler/category.php";//?column=ZhongYi";
