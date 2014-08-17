@@ -13,6 +13,7 @@
 #import "Base64.h"
 #import "CommonHelper.h"
 #import "Toast+UIView.h"
+#import "Flurry.h"
 
 NSString* kDefaultCategoryTableName = @"Duanzi";
 NSString* kDefaultCategoryUrl = @"http://novelists.duapp.com/crawler/refer.php?tableName=DuanZi";
@@ -89,6 +90,12 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
     if (page < 0 && page >= urlArray.count) {
         return NO;
     }
+    
+    // log event
+    NSString* title = [titleArray objectAtIndex:page];
+    [Flurry logEvent:title];
+    NSLog(@"logEvent: %@",title);
+    
     NSString* url = [urlArray objectAtIndex:page];
     NSString* filePath = [HomeViewController categoryDataFilePath:url];
     NSArray* ret = [CommonHelper readArchiver:filePath];
@@ -97,6 +104,7 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
         NSDictionary* dict = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:nil];
         NSDate* lastModified = dict?[dict fileModificationDate]:nil;
         [mScrollPageView freshContentTableAtIndex:page withData:ret onDate:lastModified];
+        
         return YES;
     }
     return NO;

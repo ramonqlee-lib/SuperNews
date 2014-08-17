@@ -234,15 +234,15 @@
 		308093D6198D2880007BBC60 /* PrettyTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrettyTabBar.m; sourceTree = "<group>"; };
 		308093D7198D2880007BBC60 /* PrettyToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrettyToolbar.h; sourceTree = "<group>"; };
 		308093D8198D2880007BBC60 /* PrettyToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrettyToolbar.m; sourceTree = "<group>"; };
-		308093E2198DD3F0007BBC60 /* Icon-iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-iPad.png"; path = "Images.xcassets/AppIcon.appiconset/Icon-iPad.png"; sourceTree = "<group>"; };
-		308093E3198DD3F0007BBC60 /* Icon-iPad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-iPad@2x.png"; path = "Images.xcassets/AppIcon.appiconset/Icon-iPad@2x.png"; sourceTree = "<group>"; };
-		308093E4198DD3F0007BBC60 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small-50.png"; path = "Images.xcassets/AppIcon.appiconset/Icon-Small-50.png"; sourceTree = "<group>"; };
-		308093E5198DD3F0007BBC60 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small.png"; path = "Images.xcassets/AppIcon.appiconset/Icon-Small.png"; sourceTree = "<group>"; };
-		308093E6198DD3F0007BBC60 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small@2x.png"; path = "Images.xcassets/AppIcon.appiconset/Icon-Small@2x.png"; sourceTree = "<group>"; };
-		308093E7198DD3F0007BBC60 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = Images.xcassets/AppIcon.appiconset/Icon.png; sourceTree = "<group>"; };
-		308093E8198DD3F0007BBC60 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "Images.xcassets/AppIcon.appiconset/Icon@2x.png"; sourceTree = "<group>"; };
-		308093F0198DD49C007BBC60 /* Icon_80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon_80.png; path = Images.xcassets/AppIcon.appiconset/Icon_80.png; sourceTree = "<group>"; };
-		308093F1198DD49C007BBC60 /* Icon_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon_120.png; path = Images.xcassets/AppIcon.appiconset/Icon_120.png; sourceTree = "<group>"; };
+		308093E2198DD3F0007BBC60 /* Icon-iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-iPad.png"; path = "../Images.xcassets/AppIcon.appiconset/Icon-iPad.png"; sourceTree = "<group>"; };
+		308093E3198DD3F0007BBC60 /* Icon-iPad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-iPad@2x.png"; path = "../Images.xcassets/AppIcon.appiconset/Icon-iPad@2x.png"; sourceTree = "<group>"; };
+		308093E4198DD3F0007BBC60 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small-50.png"; path = "../Images.xcassets/AppIcon.appiconset/Icon-Small-50.png"; sourceTree = "<group>"; };
+		308093E5198DD3F0007BBC60 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small.png"; path = "../Images.xcassets/AppIcon.appiconset/Icon-Small.png"; sourceTree = "<group>"; };
+		308093E6198DD3F0007BBC60 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small@2x.png"; path = "../Images.xcassets/AppIcon.appiconset/Icon-Small@2x.png"; sourceTree = "<group>"; };
+		308093E7198DD3F0007BBC60 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = ../Images.xcassets/AppIcon.appiconset/Icon.png; sourceTree = "<group>"; };
+		308093E8198DD3F0007BBC60 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "../Images.xcassets/AppIcon.appiconset/Icon@2x.png"; sourceTree = "<group>"; };
+		308093F0198DD49C007BBC60 /* Icon_80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon_80.png; path = ../Images.xcassets/AppIcon.appiconset/Icon_80.png; sourceTree = "<group>"; };
+		308093F1198DD49C007BBC60 /* Icon_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon_120.png; path = ../Images.xcassets/AppIcon.appiconset/Icon_120.png; sourceTree = "<group>"; };
 		308093F9198DD9C0007BBC60 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		308093FA198DD9C0007BBC60 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		308093FB198DD9C0007BBC60 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
@@ -629,6 +629,15 @@
 		308093F8198DD9C0007BBC60 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				308093F0198DD49C007BBC60 /* Icon_80.png */,
+				308093F1198DD49C007BBC60 /* Icon_120.png */,
+				308093E2198DD3F0007BBC60 /* Icon-iPad.png */,
+				308093E3198DD3F0007BBC60 /* Icon-iPad@2x.png */,
+				308093E4198DD3F0007BBC60 /* Icon-Small-50.png */,
+				308093E5198DD3F0007BBC60 /* Icon-Small.png */,
+				308093E6198DD3F0007BBC60 /* Icon-Small@2x.png */,
+				308093E7198DD3F0007BBC60 /* Icon.png */,
+				308093E8198DD3F0007BBC60 /* Icon@2x.png */,
 				3052B1811996FD8700C4A718 /* zoomIn.png */,
 				3052B1821996FD8700C4A718 /* zoomOut.png */,
 				3052B1771996F3B300C4A718 /* deleteIcon.png */,
@@ -1098,15 +1107,6 @@
 				8B460963192D968300B28082 /* AppDelegate.h */,
 				8B460964192D968300B28082 /* AppDelegate.m */,
 				8B460966192D968300B28082 /* Images.xcassets */,
-				308093F0198DD49C007BBC60 /* Icon_80.png */,
-				308093F1198DD49C007BBC60 /* Icon_120.png */,
-				308093E2198DD3F0007BBC60 /* Icon-iPad.png */,
-				308093E3198DD3F0007BBC60 /* Icon-iPad@2x.png */,
-				308093E4198DD3F0007BBC60 /* Icon-Small-50.png */,
-				308093E5198DD3F0007BBC60 /* Icon-Small.png */,
-				308093E6198DD3F0007BBC60 /* Icon-Small@2x.png */,
-				308093E7198DD3F0007BBC60 /* Icon.png */,
-				308093E8198DD3F0007BBC60 /* Icon@2x.png */,
 				8B46095B192D968300B28082 /* Supporting Files */,
 			);
 			name = SuperNews;
