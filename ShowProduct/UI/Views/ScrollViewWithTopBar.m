@@ -193,12 +193,21 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
     if (!urlArray || !urlArray.count || currentPageIndex>=urlArray.count) {
         return NO;
     }
-    
+
+
     NSString* url = (currentPageIndex<urlArray.count)?[urlArray objectAtIndex:currentPageIndex]:kDefaultCategoryUrl;
+    NSString* filePath = [HomeViewController categoryDataFilePath:url];
+    NSDictionary* dict = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:nil];
+    NSMutableDictionary* postDict = [NSMutableDictionary dictionary];
+    if (dict) {
+        NSDate* lastModified = [dict fileModificationDate];
+        NSTimeInterval interval = [lastModified timeIntervalSince1970];
+        [postDict setObject:[NSString stringWithFormat:@"%.0f",interval] forKey:@"since"];
+    }
     NSLog(@"refresh from url: %@",url);
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refeshHandler:) name:url object:nil];
     
-    [[HTTPHelper sharedInstance]beginPostRequest:url withDictionary:nil];
+    [[HTTPHelper sharedInstance]beginPostRequest:url withDictionary:postDict];
     return YES;
 }
 
