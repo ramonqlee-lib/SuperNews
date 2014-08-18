@@ -3,6 +3,7 @@
 
 
 #import <Foundation/Foundation.h>
+#import "zlib.h"
 @class RJSingleBook;
 @class CoreDataMgr;
 @class FileModel;
@@ -81,4 +82,6 @@ return s##className;\
 +(NSArray*)readArchiver:(NSString*)filePath;
 
 + (UIImage*) createImageWithColor: (UIColor*) color;
+
++(NSData *)uncompressZippedData:(NSData *)compressedData;
 @end

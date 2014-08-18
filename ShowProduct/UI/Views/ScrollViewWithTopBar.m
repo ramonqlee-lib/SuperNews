@@ -204,6 +204,8 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
         NSTimeInterval interval = [lastModified timeIntervalSince1970];
         [postDict setObject:[NSString stringWithFormat:@"%.0f",interval] forKey:@"since"];
     }
+    [postDict setObject:@"1" forKey:@"zipped"];//请求压缩格式的数据
+    
     NSLog(@"refresh from url: %@",url);
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refeshHandler:) name:url object:nil];
     
@@ -223,7 +225,8 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
     NSMutableArray* temp = [NSMutableArray array];
     if ([obj isKindOfClass:[NSData class]])
     {
-        [self Json2Array:(NSData*)obj forArray:temp];
+        NSData* unzipped = [CommonHelper uncompressZippedData:(NSData*)obj];
+        [self Json2Array:unzipped forArray:temp];
     }
     if (temp.count)
     {
