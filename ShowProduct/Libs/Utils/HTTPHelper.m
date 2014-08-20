@@ -11,6 +11,8 @@
 #import "ASIFormDataRequest.h"
 #import "CommonHelper.h"
 #import "Constants.h"
+#import "ASIDownloadCache.h"
+#import "Base64.h"
 
 #define kMaxConcurrentOperationCount 1
 
@@ -298,5 +300,55 @@ Impl_Singleton(HTTPHelper)
     {
         [[NSNotificationCenter defaultCenter]postNotificationName:fileModel.notificationName object:[desFilePath stringByAppendingPathComponent:fileModel.fileName]];
     }
+}
+
+
+//频道数据的缓存路径
++(NSString*)cacheFilePath:(NSString*)url
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
+                                                         NSUserDomainMask, YES);
+    NSString* fileName = [NSString stringWithFormat:@"%@.out",[ASIDownloadCache keyForURL:[NSURL URLWithString:url]]];
+    return [[paths objectAtIndex:0]
+            stringByAppendingPathComponent:fileName];
+    
+}
+
+
+// 解析返回的频道数据，设置到数据中，并返回总数量
++(NSInteger)Json2Array:(NSData*)data forArray:(NSMutableArray*)array
+{
+    if (array) {
+        [array removeAllObjects];
+    }
+    NSInteger count = 0;
+    NSError* error;
+    id obj = data;
+    if ([obj isKindOfClass:[NSData class] ]) {
+        id res = [NSJSONSerialization JSONObjectWithData:(NSData*)obj  options:NSJSONReadingMutableContainers error:&error];
+        
+        if (res && [res isKindOfClass:[NSDictionary class]]) {
+            count = [((NSString*)[res objectForKey:@"count"]) intValue];
+            res = [res objectForKey:@"data"];
+            if (res && [res isKindOfClass:[NSArray class]]) {
+                
+                if (!array) {
+                    return count;
+                }
+                
+                NSArray* items = (NSArray*)res;
+                for (NSDictionary* dict in  items) {
+                    NSString* base64EncodedString = [NSString stringWithBase64EncodedString:[dict objectForKey:@"Content"]];
+                    id tmp = [NSJSONSerialization JSONObjectWithData:[base64EncodedString dataUsingEncoding:NSUTF8StringEncoding]  options:NSJSONReadingMutableContainers error:&error];
+                    
+                    if ([tmp isKindOfClass:[NSDictionary class]]) {
+                        [array addObject:tmp];
+                    }
+                }
+                
+            }
+        }
+    }
+    return count;
 }
 @end

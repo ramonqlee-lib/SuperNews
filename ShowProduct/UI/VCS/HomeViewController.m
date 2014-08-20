@@ -273,11 +273,12 @@ NSString* kCategoryUrlKey = @"url";
                 [bottomUrlStringArr addObject:[dict objectForKey:kCategoryUrlKey]];
             }
         }
+        // 保存到本地,下次可以直接使用
     }
     else
     {
-        [self split:mySubscriptionSavedCategories titleArray:titleArr urlArray:urlStringArr];
-        [self split:moreSavedCategories titleArray:bottomTitleArr urlArray:bottomUrlStringArr];
+        [HomeViewController split:mySubscriptionSavedCategories titleArray:titleArr urlArray:urlStringArr];
+        [HomeViewController split:moreSavedCategories titleArray:bottomTitleArr urlArray:bottomUrlStringArr];
         
         if (!allCategories) {
             return;
@@ -305,7 +306,7 @@ NSString* kCategoryUrlKey = @"url";
 }
 
 // 根据内存中的数据结构，返回标题和url的数组
--(void)split:(NSArray*)touchViewModels titleArray:(NSMutableArray*)titleArray urlArray:(NSMutableArray*)urlArray
++(void)split:(NSArray*)touchViewModels titleArray:(NSMutableArray*)titleArray urlArray:(NSMutableArray*)urlArray
 {
     if (!touchViewModels || ( !titleArray && !urlArray)) {
         return;
@@ -405,17 +406,6 @@ NSString* kCategoryUrlKey = @"url";
                                                          NSUserDomainMask, YES);
     return [[paths objectAtIndex:0]
             stringByAppendingPathComponent:@"category.out"];
-    
-}
-
-//频道数据的缓存路径
-+(NSString*)categoryDataFilePath:(NSString*)url
-{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
-                                                         NSUserDomainMask, YES);
-    NSString* fileName = [NSString stringWithFormat:@"%@.out",[ASIDownloadCache keyForURL:[NSURL URLWithString:url]]];
-    return [[paths objectAtIndex:0]
-            stringByAppendingPathComponent:fileName];
     
 }
 

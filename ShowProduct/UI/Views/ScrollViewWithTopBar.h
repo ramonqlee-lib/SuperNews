@@ -19,4 +19,5 @@
 }
 @property(nonatomic,assign)CGFloat topBarHeight;
 @property(nonatomic,assign)CGFloat topBarRightPadding;
+
 @end

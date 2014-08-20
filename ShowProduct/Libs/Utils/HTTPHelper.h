@@ -22,4 +22,7 @@ Decl_Singleton(HTTPHelper)
 -(void)beginRequest:(FileModel *)fileInfo isBeginDown:(BOOL)isBeginDown;
 
 -(void)beginPostRequest:(NSString*)url withDictionary:(NSDictionary*)postData;
+
++(NSString*)cacheFilePath:(NSString*)url;
++(NSInteger)Json2Array:(NSData*)data forArray:(NSMutableArray*)array;
 @end

@@ -97,7 +97,7 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
     NSLog(@"logEvent: %@",title);
     
     NSString* url = [urlArray objectAtIndex:page];
-    NSString* filePath = [HomeViewController categoryDataFilePath:url];
+    NSString* filePath = [CommonHelper cachePathForKey:url];
     NSArray* ret = [CommonHelper readArchiver:filePath];
     if (ret && ret.count) {
         NSLog(@"loadd cache & refresh tableview");
@@ -196,7 +196,7 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
 
 
     NSString* url = (currentPageIndex<urlArray.count)?[urlArray objectAtIndex:currentPageIndex]:kDefaultCategoryUrl;
-    NSString* filePath = [HomeViewController categoryDataFilePath:url];
+    NSString* filePath = [CommonHelper cachePathForKey:url];
     NSDictionary* dict = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:nil];
     NSMutableDictionary* postDict = [NSMutableDictionary dictionary];
     if (dict) {
@@ -226,14 +226,14 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
     if ([obj isKindOfClass:[NSData class]])
     {
         NSData* unzipped = [CommonHelper uncompressZippedData:(NSData*)obj];
-        [self Json2Array:unzipped forArray:temp];
+        [HTTPHelper Json2Array:unzipped forArray:temp];
     }
     if (temp.count)
     {
         [myTableView.tableInfoArray removeAllObjects];
         [myTableView.tableInfoArray addObjectsFromArray:temp];
         
-        NSString* filePath = [HomeViewController categoryDataFilePath:url];
+        NSString* filePath = [CommonHelper cachePathForKey:url];
         NSLog(@"receive http data &refresh tableview & cache file under %@",filePath);
         [CommonHelper saveArchiver:temp path:filePath];
         
@@ -271,7 +271,7 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
             
             // : 解析数据，追加到列表的底部(需要考虑是否有更多数据的问题，当前返回的数量，当前数组的数量，然后确定是否有更多数据)
             NSMutableArray* ret = [NSMutableArray array];
-            [self Json2Array:(NSData*)obj forArray:ret];
+            [HTTPHelper Json2Array:(NSData*)obj forArray:ret];
             if( 0==ret.count )
             {
                 [self makeToast:@"没有更多数据了o(╯□╰)o "];
@@ -293,42 +293,6 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
 }
 
 
-// 解析返回的频道数据，设置到数据中，并返回总数量
--(NSInteger)Json2Array:(NSData*)data forArray:(NSMutableArray*)array
-{
-    if (array) {
-        [array removeAllObjects];
-    }
-    NSInteger count = 0;
-    NSError* error;
-    id obj = data;
-    if ([obj isKindOfClass:[NSData class] ]) {
-        id res = [NSJSONSerialization JSONObjectWithData:(NSData*)obj  options:NSJSONReadingMutableContainers error:&error];
-        
-        if (res && [res isKindOfClass:[NSDictionary class]]) {
-            count = [((NSString*)[res objectForKey:@"count"]) intValue];
-            res = [res objectForKey:@"data"];
-            if (res && [res isKindOfClass:[NSArray class]]) {
-                
-                if (!array) {
-                    return count;
-                }
-                
-                NSArray* items = (NSArray*)res;
-                for (NSDictionary* dict in  items) {
-                    NSString* base64EncodedString = [NSString stringWithBase64EncodedString:[dict objectForKey:kContentKey]];
-                    id tmp = [NSJSONSerialization JSONObjectWithData:[base64EncodedString dataUsingEncoding:NSUTF8StringEncoding]  options:NSJSONReadingMutableContainers error:&error];
-                    
-                    if ([tmp isKindOfClass:[NSDictionary class]]) {
-                        [array addObject:tmp];
-                    }
-                }
-                
-            }
-        }
-    }
-    return count;
-}
 
 #pragma mark Notifier impl
 -(void) onChange:(NSObject*) object

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		303F6CF619A43745004BC608 /* OfflineDowloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 303F6CF519A43745004BC608 /* OfflineDowloader.m */; };
 		30483A4E19970F3A0020C55C /* ZJTStatusBarAlertWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 30483A4D19970F3A0020C55C /* ZJTStatusBarAlertWindow.m */; };
 		3052B1551996CF8400C4A718 /* RMFavoriteUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3052B1541996CF8400C4A718 /* RMFavoriteUtils.m */; };
 		3052B1591996CFE700C4A718 /* SQLiteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3052B1581996CFE700C4A718 /* SQLiteManager.m */; };
@@ -188,6 +189,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		303F6CF419A43745004BC608 /* OfflineDowloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfflineDowloader.h; sourceTree = "<group>"; };
+		303F6CF519A43745004BC608 /* OfflineDowloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfflineDowloader.m; sourceTree = "<group>"; };
 		30483A4C19970F3A0020C55C /* ZJTStatusBarAlertWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZJTStatusBarAlertWindow.h; sourceTree = "<group>"; };
 		30483A4D19970F3A0020C55C /* ZJTStatusBarAlertWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZJTStatusBarAlertWindow.m; sourceTree = "<group>"; };
 		3052B1531996CF8400C4A718 /* RMFavoriteUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMFavoriteUtils.h; sourceTree = "<group>"; };
@@ -530,6 +533,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		303F6CF319A43736004BC608 /* OfflineDownloader */ = {
+			isa = PBXGroup;
+			children = (
+				303F6CF419A43745004BC608 /* OfflineDowloader.h */,
+				303F6CF519A43745004BC608 /* OfflineDowloader.m */,
+			);
+			path = OfflineDownloader;
+			sourceTree = "<group>";
+		};
 		30483A4B19970F3A0020C55C /* StatusBarAlertWindow */ = {
 			isa = PBXGroup;
 			children = (
@@ -895,6 +907,7 @@
 		30FCD5D3197B31D6000F7015 /* Libs */ = {
 			isa = PBXGroup;
 			children = (
+				303F6CF319A43736004BC608 /* OfflineDownloader */,
 				30B129F0199AD5B6000E3450 /* LibRMBaiduAd */,
 				30DF25701999817F00F75C6B /* libUIViewControllerExt */,
 				30483A4B19970F3A0020C55C /* StatusBarAlertWindow */,
@@ -1396,6 +1409,7 @@
 				30FCD611197B31E9000F7015 /* ASIInputStream.m in Sources */,
 				8B460990192D9C4800B28082 /* HomeViewCell.m in Sources */,
 				8B460961192D968300B28082 /* main.m in Sources */,
+				303F6CF619A43745004BC608 /* OfflineDowloader.m in Sources */,
 				30FCD62C197B3284000F7015 /* FileModel.m in Sources */,
 				30885518198DF9E3005E2F90 /* JMStaticContentTableViewCell.m in Sources */,
 				30FCD61B197B31E9000F7015 /* ReachabilityAs.m in Sources */,
