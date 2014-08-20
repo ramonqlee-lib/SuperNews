@@ -70,6 +70,21 @@
 	}];
     
 }
+-(void)viewWillAppear:(BOOL)animated
+{
+    UIBarButtonItem *BackBtn = [[UIBarButtonItem alloc] initWithTitle:@"返回"
+                                                                style:UIBarButtonItemStylePlain
+                                                               target:self
+                                                               action:@selector(BackToFormerAction:)];
+    
+    self.navigationItem.leftBarButtonItem = BackBtn;
+}
+
+-(IBAction)BackToFormerAction:(id)sender
+{
+    UIViewController* rootController = [[[UIApplication sharedApplication]keyWindow]rootViewController];
+    [rootController dismissViewControllerAnimated:YES completion:nil];
+}
 - (void) viewDidUnload {
     [super viewDidUnload];
     

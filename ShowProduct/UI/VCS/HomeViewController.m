@@ -113,12 +113,14 @@ NSString* kCategoryUrlKey = @"url";
     SettingsViewController* vc = [[SettingsViewController alloc]init];
     UINavigationController* controller = [[UINavigationController alloc]initWithNavigationBarClass:[PrettyNavigationBar class] toolbarClass:nil/*[PrettyToolbar class]*/];
     [controller setViewControllers:@[vc]];
+    /*
     UIBarButtonItem *BackBtn = [[UIBarButtonItem alloc] initWithTitle:@"返回"
                                                                 style:UIBarButtonItemStylePlain
                                                                target:self
                                                                action:@selector(BackAction:)];
     
     vc.navigationItem.leftBarButtonItem = BackBtn;
+    */
     //[self customizeNavBar:controller];
     UIViewController* rootController = [[[UIApplication sharedApplication]keyWindow]rootViewController];
     [rootController presentViewController:controller animated:YES completion:nil];

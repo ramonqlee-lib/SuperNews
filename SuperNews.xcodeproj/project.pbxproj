@@ -1260,6 +1260,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = IDreems;
 				TargetAttributes = {
+					8B460950192D968300B28082 = {
+						DevelopmentTeam = QBJ9PY6FYT;
+					};
 					8B46096B192D968300B28082 = {
 						TestTargetID = 8B460950192D968300B28082;
 					};
@@ -1564,7 +1567,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Ming Li (6ZAM6HQ2F7)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ShowProduct/Libs/umeng_ios_social_sdk_3.3.5/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
@@ -1611,7 +1614,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Ming Li (QBJ9PY6FYT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ShowProduct/Libs/umeng_ios_social_sdk_3.3.5/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
