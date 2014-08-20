@@ -42,7 +42,6 @@ NSString* kCategoryUrlKey = @"url";
 
 @implementation HomeViewController
 
-//-----------------------------标准方法------------------
 - (id) initWithNibName:(NSString *)aNibName bundle:(NSBundle *)aBuddle {
     self = [super initWithNibName:aNibName bundle:aBuddle];
     if (self != nil) {
@@ -130,13 +129,13 @@ NSString* kCategoryUrlKey = @"url";
     // 1.频道列表
     NSDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys:@"LiShi",@"column", nil];
     
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(appCategoriesHandler:) name:kAppSettingUrl object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(appSettingHandler:) name:kAppSettingUrl object:nil];
     
     [[HTTPHelper sharedInstance]beginPostRequest:kAppSettingUrl withDictionary:dict];
 }
 
 // 应用分类数据返回的处理
--(void)appCategoriesHandler:(NSNotification*)notification
+-(void)appSettingHandler:(NSNotification*)notification
 {
     // : 保存全部的频道列表
     id obj = [notification.userInfo objectForKey:kAppSettingUrl];
@@ -168,6 +167,8 @@ NSString* kCategoryUrlKey = @"url";
     [self.view addSubview:orderButton];
 }
 
+#pragma mark category Button
+
 -(OrderButton*)orderButtonReframed
 {
     OrderButton* orderButton = [self orderButton];
@@ -185,11 +186,9 @@ NSString* kCategoryUrlKey = @"url";
     frame.origin.x = self.view.frame.size.width - frame.size.width;
     frame.origin.y = 0;
     orderButton.frame = frame;
-
+    
     return orderButton;
 }
-
-#pragma mark category Button
 // 获取频道按钮，并设置数据
 -(OrderButton*)orderButton
 {
@@ -223,9 +222,130 @@ NSString* kCategoryUrlKey = @"url";
     orderButton.bottomUrlStringArr = moreCategoriesUrlArray;
 }
 
+#pragma mark category Button Responder
+// 弹出了自定义频道列表视图
+- (void)orderViewOut:(id)sender{
+    OrderButton * orderButton = (OrderButton *)sender;
+    [self refreshOrderButton:orderButton];
+    
+    if([[orderButton.vc.view subviews] count]>1){
+        //        [[[orderButton.vc.view subviews]objectAtIndex:1] removeFromSuperview];
+        NSLog(@"%@",[orderButton.vc.view subviews]);
+    }
+    OrderViewController * orderVC = [[[OrderViewController alloc] init] autorelease];
+    orderVC.topTitleArr = orderButton.topTitleArr;
+    orderVC.topUrlStringArr = orderButton.topUrlStringArr;
+    
+    orderVC.bottomTitleArr = orderButton.bottomTitleArr;
+    orderVC.bottomUrlStringArr = orderButton.bottomUrlStringArr;
+    
+    UIView * orderView = [orderVC view];
+    [orderView setFrame:CGRectMake(0, - orderButton.vc.view.bounds.size.height, orderButton.vc.view.bounds.size.width, orderButton.vc.view.bounds.size.height)];
+    [orderView setBackgroundColor:[UIColor colorWithRed:239/255.0 green:239/255.0 blue:239/255.0 alpha:1.0]];
+    
+    // replace target
+    [orderButton removeTarget:self action:@selector(orderViewOut:) forControlEvents:UIControlEventTouchUpInside];
+    [orderButton addTarget:self action:@selector(backAction:) forControlEvents:UIControlEventTouchUpInside];
+    [orderButton setImage:[UIImage imageNamed:KOrderButtonUpImage] forState:UIControlStateNormal];
+    
+    [self.view insertSubview:orderView belowSubview:orderButton];
+    [self addChildViewController:orderVC];
+    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionLayoutSubviews animations:^{
+        [orderView setFrame:CGRectMake(0, 0, orderButton.vc.view.bounds.size.width, orderButton.vc.view.bounds.size.height)];
+        
+    } completion:^(BOOL finished){
+        
+    }];
+    
+}
+
+// 自定义列表完毕了
+- (void)backAction:(id)sender{
+    // replace target
+    OrderButton * orderButton = (OrderButton *)sender;
+    [orderButton removeTarget:self action:@selector(backAction:) forControlEvents:UIControlEventTouchUpInside];
+    [orderButton addTarget:self action:@selector(orderViewOut:) forControlEvents:UIControlEventTouchUpInside];
+    [orderButton setImage:[UIImage imageNamed:KOrderButtonDownImage] forState:UIControlStateNormal];
+    
+    OrderViewController * orderVC = [self.childViewControllers objectAtIndex:0];
+    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionLayoutSubviews animations:^{
+        [orderVC.view setFrame:CGRectMake(0, - self.view.bounds.size.height, self.view.bounds.size.width, self.view.bounds.size.height)];
+        
+    } completion:^(BOOL finished){
+        [CommonHelper saveArchiver:[orderVC topViewModels] path:[HomeViewController topCategorySavePath]];
+        [CommonHelper saveArchiver:[orderVC bottomViewModels] path:[HomeViewController bottomCategorySavePath]];
+        
+        [[[self.childViewControllers  objectAtIndex:0] view] removeFromSuperview];
+        [orderVC removeFromParentViewController];
+        
+        [self notifySubscriptionChange];
+    }];
+}
+
+// 我的订阅的变更通知
+-(void)notifySubscriptionChange
+{
+    // 通知数据的关心者
+    if ( mySubscriptionDataObservers ) {
+        NSMutableArray* mySubscriptionCategoriesTitleArray = [NSMutableArray array];
+        NSMutableArray* mySubscriptionCategoriesUrlArray = [NSMutableArray array];
+        
+        [self retrieveOrderButtonArray:mySubscriptionCategoriesTitleArray urlStringArr:mySubscriptionCategoriesUrlArray bottomTitleArr:nil bottomUrlStringArr:nil];
+        for (id<Notifier> notifier in mySubscriptionDataObservers) {
+            if ( notifier ) {
+                [notifier onChange:[NSArray arrayWithObjects:mySubscriptionCategoriesTitleArray,mySubscriptionCategoriesUrlArray, nil]];
+            }
+        }
+    }
+}
+
+#pragma mark 数据持久化的文件路径
+// 顶部分类:我的订阅
++(NSString*)topCategorySavePath
+{
+    return [HTTPHelper cachePathForKey:@"topCategory.out" underDir:CategoryDir];
+}
+
+// 底部分类：更多分类
++(NSString*)bottomCategorySavePath
+{
+    return [HTTPHelper cachePathForKey:@"bottomCategory.out" underDir:CategoryDir];
+}
+
+
+#pragma mark 网络返回json数据的解析
++(NSArray*)Json2Array:(NSData*)data
+{
+    return [HomeViewController Json2Object:data forKey:@"data"];
+}
+
++(id)Json2Object:(NSData*)data forKey:(NSString*)name
+{
+    NSError* error;
+    id obj = data;
+    if ([obj isKindOfClass:[NSData class] ]) {
+        id res = [NSJSONSerialization JSONObjectWithData:(NSData*)obj  options:NSJSONReadingMutableContainers error:&error];
+        
+        if (res && [res isKindOfClass:[NSArray class]]) {
+            NSDictionary* dict = [res objectAtIndex:0];
+            NSString* val = [dict objectForKey:@"Data"];
+            res = [NSJSONSerialization JSONObjectWithData:[val dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&error];
+            if (res && [res isKindOfClass:[NSArray class]]) {
+                dict = [res objectAtIndex:0];
+                return [dict objectForKey:name];
+            }
+        }
+    }
+    return nil;
+}
+
+
+#pragma mark 频道数据的整理
 //返回订阅和更多分类数据：如果用户自定义过分类，则使用用户自定义的分类；否则使用缺省的分类
 -(void)retrieveOrderButtonArray:(NSMutableArray *)titleArr urlStringArr:(NSMutableArray *)urlStringArr bottomTitleArr:(NSMutableArray *)bottomTitleArr bottomUrlStringArr:(NSMutableArray *)bottomUrlStringArr
 {
+    //FIXME: 如果频道数据发生了变化，比如原来的频道停止了，则需要去除，并通知用户
+    
     // 如果用户自定义过分类，则使用用户自定义的分类；否则使用缺省的分类
     //缺省的分类：将前几项作为缺省的分类
     // 获取了缺省的分类（如果联网失败，则弹出网络提示）
@@ -307,145 +427,6 @@ NSString* kCategoryUrlKey = @"url";
         
         if (urlArray) {
             [urlArray addObject:model.urlString];
-        }
-    }
-}
-
-#pragma mark category Button Responder
-// 弹出了自定义频道列表视图
-- (void)orderViewOut:(id)sender{
-    OrderButton * orderButton = (OrderButton *)sender;
-    [self refreshOrderButton:orderButton];
-    
-    if([[orderButton.vc.view subviews] count]>1){
-        //        [[[orderButton.vc.view subviews]objectAtIndex:1] removeFromSuperview];
-        NSLog(@"%@",[orderButton.vc.view subviews]);
-    }
-    OrderViewController * orderVC = [[[OrderViewController alloc] init] autorelease];
-    orderVC.topTitleArr = orderButton.topTitleArr;
-    orderVC.topUrlStringArr = orderButton.topUrlStringArr;
-    
-    orderVC.bottomTitleArr = orderButton.bottomTitleArr;
-    orderVC.bottomUrlStringArr = orderButton.bottomUrlStringArr;
-    
-    UIView * orderView = [orderVC view];
-    [orderView setFrame:CGRectMake(0, - orderButton.vc.view.bounds.size.height, orderButton.vc.view.bounds.size.width, orderButton.vc.view.bounds.size.height)];
-    [orderView setBackgroundColor:[UIColor colorWithRed:239/255.0 green:239/255.0 blue:239/255.0 alpha:1.0]];
-    
-    // replace target
-    [orderButton removeTarget:self action:@selector(orderViewOut:) forControlEvents:UIControlEventTouchUpInside];
-    [orderButton addTarget:self action:@selector(backAction:) forControlEvents:UIControlEventTouchUpInside];
-    [orderButton setImage:[UIImage imageNamed:KOrderButtonUpImage] forState:UIControlStateNormal];
-    
-    [self.view insertSubview:orderView belowSubview:orderButton];
-    [self addChildViewController:orderVC];
-    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionLayoutSubviews animations:^{
-        [orderView setFrame:CGRectMake(0, 0, orderButton.vc.view.bounds.size.width, orderButton.vc.view.bounds.size.height)];
-        
-    } completion:^(BOOL finished){
-        
-    }];
-    
-}
-
-// 自定义列表完毕了
-- (void)backAction:(id)sender{
-    // replace target
-    OrderButton * orderButton = (OrderButton *)sender;
-    [orderButton removeTarget:self action:@selector(backAction:) forControlEvents:UIControlEventTouchUpInside];
-    [orderButton addTarget:self action:@selector(orderViewOut:) forControlEvents:UIControlEventTouchUpInside];
-    [orderButton setImage:[UIImage imageNamed:KOrderButtonDownImage] forState:UIControlStateNormal];
-    
-    OrderViewController * orderVC = [self.childViewControllers objectAtIndex:0];
-    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionLayoutSubviews animations:^{
-        [orderVC.view setFrame:CGRectMake(0, - self.view.bounds.size.height, self.view.bounds.size.width, self.view.bounds.size.height)];
-        
-    } completion:^(BOOL finished){
-        [CommonHelper saveArchiver:[orderVC topViewModels] path:[HomeViewController topCategorySavePath]];
-        [CommonHelper saveArchiver:[orderVC bottomViewModels] path:[HomeViewController bottomCategorySavePath]];
-        
-        [[[self.childViewControllers  objectAtIndex:0] view] removeFromSuperview];
-        [orderVC removeFromParentViewController];
-        
-        [self notifySubscriptionChange];
-    }];
-}
-
-#pragma mark 数据持久化的文件路径
-// 顶部分类:我的订阅
-+(NSString*)topCategorySavePath
-{
-    //NSString * string = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-//    return [string stringByAppendingPathComponent:@"topCategory.out"];
-    return [HTTPHelper cachePathForKey:@"topCategory.out" underDir:CategoryDir];
-}
-
-// 底部分类：更多分类
-+(NSString*)bottomCategorySavePath
-{
-   // NSString * string = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-//    return [string stringByAppendingPathComponent:@"bottomCategory.out"];
-    return [HTTPHelper cachePathForKey:@"bottomCategory.out" underDir:CategoryDir];
-}
-
-
-// 将数组保存到文件
-+(void)saveArray2File:(NSString*)file withArray:(NSArray*)array
-{
-    if (file && array) {
-        [array writeToFile:file atomically:YES];
-    }
-}
-
-// 从文件中读取数组
-+(NSArray*)restoreArrayFromFile:(NSString*)file
-{
-    if (!file) {
-        return nil;
-    }
-    return [NSArray arrayWithContentsOfFile:file];
-}
-
-#pragma mark 网络返回json数据的解析
-+(NSArray*)Json2Array:(NSData*)data
-{
-    return [HomeViewController Json2Object:data forKey:@"data"];
-}
-
-+(id)Json2Object:(NSData*)data forKey:(NSString*)name
-{
-    NSError* error;
-    id obj = data;
-    if ([obj isKindOfClass:[NSData class] ]) {
-        id res = [NSJSONSerialization JSONObjectWithData:(NSData*)obj  options:NSJSONReadingMutableContainers error:&error];
-        
-        if (res && [res isKindOfClass:[NSArray class]]) {
-            NSDictionary* dict = [res objectAtIndex:0];
-            NSString* val = [dict objectForKey:@"Data"];
-            res = [NSJSONSerialization JSONObjectWithData:[val dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&error];
-            if (res && [res isKindOfClass:[NSArray class]]) {
-                dict = [res objectAtIndex:0];
-                return [dict objectForKey:name];
-            }
-        }
-    }
-    return nil;
-}
-
-
-// 我的订阅的变更通知
--(void)notifySubscriptionChange
-{
-    // 通知数据的关心者
-    if ( mySubscriptionDataObservers ) {
-        NSMutableArray* mySubscriptionCategoriesTitleArray = [NSMutableArray array];
-        NSMutableArray* mySubscriptionCategoriesUrlArray = [NSMutableArray array];
-        
-        [self retrieveOrderButtonArray:mySubscriptionCategoriesTitleArray urlStringArr:mySubscriptionCategoriesUrlArray bottomTitleArr:nil bottomUrlStringArr:nil];
-        for (id<Notifier> notifier in mySubscriptionDataObservers) {
-            if ( notifier ) {
-                [notifier onChange:[NSArray arrayWithObjects:mySubscriptionCategoriesTitleArray,mySubscriptionCategoriesUrlArray, nil]];
-            }
         }
     }
 }
