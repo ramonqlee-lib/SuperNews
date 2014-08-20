@@ -37,6 +37,8 @@
 		3007C66E19A564EF00641756 /* libSocialWechat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3007C65719A564EE00641756 /* libSocialWechat.a */; };
 		3007C66F19A564EF00641756 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3007C65819A564EE00641756 /* libWeChatSDK.a */; };
 		3007C67019A564EF00641756 /* libSocialYiXin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3007C65D19A564EE00641756 /* libSocialYiXin.a */; };
+		3007C67519A5679800641756 /* libUMFeedback.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3007C67219A5679800641756 /* libUMFeedback.a */; };
+		3007C67619A5679900641756 /* umFeedback.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3007C67319A5679800641756 /* umFeedback.bundle */; };
 		303F6CF619A43745004BC608 /* OfflineDowloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 303F6CF519A43745004BC608 /* OfflineDowloader.m */; };
 		30483A4E19970F3A0020C55C /* ZJTStatusBarAlertWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 30483A4D19970F3A0020C55C /* ZJTStatusBarAlertWindow.m */; };
 		3052B1551996CF8400C4A718 /* RMFavoriteUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3052B1541996CF8400C4A718 /* RMFavoriteUtils.m */; };
@@ -275,6 +277,9 @@
 		3007C65B19A564EE00641756 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
 		3007C65D19A564EE00641756 /* libSocialYiXin.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSocialYiXin.a; sourceTree = "<group>"; };
 		3007C65E19A564EE00641756 /* UMSocialYiXinHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialYiXinHandler.h; sourceTree = "<group>"; };
+		3007C67219A5679800641756 /* libUMFeedback.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMFeedback.a; sourceTree = "<group>"; };
+		3007C67319A5679800641756 /* umFeedback.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = umFeedback.bundle; sourceTree = "<group>"; };
+		3007C67419A5679800641756 /* UMFeedback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMFeedback.h; sourceTree = "<group>"; };
 		303F6CF419A43745004BC608 /* OfflineDowloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfflineDowloader.h; sourceTree = "<group>"; };
 		303F6CF519A43745004BC608 /* OfflineDowloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfflineDowloader.m; sourceTree = "<group>"; };
 		30483A4C19970F3A0020C55C /* ZJTStatusBarAlertWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZJTStatusBarAlertWindow.h; sourceTree = "<group>"; };
@@ -618,6 +623,7 @@
 				3E99694519319729003CA4C6 /* MobileCoreServices.framework in Frameworks */,
 				3007C66419A564EF00641756 /* libSocialSina.a in Frameworks */,
 				30DF25751999817F00F75C6B /* libUIViewControllerExt_Simulator.a in Frameworks */,
+				3007C67519A5679800641756 /* libUMFeedback.a in Frameworks */,
 				30FCD63F197BC0CE000F7015 /* libFlurry_4.3.2.a in Frameworks */,
 				30CD18C319892C3500600D6D /* libSVWebViewController.a in Frameworks */,
 			);
@@ -824,6 +830,16 @@
 				3007C65E19A564EE00641756 /* UMSocialYiXinHandler.h */,
 			);
 			path = YiXin;
+			sourceTree = "<group>";
+		};
+		3007C67119A5679800641756 /* UMFeedback_iOS_1.4 */ = {
+			isa = PBXGroup;
+			children = (
+				3007C67219A5679800641756 /* libUMFeedback.a */,
+				3007C67319A5679800641756 /* umFeedback.bundle */,
+				3007C67419A5679800641756 /* UMFeedback.h */,
+			);
+			path = UMFeedback_iOS_1.4;
 			sourceTree = "<group>";
 		};
 		303F6CF319A43736004BC608 /* OfflineDownloader */ = {
@@ -1200,6 +1216,7 @@
 		30FCD5D3197B31D6000F7015 /* Libs */ = {
 			isa = PBXGroup;
 			children = (
+				3007C67119A5679800641756 /* UMFeedback_iOS_1.4 */,
 				3007C5F419A561C200641756 /* UMSocial_Sdk_4.1 */,
 				303F6CF319A43736004BC608 /* OfflineDownloader */,
 				30B129F0199AD5B6000E3450 /* LibRMBaiduAd */,
@@ -1616,6 +1633,7 @@
 				3007C62619A561C200641756 /* UMSShareListController.xib in Resources */,
 				8B460967192D968300B28082 /* Images.xcassets in Resources */,
 				308093EE198DD3F0007BBC60 /* Icon.png in Resources */,
+				3007C67619A5679900641756 /* umFeedback.bundle in Resources */,
 				30809404198DD9C0007BBC60 /* normal.png in Resources */,
 				3007C62219A561C200641756 /* UMShareEditViewController.xib in Resources */,
 				3052B1831996FD8700C4A718 /* zoomIn.png in Resources */,

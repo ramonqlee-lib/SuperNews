@@ -14,6 +14,7 @@
 #import "OfflineDowloader.h"
 #import "ZJTStatusBarAlertWindow.h"
 #import "HTTPHelper.h"
+#import "UMFeedback.h"
 
 @interface SettingsViewController ()<DownloadDelegate,UIAlertViewDelegate>
 
@@ -73,6 +74,13 @@
 		} whenSelected:^(NSIndexPath *indexPath) {
             [self openAboutAction:nil];
 		}];
+        
+        [section addCell:^(JMStaticContentTableViewCell *staticContentCell, UITableViewCell *cell, NSIndexPath *indexPath) {
+			cell.textLabel.text = NSLocalizedString(@"意见反馈", @"意见反馈");
+            //			cell.imageView.image = [UIImage imageNamed:@"About"];
+		} whenSelected:^(NSIndexPath *indexPath) {
+            [self webFeedback:nil];
+		}];
 	}];
     
 }
@@ -112,6 +120,10 @@
     [self presentViewController:controller animated:YES completion:nil];
 }
 
+- (IBAction)webFeedback:(id)sender {
+    [UMFeedback showFeedback:self withAppkey:UmengAppkey];
+    //    [UMFeedback showFeedback:self withAppkey:UMENG_APPKEY dictionary:[NSDictionary dictionaryWithObject:[NSArray arrayWithObjects:@"a", @"b", @"c", nil] forKey:@"hello"]];
+}
 
 
 -(IBAction)clearCacheAction:(id)sender
