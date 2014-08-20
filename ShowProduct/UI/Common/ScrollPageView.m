@@ -20,16 +20,18 @@
 #import "Flurry.h"
 #import "RMBaiduAd.h"
 #import "BaiduMobAdView.h"
+#import "UMSocial.h"
 
 
 // toolbar的button编号
 #define kZoomInButtonTag 1
 #define kZoomOutTag 2
 #define kAdd2FavoriteButtonTag 3
+#define kShareButtonTag 4
 
 #define kCellHeight 76.0f
 
-@interface ScrollPageView()<CommandMasterDelegate>
+@interface ScrollPageView()<CommandMasterDelegate,UMSocialUIDelegate>
 {
     RMTableView * tableViewWithPullRefreshLoadMoreButton;
     CGPoint mLastContentOffset;
@@ -379,8 +381,11 @@
          UIButton* add2FavoriteButton = [CommandButton createButtonWithImage:[UIImage imageNamed:@"saveIcon"] andTitle:@"收藏"];
          add2FavoriteButton.tag = kAdd2FavoriteButtonTag;
          
+         UIButton* shareButton = [CommandButton createButtonWithImage:[UIImage imageNamed:@"saveIcon"] andTitle:@"分享"];
+         shareButton.tag = kShareButtonTag;
+         
          CommandMaster* commandMaster = [[[CommandMaster alloc]init]autorelease];
-         [commandMaster addButtons:@[zoomInButton,zoomOutButton,add2FavoriteButton] forGroup:@"WebviewToolbar"];
+         [commandMaster addButtons:@[zoomInButton,zoomOutButton,add2FavoriteButton,shareButton] forGroup:@"WebviewToolbar"];
          [commandMaster addToView:webViewController.view andLoadGroup:@"WebviewToolbar"];
          commandMaster.delegate = self;
      })];
@@ -409,8 +414,52 @@
         case  kAdd2FavoriteButtonTag:
             [self add2FavoriteAction:selectedCellPos];
             break;
+        case kShareButtonTag:
+            [self showShareList:nil];
+            break;
         default:
             break;
+    }
+}
+/*
+ 注意分享到新浪微博我们使用新浪微博SSO授权，你需要在xcode工程设置url scheme，并重写AppDelegate中的`- (BOOL)application openURL sourceApplication`方法，详细见文档。否则不能跳转回来原来的app。
+ */
+-(IBAction)showShareList:(id)sender
+{
+    // TODO: 待在delegate中修改配置参数
+    NSString *shareText = @"友盟社会化组件可以让移动应用快速具备社会化分享、登录、评论、喜欢等功能，并提供实时、全面的社会化数据统计分析服务。 http://www.umeng.com/social";             //分享内嵌文字
+    UIImage *shareImage = [UIImage imageNamed:@"help"];          //分享内嵌图片
+    
+    //如果得到分享完成回调，需要设置delegate为self
+    [UMSocialSnsService presentSnsIconSheetView:webViewController appKey:UmengAppkey shareText:shareText shareImage:shareImage shareToSnsNames:nil/*[NSArray arrayWithObjects:UMShareToSina,UMShareToTencent,UMShareToRenren,nil]*/ delegate:self];
+}
+
+
+////下面可以设置根据点击不同的分享平台，设置不同的分享文字
+//-(void)didSelectSocialPlatform:(NSString *)platformName withSocialData:(UMSocialData *)socialData
+//{
+//    if ([platformName isEqualToString:UMShareToSina]) {
+//        socialData.shareText = @"分享到新浪微博";
+//    }
+//    else{
+//        socialData.shareText = @"分享内嵌文字";
+//    }
+//}
+
+-(void)didCloseUIViewController:(UMSViewControllerType)fromViewControllerType
+{
+    NSLog(@"didClose is %d",fromViewControllerType);
+}
+
+//下面得到分享完成的回调
+-(void)didFinishGetUMSocialDataInViewController:(UMSocialResponseEntity *)response
+{
+    NSLog(@"didFinishGetUMSocialDataInViewController with response is %@",response);
+    //根据`responseCode`得到发送结果,如果分享成功
+    if(response.responseCode == UMSResponseCodeSuccess)
+    {
+        //得到分享到的微博平台名
+        NSLog(@"share to sns name is %@",[[response.data allKeys] objectAtIndex:0]);
     }
 }
 

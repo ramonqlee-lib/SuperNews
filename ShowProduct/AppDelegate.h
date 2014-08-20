@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#define UmengAppkey @"5211818556240bc9ee01db2f"
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 {
     UINavigationController *mNavigationController;
