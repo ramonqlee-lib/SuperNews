@@ -57,7 +57,6 @@ return s##className;\
 + (UIViewController *)getCurrentRootViewController;
 
 +(NSString*)xor_string:(NSString*)stream key:(int)key;
-+ (NSString *)cachePathForKey:(NSString *)key;
 
 
 +(BOOL)sameApp:(NSString*)bundleID;

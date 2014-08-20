@@ -10,6 +10,11 @@
 #import "CommonHelper.h"
 @class FileModel;
 
+//缓存路径
+#define CategoryDir @"Category" //频道的目录缓存
+#define CategoryCache @"CategoryCache" //频道的数据缓存
+#define ImageCache @"ImageCache" //频道的图片缓存
+
 @interface HTTPHelper : NSObject
 
 
@@ -23,6 +28,8 @@ Decl_Singleton(HTTPHelper)
 
 -(void)beginPostRequest:(NSString*)url withDictionary:(NSDictionary*)postData;
 
-+(NSString*)cacheFilePath:(NSString*)url;
++(void)clearCache;
++ (NSString *)cachePathForKey:(NSString *)key;
++ (NSString *)cachePathForKey:(NSString *)key underDir:(NSString*)dir;
 +(NSInteger)Json2Array:(NSData*)data forArray:(NSMutableArray*)array;
 @end

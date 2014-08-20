@@ -160,13 +160,7 @@ NSString* kCategoryUrlKey = @"url";
         NSString* appSpec = [HomeViewController Json2Object:(NSData*)obj forKey:@"baiduAppSpec"];
         [RMBaiduAd setBaiduPublisherId:publisherId];
         [RMBaiduAd setBaiduAppSpec:appSpec];
-        //FIXME 测试保存和恢复（此部分数据将用于频道的自定义功能）
-        /*
-        NSString* file = [HomeViewController categoryFilePath];
-         [HomeViewController saveArray2File:file withArray:allCategories];
-         allCategories = nil;
-         allCategories = [HomeViewController restoreArrayFromFile:file];
-        */
+        
         
         [[NSNotificationCenter defaultCenter]removeObserver:self];
         
@@ -387,27 +381,19 @@ NSString* kCategoryUrlKey = @"url";
 // 顶部分类:我的订阅
 +(NSString*)topCategorySavePath
 {
-    NSString * string = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    return [string stringByAppendingPathComponent:@"topCategory.out"];
+    //NSString * string = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+//    return [string stringByAppendingPathComponent:@"topCategory.out"];
+    return [HTTPHelper cachePathForKey:@"topCategory.out" underDir:CategoryDir];
 }
 
 // 底部分类：更多分类
 +(NSString*)bottomCategorySavePath
 {
-    NSString * string = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    return [string stringByAppendingPathComponent:@"bottomCategory.out"];
+   // NSString * string = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+//    return [string stringByAppendingPathComponent:@"bottomCategory.out"];
+    return [HTTPHelper cachePathForKey:@"bottomCategory.out" underDir:CategoryDir];
 }
 
-
-// 返回存储类别文件的路径
-+(NSString*)categoryFilePath
-{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
-                                                         NSUserDomainMask, YES);
-    return [[paths objectAtIndex:0]
-            stringByAppendingPathComponent:@"category.out"];
-    
-}
 
 // 将数组保存到文件
 +(void)saveArray2File:(NSString*)file withArray:(NSArray*)array

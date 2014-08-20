@@ -7,7 +7,6 @@
 //
 
 #import "CommonHelper.h"
-#import <CommonCrypto/CommonDigest.h>
 #import "Flurry.h"
 
 
@@ -273,25 +272,7 @@
 {
     return [[[[NSBundle mainBundle]infoDictionary]objectForKey:(NSString*)kCFBundleIdentifierKey] isEqual:bundleID];
 }
-+ (NSString *)cachePathForKey:(NSString *)key
-{
-    const char *str = [key UTF8String];
-    unsigned char r[CC_MD5_DIGEST_LENGTH];
-    CC_MD5(str, (CC_LONG)strlen(str), r);
-    NSString *filename = [NSString stringWithFormat:@"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
-                          r[0], r[1], r[2], r[3], r[4], r[5], r[6], r[7], r[8], r[9], r[10], r[11], r[12], r[13], r[14], r[15]];
-    
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    NSString* diskCachePath = [[[paths objectAtIndex:0] stringByAppendingPathComponent:@"CategoryCache"] retain];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:diskCachePath])
-    {
-        [[NSFileManager defaultManager] createDirectoryAtPath:diskCachePath
-                                  withIntermediateDirectories:YES
-                                                   attributes:nil
-                                                        error:NULL];
-    }
-    return [diskCachePath stringByAppendingPathComponent:filename];
-}
+
 
 +(BOOL)saveDefaultsForInt:(NSString*)key withValue:(NSInteger)value
 {

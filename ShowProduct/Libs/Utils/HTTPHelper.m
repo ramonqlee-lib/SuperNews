@@ -11,7 +11,7 @@
 #import "ASIFormDataRequest.h"
 #import "CommonHelper.h"
 #import "Constants.h"
-#import "ASIDownloadCache.h"
+#import <CommonCrypto/CommonDigest.h>
 #import "Base64.h"
 
 #define kMaxConcurrentOperationCount 1
@@ -303,17 +303,52 @@ Impl_Singleton(HTTPHelper)
 }
 
 
-//频道数据的缓存路径
-+(NSString*)cacheFilePath:(NSString*)url
+
++(void)clearCache
 {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
-                                                         NSUserDomainMask, YES);
-    NSString* fileName = [NSString stringWithFormat:@"%@.out",[ASIDownloadCache keyForURL:[NSURL URLWithString:url]]];
-    return [[paths objectAtIndex:0]
-            stringByAppendingPathComponent:fileName];
+    NSString* path = [HTTPHelper cacheRootPath];
+    NSString* diskCachePath = [path stringByAppendingPathComponent:CategoryDir];
+//    [[NSFileManager defaultManager]removeItemAtPath:diskCachePath error:nil];
     
+    diskCachePath = [path stringByAppendingPathComponent:CategoryCache];
+    [[NSFileManager defaultManager]removeItemAtPath:diskCachePath error:nil];
+    
+    diskCachePath = [path stringByAppendingPathComponent:ImageCache];
+    [[NSFileManager defaultManager]removeItemAtPath:diskCachePath error:nil];
 }
 
++(NSString*)cacheRootPath
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    return [paths objectAtIndex:0];
+//    NSString* diskCachePath = [[[paths objectAtIndex:0] stringByAppendingPathComponent:dir] retain];
+}
+//频道数据的缓存路径
++ (NSString *)cachePathForKey:(NSString *)key
+{
+    return [HTTPHelper cachePathForKey:key underDir:CategoryCache];
+}
+
++ (NSString *)cachePathForKey:(NSString *)key underDir:(NSString*)dir
+{
+    const char *str = [key UTF8String];
+    unsigned char r[CC_MD5_DIGEST_LENGTH];
+    CC_MD5(str, (CC_LONG)strlen(str), r);
+    NSString *filename = [NSString stringWithFormat:@"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
+                          r[0], r[1], r[2], r[3], r[4], r[5], r[6], r[7], r[8], r[9], r[10], r[11], r[12], r[13], r[14], r[15]];
+    
+    //NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString* path = [HTTPHelper cacheRootPath];
+    NSString* diskCachePath = [[path stringByAppendingPathComponent:dir] retain];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:diskCachePath])
+    {
+        [[NSFileManager defaultManager] createDirectoryAtPath:diskCachePath
+                                  withIntermediateDirectories:YES
+                                                   attributes:nil
+                                                        error:NULL];
+    }
+    return [diskCachePath stringByAppendingPathComponent:filename];
+}
 
 // 解析返回的频道数据，设置到数据中，并返回总数量
 +(NSInteger)Json2Array:(NSData*)data forArray:(NSMutableArray*)array

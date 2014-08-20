@@ -97,7 +97,7 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
     NSLog(@"logEvent: %@",title);
     
     NSString* url = [urlArray objectAtIndex:page];
-    NSString* filePath = [CommonHelper cachePathForKey:url];
+    NSString* filePath = [HTTPHelper cachePathForKey:url];
     NSArray* ret = [CommonHelper readArchiver:filePath];
     if (ret && ret.count) {
         NSLog(@"loadd cache & refresh tableview");
@@ -196,7 +196,7 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
 
 
     NSString* url = (currentPageIndex<urlArray.count)?[urlArray objectAtIndex:currentPageIndex]:kDefaultCategoryUrl;
-    NSString* filePath = [CommonHelper cachePathForKey:url];
+    NSString* filePath = [HTTPHelper cachePathForKey:url];
     NSDictionary* dict = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:nil];
     NSMutableDictionary* postDict = [NSMutableDictionary dictionary];
     if (dict) {
@@ -233,7 +233,7 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
         [myTableView.tableInfoArray removeAllObjects];
         [myTableView.tableInfoArray addObjectsFromArray:temp];
         
-        NSString* filePath = [CommonHelper cachePathForKey:url];
+        NSString* filePath = [HTTPHelper cachePathForKey:url];
         NSLog(@"receive http data &refresh tableview & cache file under %@",filePath);
         [CommonHelper saveArchiver:temp path:filePath];
         

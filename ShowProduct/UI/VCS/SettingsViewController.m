@@ -13,8 +13,9 @@
 #import "ScrollViewWithTopBar.h"
 #import "OfflineDowloader.h"
 #import "ZJTStatusBarAlertWindow.h"
+#import "HTTPHelper.h"
 
-@interface SettingsViewController ()<DownloadDelegate>
+@interface SettingsViewController ()<DownloadDelegate,UIAlertViewDelegate>
 
 @property (nonatomic, retain) UISwitch *airplaneModeSwitch;
 
@@ -48,6 +49,13 @@
             //			cell.imageView.image = [UIImage imageNamed:@"About"];
 		} whenSelected:^(NSIndexPath *indexPath) {
             [self offlineDownloadAction:nil];
+		}];
+        
+        [section addCell:^(JMStaticContentTableViewCell *staticContentCell, UITableViewCell *cell, NSIndexPath *indexPath) {
+			cell.textLabel.text = NSLocalizedString(@"清除缓存", @"清除缓存");
+            //			cell.imageView.image = [UIImage imageNamed:@"About"];
+		} whenSelected:^(NSIndexPath *indexPath) {
+            [self clearCacheAction:nil];
 		}];
 	}];
     
@@ -102,6 +110,29 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+
+-(IBAction)clearCacheAction:(id)sender
+{
+    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"ClearCacheTitle", nil) message:NSLocalizedString(@"ClearCacheBody", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"OK",@"确认") otherButtonTitles:NSLocalizedString(@"Cancel",@"取消"),nil];
+    [alert show];
+    [alert release];
+}
+
+#pragma mark UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        [HTTPHelper clearCache];
+        
+        [[ZJTStatusBarAlertWindow getInstance]showWithString:@"缓存清理完毕！"];
+        double delayInSeconds = 2;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            [[ZJTStatusBarAlertWindow getInstance] hide];
+        });
+    }
+}
+#pragma mark UIAlertViewDelegate end
 -(IBAction)offlineDownloadAction:(id)sender
 {
     OfflineDowloader* downloader = [OfflineDowloader sharedInstance];

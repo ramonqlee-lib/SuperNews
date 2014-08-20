@@ -67,7 +67,7 @@ Impl_Singleton(OfflineDowloader)
 #pragma mark 获取频道分类数据
 -(BOOL)download:(NSString*)url
 {
-    NSString* filePath = [CommonHelper cachePathForKey:url];
+    NSString* filePath = [HTTPHelper cachePathForKey:url];
     NSDictionary* dict = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:nil];
     NSMutableDictionary* postDict = [NSMutableDictionary dictionary];
     if (dict) {
@@ -103,7 +103,7 @@ Impl_Singleton(OfflineDowloader)
     }
     if (temp.count)
     {
-        NSString* filePath = [CommonHelper cachePathForKey:url];
+        NSString* filePath = [HTTPHelper cachePathForKey:url];
         NSLog(@"receive http data &refresh tableview & cache file under %@",filePath);
         [CommonHelper saveArchiver:temp path:filePath];
     }

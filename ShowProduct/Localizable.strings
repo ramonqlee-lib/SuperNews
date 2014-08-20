@@ -7,3 +7,7 @@
 */
 
 "About"="版本V1.1  iDreems.com荣誉出品";
+"OK"="确认";
+"Cancel"="取消";
+"ClearCacheTitle"="确认清理缓存？？";
+"ClearCacheBody"="\n离线下载和查看过的数据，保留在缓存中。\n这样在没有网络的情况下，也可以正常使用。";
