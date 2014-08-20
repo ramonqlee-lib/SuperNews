@@ -71,6 +71,13 @@
     if (adView) {
         self.tableView.tableHeaderView = adView;
     }
+    
+    UIBarButtonItem *BackBtn = [[UIBarButtonItem alloc] initWithTitle:@"返回"
+                                                                style:UIBarButtonItemStylePlain
+                                                               target:self
+                                                               action:@selector(BackToFormerAction:)];
+    
+    self.navigationItem.leftBarButtonItem = BackBtn;
 }
 
 - (void)didReceiveMemoryWarning
@@ -252,6 +259,11 @@
 -(void)back
 {
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(IBAction)BackToFormerAction:(id)sender
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark util methods

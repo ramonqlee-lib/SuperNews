@@ -26,6 +26,8 @@
 
 @property (nonatomic,assign) id<ScrollPageViewDelegate> delegate;
 
+@property (nonatomic,assign) UIViewController* viewController;
+
 @property (nonatomic,assign) id<TableViewWithPullRefreshLoadMoreButtonDelegate> dataDelegate;
 
 #pragma mark 添加ScrollowViewd的ContentView

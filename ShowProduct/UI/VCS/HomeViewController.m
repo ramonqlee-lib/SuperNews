@@ -87,7 +87,7 @@ NSString* kCategoryUrlKey = @"url";
                         selectedImage:[UIImage imageNamed:@"setting_icon.png"]
                                target:self
                                action:@selector(showSetting:)];
-    self.navigationItem.rightBarButtonItem = button;
+    self.navigationItem.leftBarButtonItem = button;
     
     //contentView大小设置
     int vWidth = (int)([UIScreen mainScreen].bounds.size.width);
@@ -97,6 +97,7 @@ NSString* kCategoryUrlKey = @"url";
     if (mHomeView == nil) {
         mHomeView = [[ScrollViewWithTopBar alloc] initWithFrame:vContentView.frame];
         mHomeView.topBarHeight = MENUHEIGHT;
+        mHomeView.viewController = self;
         mHomeView.topBarRightPadding = [self orderButtonReframed].frame.size.width;
         [mySubscriptionDataObservers addObject:mHomeView];
     }
@@ -113,23 +114,14 @@ NSString* kCategoryUrlKey = @"url";
     SettingsViewController* vc = [[SettingsViewController alloc]init];
     UINavigationController* controller = [[UINavigationController alloc]initWithNavigationBarClass:[PrettyNavigationBar class] toolbarClass:nil/*[PrettyToolbar class]*/];
     [controller setViewControllers:@[vc]];
-    /*
-    UIBarButtonItem *BackBtn = [[UIBarButtonItem alloc] initWithTitle:@"返回"
-                                                                style:UIBarButtonItemStylePlain
-                                                               target:self
-                                                               action:@selector(BackAction:)];
-    
-    vc.navigationItem.leftBarButtonItem = BackBtn;
-    */
+
     //[self customizeNavBar:controller];
-    UIViewController* rootController = [[[UIApplication sharedApplication]keyWindow]rootViewController];
-    [rootController presentViewController:controller animated:YES completion:nil];
+    [self presentViewController:controller animated:YES completion:nil];
 }
 
 -(IBAction)BackAction:(id)sender
 {
-    UIViewController* rootController = [[[UIApplication sharedApplication]keyWindow]rootViewController];
-    [rootController dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 #pragma mark 获取频道分类数据
 -(void)retrieveAppSettings

@@ -19,5 +19,6 @@
 }
 @property(nonatomic,assign)CGFloat topBarHeight;
 @property(nonatomic,assign)CGFloat topBarRightPadding;
+@property (nonatomic,assign) UIViewController* viewController;
 
 @end

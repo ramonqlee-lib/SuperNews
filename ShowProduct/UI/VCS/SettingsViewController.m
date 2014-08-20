@@ -35,6 +35,12 @@
 
 - (void) viewDidLoad {
     [super viewDidLoad];
+    UIBarButtonItem *BackBtn = [[UIBarButtonItem alloc] initWithTitle:@"返回"
+                                                                style:UIBarButtonItemStylePlain
+                                                               target:self
+                                                               action:@selector(BackToFormerAction:)];
+    
+    self.navigationItem.leftBarButtonItem = BackBtn;
     
     [self addSection:^(JMStaticContentTableViewSection *section, NSUInteger sectionIndex) {
         [section addCell:^(JMStaticContentTableViewCell *staticContentCell, UITableViewCell *cell, NSIndexPath *indexPath) {
@@ -70,20 +76,10 @@
 	}];
     
 }
--(void)viewWillAppear:(BOOL)animated
-{
-    UIBarButtonItem *BackBtn = [[UIBarButtonItem alloc] initWithTitle:@"返回"
-                                                                style:UIBarButtonItemStylePlain
-                                                               target:self
-                                                               action:@selector(BackToFormerAction:)];
-    
-    self.navigationItem.leftBarButtonItem = BackBtn;
-}
 
 -(IBAction)BackToFormerAction:(id)sender
 {
-    UIViewController* rootController = [[[UIApplication sharedApplication]keyWindow]rootViewController];
-    [rootController dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (void) viewDidUnload {
     [super viewDidUnload];
@@ -112,22 +108,22 @@
     RMFavoriteController* vc = [[[RMFavoriteController alloc]init]autorelease];
     UINavigationController* controller = [[UINavigationController alloc]initWithNavigationBarClass:[PrettyNavigationBar class] toolbarClass:nil/*[PrettyToolbar class]*/];
     [controller setViewControllers:@[vc]];
-    UIBarButtonItem *BackBtn = [[UIBarButtonItem alloc] initWithTitle:@"返回"
-                                                                style:UIBarButtonItemStylePlain
-                                                               target:self
-                                                               action:@selector(BackAction:)];
     
-    vc.navigationItem.leftBarButtonItem = BackBtn;
     [self presentViewController:controller animated:YES completion:nil];
 }
--(IBAction)BackAction:(id)sender
-{
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
+
 
 
 -(IBAction)clearCacheAction:(id)sender
 {
+    // 是否在离线下载中？
+    OfflineDowloader* downloader = [OfflineDowloader sharedInstance];
+    if ([downloader working]) {
+        // : 下载中，状态栏弹出提示，返回
+        [[ZJTStatusBarAlertWindow getInstance]showWithString:@"离线下载中，请耐心等待!!"];
+        return;
+    }
+    
     UIAlertView* alert = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"ClearCacheTitle", nil) message:NSLocalizedString(@"ClearCacheBody", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"OK",@"确认") otherButtonTitles:NSLocalizedString(@"Cancel",@"取消"),nil];
     [alert show];
     [alert release];

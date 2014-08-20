@@ -10,7 +10,7 @@
 #define ifengNewsOrderDemo_Header_h
 
 #warning 发布前确认日志关闭
-//#define NSLog(...)
+#define NSLog(...)
 
 #define KOrderButtonFrameOriginX 257.0
 #define KOrderButtonFrameOriginY 20

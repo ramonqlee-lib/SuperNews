@@ -357,7 +357,6 @@
     webViewController.webviewFrame = CGRectMake(0, 0,rc.size.width , rc.size.height-kAppBarMinimalHeight);
     
     UINavigationController* controller = [[UINavigationController alloc]initWithNavigationBarClass:[PrettyNavigationBar class] toolbarClass:nil];
-//    UINavigationController* controller = [[[UINavigationController alloc]initWithRootViewController:webViewController]autorelease];
     [controller setViewControllers:@[webViewController]];
     UIBarButtonItem *BackBtn = [[UIBarButtonItem alloc] initWithTitle:@"返回"
                                                                 style:UIBarButtonItemStylePlain
@@ -365,8 +364,9 @@
                                                                action:@selector(BackAction:)];
     
     webViewController.navigationItem.leftBarButtonItem = BackBtn;
+    
     //[self customizeNavBar:controller];
-    UIViewController* rootController = [[[UIApplication sharedApplication]keyWindow]rootViewController];
+    UIViewController* rootController = self.viewController;//[[[UIApplication sharedApplication]keyWindow]rootViewController];
     [rootController presentViewController:controller animated:YES completion:(^(void)
      {
          UIButton* zoomInButton = [CommandButton createButtonWithImage:[UIImage imageNamed:@"zoomIn"] andTitle:@"放大"];
@@ -461,7 +461,7 @@
 
 -(IBAction)BackAction:(id)sender
 {
-    UIViewController* rootController = [[[UIApplication sharedApplication]keyWindow]rootViewController];
+    UIViewController* rootController = self.viewController;//[[[UIApplication sharedApplication]keyWindow]rootViewController];
     [rootController dismissViewControllerAnimated:YES completion:nil];
 }
 //更新tableview数据

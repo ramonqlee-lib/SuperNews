@@ -68,6 +68,7 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
         mScrollPageView = [[ScrollPageView alloc] initWithFrame:CGRectMake(0, topBarHeight, self.frame.size.width, self.frame.size.height - topBarHeight)];
         mScrollPageView.delegate = self;
         mScrollPageView.dataDelegate = self;
+        mScrollPageView.viewController = self.viewController;
         [self addSubview:mScrollPageView];
     }
     
