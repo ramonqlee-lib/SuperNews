@@ -353,36 +353,43 @@ Impl_Singleton(HTTPHelper)
 // 解析返回的频道数据，设置到数据中，并返回总数量
 +(NSInteger)Json2Array:(NSData*)data forArray:(NSMutableArray*)array
 {
-    if (array) {
-        [array removeAllObjects];
-    }
     NSInteger count = 0;
-    NSError* error;
-    id obj = data;
-    if ([obj isKindOfClass:[NSData class] ]) {
-        id res = [NSJSONSerialization JSONObjectWithData:(NSData*)obj  options:NSJSONReadingMutableContainers error:&error];
-        
-        if (res && [res isKindOfClass:[NSDictionary class]]) {
-            count = [((NSString*)[res objectForKey:@"count"]) intValue];
-            res = [res objectForKey:@"data"];
-            if (res && [res isKindOfClass:[NSArray class]]) {
-                
-                if (!array) {
-                    return count;
-                }
-                
-                NSArray* items = (NSArray*)res;
-                for (NSDictionary* dict in  items) {
-                    NSString* base64EncodedString = [NSString stringWithBase64EncodedString:[dict objectForKey:@"Content"]];
-                    id tmp = [NSJSONSerialization JSONObjectWithData:[base64EncodedString dataUsingEncoding:NSUTF8StringEncoding]  options:NSJSONReadingMutableContainers error:&error];
+    @try
+    {
+        if (array) {
+            [array removeAllObjects];
+        }
+        NSError* error;
+        id obj = data;
+        if ([obj isKindOfClass:[NSData class] ]) {
+            id res = [NSJSONSerialization JSONObjectWithData:(NSData*)obj  options:NSJSONReadingMutableContainers error:&error];
+            
+            if (res && [res isKindOfClass:[NSDictionary class]]) {
+                count = [((NSString*)[res objectForKey:@"count"]) intValue];
+                res = [res objectForKey:@"data"];
+                if (res && [res isKindOfClass:[NSArray class]]) {
                     
-                    if ([tmp isKindOfClass:[NSDictionary class]]) {
-                        [array addObject:tmp];
+                    if (!array) {
+                        return count;
                     }
+                    
+                    NSArray* items = (NSArray*)res;
+                    for (NSDictionary* dict in  items) {
+                        NSString* base64EncodedString = [NSString stringWithBase64EncodedString:[dict objectForKey:@"Content"]];
+                        id tmp = [NSJSONSerialization JSONObjectWithData:[base64EncodedString dataUsingEncoding:NSUTF8StringEncoding]  options:NSJSONReadingMutableContainers error:&error];
+                        
+                        if ([tmp isKindOfClass:[NSDictionary class]]) {
+                            [array addObject:tmp];
+                        }
+                    }
+                    
                 }
-                
             }
         }
+    }
+    @catch(NSException * e)
+    {
+        NSLog(@"Exception: %@", e);
     }
     return count;
 }
