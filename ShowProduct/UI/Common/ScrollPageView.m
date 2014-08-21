@@ -252,15 +252,53 @@
     }
     
     // 可以认为发生了页面切换
+//    mCurrentPage= page;
+//    if ([_delegate respondsToSelector:@selector(didScrollPageViewChangedPage:)] && mNeedUseDelegate) {
+//        [_delegate didScrollPageViewChangedPage:mCurrentPage];
+//    }
+}
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView      // called when scroll view grinds to a halt
+{
+    NSLog(@"scrollViewDidEndDecelerating");
+    int page = (_scrollView.contentOffset.x+320/2.0) / 320;
+    if (mCurrentPage == page) {
+        return;
+    }
+    
+    // 可以认为发生了页面切换
     mCurrentPage= page;
     if ([_delegate respondsToSelector:@selector(didScrollPageViewChangedPage:)] && mNeedUseDelegate) {
-        [_delegate didScrollPageViewChangedPage:mCurrentPage];
+        double delayInSeconds = 0.5;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            [_delegate didScrollPageViewChangedPage:mCurrentPage];
+        });
+        
     }
 }
-
+// called on start of dragging (may require some time and or distance to move)
+// called on finger up if the user dragged. velocity is in points/millisecond. targetContentOffset may be changed to adjust where the scroll view comes to rest
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset NS_AVAILABLE_IOS(5_0)
+{
+    NSLog(@"scrollViewWillEndDragging");
+}
+// called on finger up if the user dragged. decelerate is true if it will continue moving afterwards
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
+    NSLog(@"scrollViewDidEndDragging");
 }
+
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView   // called on finger up as we are moving
+{
+    NSLog(@"scrollViewWillBeginDecelerating");
+}
+
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView // called when setContentOffset/scrollRectVisible:animated: finishes. not called if not animating
+{
+    NSLog(@"scrollViewDidEndScrollingAnimation");
+}
+
 
 #pragma mark - CustomTableViewDataSource
 -(NSInteger)numberOfRowsInTableView:(UITableView *)aTableView InSection:(NSInteger)section FromView:(RMTableView *)aView{
