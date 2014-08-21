@@ -268,12 +268,14 @@
     // 可以认为发生了页面切换
     mCurrentPage= page;
     if ([_delegate respondsToSelector:@selector(didScrollPageViewChangedPage:)] && mNeedUseDelegate) {
+/*
         double delayInSeconds = 0.5;
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             [_delegate didScrollPageViewChangedPage:mCurrentPage];
         });
-        
+ */
+            [_delegate didScrollPageViewChangedPage:mCurrentPage];
     }
 }
 // called on start of dragging (may require some time and or distance to move)
