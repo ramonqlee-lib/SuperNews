@@ -421,7 +421,7 @@
          UIButton* add2FavoriteButton = [CommandButton createButtonWithImage:[UIImage imageNamed:@"saveIcon"] andTitle:@"收藏"];
          add2FavoriteButton.tag = kAdd2FavoriteButtonTag;
          
-         UIButton* shareButton = [CommandButton createButtonWithImage:[UIImage imageNamed:@"saveIcon"] andTitle:@"分享"];
+         UIButton* shareButton = [CommandButton createButtonWithImage:[UIImage imageNamed:@"UMS_share"] andTitle:@"分享"];
          shareButton.tag = kShareButtonTag;
          
          CommandMaster* commandMaster = [[[CommandMaster alloc]init]autorelease];
@@ -467,11 +467,12 @@
 -(IBAction)showShareList:(id)sender
 {
     // TODO: 待在delegate中修改配置参数
-    NSString *shareText = @"友盟社会化组件可以让移动应用快速具备社会化分享、登录、评论、喜欢等功能，并提供实时、全面的社会化数据统计分析服务。 http://www.umeng.com/social";             //分享内嵌文字
-    UIImage *shareImage = [UIImage imageNamed:@"help"];          //分享内嵌图片
+    NSString* temp = NSLocalizedString(@"RecommendFormatter", nil);
+    NSString *shareText = [NSString stringWithFormat:temp,[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"]]; //分享内嵌文字
+    UIImage *shareImage = [UIImage imageNamed:@"Default"];          //分享内嵌图片
     
     //如果得到分享完成回调，需要设置delegate为self
-    [UMSocialSnsService presentSnsIconSheetView:webViewController appKey:UmengAppkey shareText:shareText shareImage:shareImage shareToSnsNames:nil/*[NSArray arrayWithObjects:UMShareToSina,UMShareToTencent,UMShareToRenren,nil]*/ delegate:self];
+    [UMSocialSnsService presentSnsIconSheetView:webViewController appKey:UmengAppkey shareText:shareText shareImage:shareImage shareToSnsNames:[NSArray arrayWithObjects:UMShareToWechatTimeline,UMShareToWechatSession,UMShareToSina,UMShareToWechatFavorite,UMShareToEmail,nil] delegate:self];
 }
 
 
@@ -498,8 +499,11 @@
     //根据`responseCode`得到发送结果,如果分享成功
     if(response.responseCode == UMSResponseCodeSuccess)
     {
+        NSString* snsName = [[response.data allKeys] objectAtIndex:0];
+        [Flurry logEvent:snsName];
+        
         //得到分享到的微博平台名
-        NSLog(@"share to sns name is %@",[[response.data allKeys] objectAtIndex:0]);
+        NSLog(@"share to sns name is %@",snsName);
     }
 }
 

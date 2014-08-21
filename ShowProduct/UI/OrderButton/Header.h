@@ -11,6 +11,7 @@
 
 #warning 发布前确认日志关闭
 //#define NSLog(...)
+#define LOG_ENABLED YES
 
 #define KOrderButtonFrameOriginX 257.0
 #define KOrderButtonFrameOriginY 20

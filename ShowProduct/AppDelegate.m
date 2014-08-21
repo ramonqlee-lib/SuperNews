@@ -88,11 +88,11 @@
 -(void)appInit
 {
     
-    [Flurry startSession:@"VD57WGD28683BPMSQ9X9"];
-    [Flurry setDebugLogEnabled:NO];
+    [Flurry startSession:kFlurryAPIKey];
+    [Flurry setDebugLogEnabled:LOG_ENABLED];
     
     //打开调试log的开关
-    [UMSocialData openLog:YES];
+    [UMSocialData openLog:LOG_ENABLED];
     
     //如果你要支持不同的屏幕方向，需要这样设置，否则在iPhone只支持一个竖屏方向
     [UMSocialConfig setSupportedInterfaceOrientations:UIInterfaceOrientationMaskAll];
@@ -101,7 +101,7 @@
     [UMSocialData setAppKey:UmengAppkey];
     
     //设置微信AppId，设置分享url，默认使用友盟的网址
-    [UMSocialWechatHandler setWXAppId:@"wxd930ea5d5a258f4f" appSecret:@"db426a9829e4b49a0dcac7b4162da6b6" url:@"http://www.umeng.com/social"];
+    [UMSocialWechatHandler setWXAppId:@"wxd930ea5d5a258f4f" appSecret:@"db426a9829e4b49a0dcac7b4162da6b6" url:kAppStoreUrl];
     
     //打开新浪微博的SSO开关
     [UMSocialSinaHandler openSSOWithRedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
@@ -113,26 +113,37 @@
     [UMSocialRenrenHandler openSSO];
     
     //设置分享到QQ空间的应用Id，和分享url 链接
-    [UMSocialQQHandler setQQWithAppId:@"100424468" appKey:@"c7394704798a158208a74ab60104f0ba" url:@"http://www.umeng.com/social"];
+    [UMSocialQQHandler setQQWithAppId:@"100424468" appKey:@"c7394704798a158208a74ab60104f0ba" url:kAppStoreUrl];
     //设置支持没有客户端情况下使用SSO授权
     [UMSocialQQHandler setSupportWebView:YES];
     
     //设置易信Appkey和分享url地址
-    [UMSocialYixinHandler setYixinAppKey:@"yx35664bdff4db42c2b7be1e29390c1a06" url:@"http://www.umeng.com/social"];
+    [UMSocialYixinHandler setYixinAppKey:@"yx35664bdff4db42c2b7be1e29390c1a06" url:kAppStoreUrl];
     
     //设置来往AppId，appscret，显示来源名称和url地址
-    [UMSocialLaiwangHandler setLaiwangAppId:@"8112117817424282305" appSecret:@"9996ed5039e641658de7b83345fee6c9" appDescription:@"友盟社会化组件" urlStirng:@"http://www.umeng.com/social"];
+    [UMSocialLaiwangHandler setLaiwangAppId:@"8112117817424282305" appSecret:@"9996ed5039e641658de7b83345fee6c9" appDescription:@"我的分享" urlStirng:kAppStoreUrl];
     
     //使用友盟统计
 //    [MobClick startWithAppkey:UmengAppkey];
     
     //设置facebook应用ID，和分享纯文字用到的url地址
-    //    [UMSocialFacebookHandler setFacebookAppID:@"91136964205" shareFacebookWithURL:@"http://www.umeng.com/social"];
+    [UMSocialFacebookHandler setFacebookAppID:@"91136964205" shareFacebookWithURL:kAppStoreUrl];
     
     //下面打开Instagram的开关
     [UMSocialInstagramHandler openInstagramWithScale:NO paddingColor:[UIColor blackColor]];
     
     [UMSocialTwitterHandler openTwitter];
+}
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+    return  [UMSocialSnsService handleOpenURL:url];
+}
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation
+{
+    return  [UMSocialSnsService handleOpenURL:url];
 }
 
 @end

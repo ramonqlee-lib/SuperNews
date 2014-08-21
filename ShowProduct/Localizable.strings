@@ -11,3 +11,5 @@
 "Cancel"="取消";
 "ClearCacheTitle"="确认清理缓存？？";
 "ClearCacheBody"="\n离线下载和查看过的数据，保留在缓存中。\n这样在没有网络的情况下，也可以正常使用。";
+
+"RecommendFormatter"="我发现了一款超Q的应用：%@ ,推荐一下,快去Appstore下载吧！";
