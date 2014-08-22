@@ -17,8 +17,14 @@
 #define kUserIdKey @"UserId"
 #define kChannelIdKey @"ChannelId"
 #define kUIDKey @"UID"
-#define kPushIds @"PushIds"
+#define kPushIds @"PushIDs"
 #define kTableName @"tableName"
+
+#define kFirstTagUploadedFlag @"kFirstTagUploadedFlag"// 首次push上传tag用标示
+#define kAllTags @"kAllTags"// 所有tag的本地key
+#define kAllTagsSwitchFlag @"kAllTagsFlag"// 所有tag的开关，YES代表开，NO代表关
+#define kComma @","// 本地tag的分割符
+
 
 @interface
 AppDelegate : UIResponder <UIApplicationDelegate>

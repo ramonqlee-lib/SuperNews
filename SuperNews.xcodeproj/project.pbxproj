@@ -64,6 +64,7 @@
 		30676AF819A6E1F400A800A8 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 30676AF119A6E1F400A800A8 /* Reachability.m */; };
 		30676AFA19A6E26E00A800A8 /* BPushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30676AF919A6E26E00A800A8 /* BPushConfig.plist */; };
 		30676AFE19A6E89A00A800A8 /* NSString+Json.m in Sources */ = {isa = PBXBuildFile; fileRef = 30676AFD19A6E89A00A800A8 /* NSString+Json.m */; };
+		30676B0119A6F2F500A800A8 /* PushManagerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30676B0019A6F2F500A800A8 /* PushManagerController.m */; };
 		308093C1198D01EC007BBC60 /* Toast+UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 308093C0198D01EC007BBC60 /* Toast+UIView.m */; };
 		308093D9198D2880007BBC60 /* PrettyCustomViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 308093C7198D2880007BBC60 /* PrettyCustomViewTableViewCell.m */; };
 		308093DA198D2880007BBC60 /* PrettyGridTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 308093C9198D2880007BBC60 /* PrettyGridTableViewCell.m */; };
@@ -331,6 +332,8 @@
 		30676AF919A6E26E00A800A8 /* BPushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = BPushConfig.plist; sourceTree = "<group>"; };
 		30676AFC19A6E89A00A800A8 /* NSString+Json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Json.h"; sourceTree = "<group>"; };
 		30676AFD19A6E89A00A800A8 /* NSString+Json.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Json.m"; sourceTree = "<group>"; };
+		30676AFF19A6F2F500A800A8 /* PushManagerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushManagerController.h; sourceTree = "<group>"; };
+		30676B0019A6F2F500A800A8 /* PushManagerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushManagerController.m; sourceTree = "<group>"; };
 		308093BF198D01EC007BBC60 /* Toast+UIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Toast+UIView.h"; sourceTree = "<group>"; };
 		308093C0198D01EC007BBC60 /* Toast+UIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Toast+UIView.m"; sourceTree = "<group>"; };
 		308093C6198D2880007BBC60 /* PrettyCustomViewTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrettyCustomViewTableViewCell.h; sourceTree = "<group>"; };
@@ -1552,6 +1555,8 @@
 				3088551D198DFA00005E2F90 /* SettingsViewController.m */,
 				8B460988192D97CB00B28082 /* HomeViewController.h */,
 				8B460989192D97CB00B28082 /* HomeViewController.m */,
+				30676AFF19A6F2F500A800A8 /* PushManagerController.h */,
+				30676B0019A6F2F500A800A8 /* PushManagerController.m */,
 			);
 			path = VCS;
 			sourceTree = "<group>";
@@ -1818,6 +1823,7 @@
 				308093DD198D2880007BBC60 /* PrettyDrawing.m in Sources */,
 				30FCD62E197B3284000F7015 /* StringUtil.m in Sources */,
 				30B12A35199AD5B6000E3450 /* CJSONDeserializer.m in Sources */,
+				30676B0119A6F2F500A800A8 /* PushManagerController.m in Sources */,
 				308093DB198D2880007BBC60 /* PrettySegmentedControlTableViewCell.m in Sources */,
 				3052B1641996D65900C4A718 /* RMFavoriteController.m in Sources */,
 				30CD17191987D93100600D6D /* UIImageView+WebCache.m in Sources */,

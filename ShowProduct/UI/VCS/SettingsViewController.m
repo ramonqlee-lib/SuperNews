@@ -15,6 +15,7 @@
 #import "ZJTStatusBarAlertWindow.h"
 #import "HTTPHelper.h"
 #import "UMFeedback.h"
+#import "PushManagerController.h"
 
 @interface SettingsViewController ()<DownloadDelegate,UIAlertViewDelegate>
 
@@ -64,6 +65,13 @@
 		} whenSelected:^(NSIndexPath *indexPath) {
             [self clearCacheAction:nil];
 		}];
+        
+        [section addCell:^(JMStaticContentTableViewCell *staticContentCell, UITableViewCell *cell, NSIndexPath *indexPath) {
+			cell.textLabel.text = NSLocalizedString(@"管理通知", @"管理通知");
+            //			cell.imageView.image = [UIImage imageNamed:@"About"];
+		} whenSelected:^(NSIndexPath *indexPath) {
+            [self managerPushesAction:nil];
+		}];
 	}];
     
 	[self addSection:^(JMStaticContentTableViewSection *section, NSUInteger sectionIndex) {
@@ -89,6 +97,7 @@
 {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
 - (void) viewDidUnload {
     [super viewDidUnload];
     
@@ -141,6 +150,17 @@
     [alert release];
 }
 
+-(IBAction)managerPushesAction:(id)sender
+{
+    //TODO 弹出push管理页面
+    PushManagerController* vc = [[PushManagerController alloc]init];
+    UINavigationController* controller = [[UINavigationController alloc]initWithNavigationBarClass:[PrettyNavigationBar class] toolbarClass:nil/*[PrettyToolbar class]*/];
+    [controller setViewControllers:@[vc]];
+    
+    //[self customizeNavBar:controller];
+    [self presentViewController:controller animated:YES completion:nil];
+
+}
 #pragma mark UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {

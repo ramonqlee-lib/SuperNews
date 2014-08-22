@@ -22,6 +22,8 @@
 #import "UIBarButtonItem+Customed.h"
 #import "SettingsViewController.h"
 #import "RMBaiduAd.h"
+#import "BPush.h"
+#import "RMDefaults.h"
 
 
 #define MENUHEIGHT 40
@@ -148,6 +150,8 @@ NSString* kCategoryUrlKey = @"url";
         
         allCategories = [[NSMutableArray alloc]initWithArray:[HomeViewController Json2Array:(NSData*)obj] ];
         
+        [self uploadPushTags];
+        
         // 初始化百度ad参数
         NSString* publisherId = [HomeViewController Json2Object:(NSData*)obj forKey:@"baiduPublisherId"];
         NSString* appSpec = [HomeViewController Json2Object:(NSData*)obj forKey:@"baiduAppSpec"];
@@ -166,7 +170,32 @@ NSString* kCategoryUrlKey = @"url";
     [orderButton addTarget:self action:@selector(orderViewOut:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:orderButton];
 }
-
+-(void)uploadPushTags
+{
+    //首次 注册全部频道作为tag，用于push所需
+    if (NSOrderedSame != [kFirstTagUploadedFlag compare:[RMDefaults stringForKey:kFirstTagUploadedFlag]]) {
+        NSMutableArray* tagArr = [NSMutableArray array];
+        for (NSDictionary* dict in allCategories) {
+            NSString* title = [dict objectForKey:kCategoryTitleKey];
+            if (title && [title isKindOfClass:[NSString class]] && title.length) {
+                [tagArr addObject:title];
+            }
+        }
+        if (tagArr.count) {
+            [BPush setTags:tagArr];
+            [RMDefaults saveString:kAllTags withValue:[tagArr componentsJoinedByString:kComma]];// 记录所有已经上传的tag
+            // 设置开关状态为开
+            NSInteger count = tagArr.count;
+            [tagArr removeAllObjects];
+            for (NSInteger i = 0; i<count; ++i) {
+                [tagArr addObject:[NSNumber numberWithBool:YES]];
+            }
+            [RMDefaults saveString:kAllTagsSwitchFlag withValue:[tagArr componentsJoinedByString:kComma]];// 记录所有已经上传的tag
+            
+            [RMDefaults saveString:kFirstTagUploadedFlag withValue:kFirstTagUploadedFlag];//设置首次上传的标示
+        }
+    }
+}
 #pragma mark category Button
 
 -(OrderButton*)orderButtonReframed
