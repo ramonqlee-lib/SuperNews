@@ -10,10 +10,15 @@
 #import "HomeViewController.h"
 #import "PrettyKit.h"
 #import "Flurry.h"
-
+#import "BPush.h"
+#import "JSONKit.h"
+#import "OpenUDID.h"
 #import "UMSocial.h"
-
+#import "HTTPHelper.h"
 //#import "MobClick.h"
+#import "Base64.h"
+#import "RMDefaults.h"
+#import "NSString+Json.h"
 
 #import "UMSocialYixinHandler.h"
 #import "UMSocialFacebookHandler.h"
@@ -41,11 +46,102 @@
     self.window.rootViewController = mNavigationController;
     [vVC release];
     [self appInit];
+    [self initBaiduPush:launchOptions];
     
     [self.window makeKeyAndVisible];
     return YES;
 }
 
+#if SUPPORT_IOS8
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
+{
+    //register to receive notifications
+    [application registerForRemoteNotifications];
+}
+#endif
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    NSLog(@"test:%@",deviceToken);
+    [BPush registerDeviceToken: deviceToken];
+    
+    [BPush bindChannel];// 无账号绑定
+//    self.viewController.textView.text = [self.viewController.textView.text stringByAppendingFormat: @"Register device token: %@\n openudid: %@", deviceToken, [OpenUDID value]];
+}
+
+
+- (void) onMethod:(NSString*)method response:(NSDictionary*)data {
+    NSLog(@"On method:%@", method);
+    NSLog(@"data:%@", [data description]);
+    NSDictionary* res = [[[NSDictionary alloc] initWithDictionary:data] autorelease];
+    if ([BPushRequestMethod_Bind isEqualToString:method]) {
+        NSString *appid = [res valueForKey:BPushRequestAppIdKey];
+        NSString *userid = [res valueForKey:BPushRequestUserIdKey];
+        NSString *channelid = [res valueForKey:BPushRequestChannelIdKey];
+        //NSString *requestid = [res valueForKey:BPushRequestRequestIdKey];
+        int returnCode = [[res valueForKey:BPushRequestErrorCodeKey] intValue];
+        
+        if (returnCode == BPushErrorCode_Success) {
+            // TODO:发送到云端,方便后续进行精准推送
+            //上述参数，保存到本地config中
+            NSString* uid = [NSString stringWithFormat:@"%@_%@",userid,channelid];
+            [RMDefaults saveString:kUserIdKey withValue:userid];
+            [RMDefaults saveString:kChannelIdKey withValue:channelid];
+            [RMDefaults saveString:kUIDKey withValue:uid];
+            /*
+             {
+             "tableName": "PushIDs",
+             "KV": {
+             "UserId": "123456",
+             "ChannelId": "joifdsaoji",
+             "TagName":"LiShi",
+             "UID":"uid123456"
+             }
+             }
+             */
+            NSDictionary* kvDict = [NSDictionary dictionaryWithObjectsAndKeys:userid,kUserIdKey,channelid,kChannelIdKey,uid,kUIDKey, nil];
+            NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+                                        kPushIds,kTableName,
+                                        kvDict,@"KV",
+                                        nil];
+            NSLog(@"dictionary:%@",dictionary);
+            NSString *pushString = [NSString jsonStringWithObject:dictionary];
+            NSLog(@"dictionary jsonString:%@",pushString);
+            
+            NSString* base64EncodedString = [pushString base64EncodedString];
+//            [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(appSettingHandler:) name:kAppPushUploadUrl object:nil];
+            [[HTTPHelper sharedInstance]beginPostRequest:kAppPushUploadUrl withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:base64EncodedString,@"data", nil]];
+        }
+    } else if ([BPushRequestMethod_Unbind isEqualToString:method]) {
+        int returnCode = [[res valueForKey:BPushRequestErrorCodeKey] intValue];
+        if (returnCode == BPushErrorCode_Success) {
+//            self.viewController.appidText.text = nil;
+//            self.viewController.useridText.text = nil;
+//            self.viewController.channelidText.text = nil;
+        }
+    }
+//    self.viewController.textView.text = [[[NSString alloc] initWithFormat: @"%@ return: \n%@", method, [data description]] autorelease];
+}
+
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    NSLog(@"Receive Notify: %@", [userInfo JSONString]);
+    NSString *alert = [[userInfo objectForKey:@"aps"] objectForKey:@"alert"];
+    if (application.applicationState == UIApplicationStateActive) {
+        // Nothing to do if applicationState is Inactive, the iOS already displayed an alert view.
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Did receive a Remote Notification"
+                                                            message:[NSString stringWithFormat:@"The application received this remote notification while it was running:\n%@", alert]
+                                                           delegate:self
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    }
+    [application setApplicationIconBadgeNumber:0];
+    
+    [BPush handleNotification:userInfo];
+    
+//    self.viewController.textView.text = [self.viewController.textView.text stringByAppendingFormat:@"Receive notification:\n%@", [userInfo JSONString]];
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
@@ -84,10 +180,27 @@
     [super dealloc];
 }
 
+-(void)initBaiduPush:(NSDictionary *)launchOptions
+{
+    [BPush setupChannel:launchOptions];
+    [BPush setDelegate:self];
+    
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+#if SUPPORT_IOS8
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
+        UIUserNotificationType myTypes = UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound;
+        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:myTypes categories:nil];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+    }else
+#endif
+    {
+        UIRemoteNotificationType myTypes = UIRemoteNotificationTypeBadge|UIRemoteNotificationTypeAlert|UIRemoteNotificationTypeSound;
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:myTypes];
+    }
 
+}
 -(void)appInit
 {
-    
     [Flurry startSession:kFlurryAPIKey];
     [Flurry setDebugLogEnabled:LOG_ENABLED];
     

@@ -56,6 +56,14 @@
 		3052B1801996F3B300C4A718 /* UMS_share.png in Resources */ = {isa = PBXBuildFile; fileRef = 3052B17B1996F3B300C4A718 /* UMS_share.png */; };
 		3052B1831996FD8700C4A718 /* zoomIn.png in Resources */ = {isa = PBXBuildFile; fileRef = 3052B1811996FD8700C4A718 /* zoomIn.png */; };
 		3052B1841996FD8700C4A718 /* zoomOut.png in Resources */ = {isa = PBXBuildFile; fileRef = 3052B1821996FD8700C4A718 /* zoomOut.png */; };
+		30676AF219A6E1F400A800A8 /* libBPush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30676AE319A6E1F400A800A8 /* libBPush.a */; };
+		30676AF319A6E1F400A800A8 /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 30676AE619A6E1F400A800A8 /* Base64.m */; };
+		30676AF419A6E1F400A800A8 /* BPushClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 30676AE919A6E1F400A800A8 /* BPushClass.m */; };
+		30676AF519A6E1F400A800A8 /* GzipCompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 30676AEB19A6E1F400A800A8 /* GzipCompressor.m */; };
+		30676AF619A6E1F400A800A8 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 30676AED19A6E1F400A800A8 /* JSONKit.m */; };
+		30676AF819A6E1F400A800A8 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 30676AF119A6E1F400A800A8 /* Reachability.m */; };
+		30676AFA19A6E26E00A800A8 /* BPushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30676AF919A6E26E00A800A8 /* BPushConfig.plist */; };
+		30676AFE19A6E89A00A800A8 /* NSString+Json.m in Sources */ = {isa = PBXBuildFile; fileRef = 30676AFD19A6E89A00A800A8 /* NSString+Json.m */; };
 		308093C1198D01EC007BBC60 /* Toast+UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 308093C0198D01EC007BBC60 /* Toast+UIView.m */; };
 		308093D9198D2880007BBC60 /* PrettyCustomViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 308093C7198D2880007BBC60 /* PrettyCustomViewTableViewCell.m */; };
 		308093DA198D2880007BBC60 /* PrettyGridTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 308093C9198D2880007BBC60 /* PrettyGridTableViewCell.m */; };
@@ -307,6 +315,22 @@
 		3052B17B1996F3B300C4A718 /* UMS_share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UMS_share.png; sourceTree = "<group>"; };
 		3052B1811996FD8700C4A718 /* zoomIn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zoomIn.png; sourceTree = "<group>"; };
 		3052B1821996FD8700C4A718 /* zoomOut.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zoomOut.png; sourceTree = "<group>"; };
+		30676AE219A6E1F400A800A8 /* BPush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BPush.h; sourceTree = "<group>"; };
+		30676AE319A6E1F400A800A8 /* libBPush.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libBPush.a; sourceTree = "<group>"; };
+		30676AE519A6E1F400A800A8 /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64.h; sourceTree = "<group>"; };
+		30676AE619A6E1F400A800A8 /* Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Base64.m; sourceTree = "<group>"; };
+		30676AE719A6E1F400A800A8 /* Base64Defines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64Defines.h; sourceTree = "<group>"; };
+		30676AE819A6E1F400A800A8 /* BPushClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BPushClass.h; sourceTree = "<group>"; };
+		30676AE919A6E1F400A800A8 /* BPushClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BPushClass.m; sourceTree = "<group>"; };
+		30676AEA19A6E1F400A800A8 /* GzipCompressor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GzipCompressor.h; sourceTree = "<group>"; };
+		30676AEB19A6E1F400A800A8 /* GzipCompressor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GzipCompressor.m; sourceTree = "<group>"; };
+		30676AEC19A6E1F400A800A8 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
+		30676AED19A6E1F400A800A8 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
+		30676AF019A6E1F400A800A8 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		30676AF119A6E1F400A800A8 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		30676AF919A6E26E00A800A8 /* BPushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = BPushConfig.plist; sourceTree = "<group>"; };
+		30676AFC19A6E89A00A800A8 /* NSString+Json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Json.h"; sourceTree = "<group>"; };
+		30676AFD19A6E89A00A800A8 /* NSString+Json.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Json.m"; sourceTree = "<group>"; };
 		308093BF198D01EC007BBC60 /* Toast+UIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Toast+UIView.h"; sourceTree = "<group>"; };
 		308093C0198D01EC007BBC60 /* Toast+UIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Toast+UIView.m"; sourceTree = "<group>"; };
 		308093C6198D2880007BBC60 /* PrettyCustomViewTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrettyCustomViewTableViewCell.h; sourceTree = "<group>"; };
@@ -625,6 +649,7 @@
 				30DF25751999817F00F75C6B /* libUIViewControllerExt_Simulator.a in Frameworks */,
 				3007C67519A5679800641756 /* libUMFeedback.a in Frameworks */,
 				30FCD63F197BC0CE000F7015 /* libFlurry_4.3.2.a in Frameworks */,
+				30676AF219A6E1F400A800A8 /* libBPush.a in Frameworks */,
 				30CD18C319892C3500600D6D /* libSVWebViewController.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -902,6 +927,43 @@
 				3052B1741996EB1200C4A718 /* CommandMaster.m */,
 			);
 			path = CommandMaster;
+			sourceTree = "<group>";
+		};
+		30676AE119A6E1F400A800A8 /* LibBPush */ = {
+			isa = PBXGroup;
+			children = (
+				30676AE219A6E1F400A800A8 /* BPush.h */,
+				30676AE319A6E1F400A800A8 /* libBPush.a */,
+				30676AE419A6E1F400A800A8 /* opensource */,
+			);
+			path = LibBPush;
+			sourceTree = "<group>";
+		};
+		30676AE419A6E1F400A800A8 /* opensource */ = {
+			isa = PBXGroup;
+			children = (
+				30676AE519A6E1F400A800A8 /* Base64.h */,
+				30676AE619A6E1F400A800A8 /* Base64.m */,
+				30676AE719A6E1F400A800A8 /* Base64Defines.h */,
+				30676AE819A6E1F400A800A8 /* BPushClass.h */,
+				30676AE919A6E1F400A800A8 /* BPushClass.m */,
+				30676AEA19A6E1F400A800A8 /* GzipCompressor.h */,
+				30676AEB19A6E1F400A800A8 /* GzipCompressor.m */,
+				30676AEC19A6E1F400A800A8 /* JSONKit.h */,
+				30676AED19A6E1F400A800A8 /* JSONKit.m */,
+				30676AF019A6E1F400A800A8 /* Reachability.h */,
+				30676AF119A6E1F400A800A8 /* Reachability.m */,
+			);
+			path = opensource;
+			sourceTree = "<group>";
+		};
+		30676AFB19A6E87800A800A8 /* JsonAux */ = {
+			isa = PBXGroup;
+			children = (
+				30676AFC19A6E89A00A800A8 /* NSString+Json.h */,
+				30676AFD19A6E89A00A800A8 /* NSString+Json.m */,
+			);
+			path = JsonAux;
 			sourceTree = "<group>";
 		};
 		308093BE198D01EC007BBC60 /* Toast */ = {
@@ -1216,6 +1278,8 @@
 		30FCD5D3197B31D6000F7015 /* Libs */ = {
 			isa = PBXGroup;
 			children = (
+				30676AFB19A6E87800A800A8 /* JsonAux */,
+				30676AE119A6E1F400A800A8 /* LibBPush */,
 				3007C67119A5679800641756 /* UMFeedback_iOS_1.4 */,
 				3007C5F419A561C200641756 /* UMSocial_Sdk_4.1 */,
 				303F6CF319A43736004BC608 /* OfflineDownloader */,
@@ -1440,6 +1504,7 @@
 		8B46095B192D968300B28082 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				30676AF919A6E26E00A800A8 /* BPushConfig.plist */,
 				3088551F198DFB4D005E2F90 /* Localizable.strings */,
 				8B46095C192D968300B28082 /* SuperNews-Info.plist */,
 				8B46095D192D968300B28082 /* InfoPlist.strings */,
@@ -1646,6 +1711,7 @@
 				308093EB198DD3F0007BBC60 /* Icon-Small-50.png in Resources */,
 				3007C62119A561C200641756 /* UMSCommentInputControlleriPad.xib in Resources */,
 				308093EF198DD3F0007BBC60 /* Icon@2x.png in Resources */,
+				30676AFA19A6E26E00A800A8 /* BPushConfig.plist in Resources */,
 				30809401198DD9C0007BBC60 /* Default.png in Resources */,
 				30809406198DD9C0007BBC60 /* tablecellOddplaceholder.gif in Resources */,
 				30CD17141987D93100600D6D /* LICENSE in Resources */,
@@ -1698,10 +1764,12 @@
 				30B12A31199AD5B6000E3450 /* CJSONSerialization.m in Sources */,
 				8B4609A0192DE67300B28082 /* SGFocusImageItem.m in Sources */,
 				30FCD60C197B31E9000F7015 /* ASIDataCompressor.m in Sources */,
+				30676AFE19A6E89A00A800A8 /* NSString+Json.m in Sources */,
 				30FCD63B197BC070000F7015 /* StringUtil.m in Sources */,
 				30FCD61A197B31E9000F7015 /* ASICloudFilesRequest.m in Sources */,
 				30E6DA93198689FE00D5DF95 /* Base64.m in Sources */,
 				8B46098A192D97CB00B28082 /* HomeViewController.m in Sources */,
+				30676AF819A6E1F400A800A8 /* Reachability.m in Sources */,
 				30B12A34199AD5B6000E3450 /* NSDictionary_JSONExtensions.m in Sources */,
 				308093DE198D2880007BBC60 /* PrettyNavigationBar.m in Sources */,
 				30B12A38199AD5B6000E3450 /* ioapi.c in Sources */,
@@ -1714,11 +1782,13 @@
 				30B12A36199AD5B6000E3450 /* CJSONScanner.m in Sources */,
 				30FCD60F197B31E9000F7015 /* ASIFormDataRequest.m in Sources */,
 				30885519198DF9E3005E2F90 /* JMStaticContentTableViewController.m in Sources */,
+				30676AF619A6E1F400A800A8 /* JSONKit.m in Sources */,
 				30FCD60D197B31E9000F7015 /* ASIDataDecompressor.m in Sources */,
 				8B460965192D968300B28082 /* AppDelegate.m in Sources */,
 				30FCD618197B31E9000F7015 /* ASICloudFilesObject.m in Sources */,
 				3E322724192E387C00D5C95C /* CircleView.m in Sources */,
 				30FCD5D11976BCC5000F7015 /* TouchViewModel.m in Sources */,
+				30676AF319A6E1F400A800A8 /* Base64.m in Sources */,
 				30FCD610197B31E9000F7015 /* ASIHTTPRequest.m in Sources */,
 				308093DA198D2880007BBC60 /* PrettyGridTableViewCell.m in Sources */,
 				30FCD616197B31E9000F7015 /* ASICloudFilesContainerRequest.m in Sources */,
@@ -1734,6 +1804,7 @@
 				30B12A3C199AD5B6000E3450 /* ZipArchive.mm in Sources */,
 				8B46099F192DE67300B28082 /* SGFocusImageFrame.m in Sources */,
 				3EE11872192F98FA00DB86C6 /* ScrollPageView.m in Sources */,
+				30676AF519A6E1F400A800A8 /* GzipCompressor.m in Sources */,
 				30FCD611197B31E9000F7015 /* ASIInputStream.m in Sources */,
 				8B460990192D9C4800B28082 /* HomeViewCell.m in Sources */,
 				8B460961192D968300B28082 /* main.m in Sources */,
@@ -1750,6 +1821,7 @@
 				308093DB198D2880007BBC60 /* PrettySegmentedControlTableViewCell.m in Sources */,
 				3052B1641996D65900C4A718 /* RMFavoriteController.m in Sources */,
 				30CD17191987D93100600D6D /* UIImageView+WebCache.m in Sources */,
+				30676AF419A6E1F400A800A8 /* BPushClass.m in Sources */,
 				3088551E198DFA00005E2F90 /* SettingsViewController.m in Sources */,
 				30885526198DFC38005E2F90 /* UIBarButtonItem+Customed.m in Sources */,
 				3052B1751996EB1200C4A718 /* CommandButton.m in Sources */,
@@ -1902,6 +1974,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ShowProduct/Libs/umeng_ios_social_sdk_3.3.5/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
@@ -1943,6 +2016,7 @@
 					"$(PROJECT_DIR)/ShowProduct/Libs/UMSocial_Sdk_4.1/UMSocial_Sdk_Extra_Frameworks/Twitter",
 					"$(PROJECT_DIR)/ShowProduct/Libs/UMSocial_Sdk_4.1/UMSocial_Sdk_Extra_Frameworks/UMSocial_ScreenShot_Sdk",
 					"$(PROJECT_DIR)/ShowProduct/Libs/UMSocial_Sdk_4.1/UMSocial_Sdk_Extra_Frameworks/YiXin",
+					"$(PROJECT_DIR)/ShowProduct/Libs/LibBPush",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -1951,7 +2025,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = SuperNews;
-				PROVISIONING_PROFILE = "2C40322F-CF3E-47E4-8414-A6E7B35D5CD3";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s arm64";
 				WRAPPER_EXTENSION = app;
@@ -1964,6 +2038,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ShowProduct/Libs/umeng_ios_social_sdk_3.3.5/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
@@ -2005,6 +2080,7 @@
 					"$(PROJECT_DIR)/ShowProduct/Libs/UMSocial_Sdk_4.1/UMSocial_Sdk_Extra_Frameworks/Twitter",
 					"$(PROJECT_DIR)/ShowProduct/Libs/UMSocial_Sdk_4.1/UMSocial_Sdk_Extra_Frameworks/UMSocial_ScreenShot_Sdk",
 					"$(PROJECT_DIR)/ShowProduct/Libs/UMSocial_Sdk_4.1/UMSocial_Sdk_Extra_Frameworks/YiXin",
+					"$(PROJECT_DIR)/ShowProduct/Libs/LibBPush",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -2013,7 +2089,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = SuperNews;
-				PROVISIONING_PROFILE = "B78982A1-6F75-4BF8-8D00-8B282718A427";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s arm64";
 				WRAPPER_EXTENSION = app;

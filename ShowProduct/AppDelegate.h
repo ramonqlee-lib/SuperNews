@@ -12,7 +12,16 @@
 #define UmengAppkey @"53f672a5fd98c5922101a575"
 #define kAppStoreUrl @"https://itunes.apple.com/us/app/qu-wei-li-shi/id905734176?ls=1&mt=8"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+// push related
+#define kAppPushUploadUrl @"http://novelists.duapp.com/crawler/update.php"
+#define kUserIdKey @"UserId"
+#define kChannelIdKey @"ChannelId"
+#define kUIDKey @"UID"
+#define kPushIds @"PushIds"
+#define kTableName @"tableName"
+
+@interface
+AppDelegate : UIResponder <UIApplicationDelegate>
 {
     UINavigationController *mNavigationController;
 }
