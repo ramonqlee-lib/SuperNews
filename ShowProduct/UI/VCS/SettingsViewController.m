@@ -51,6 +51,9 @@
 		} whenSelected:^(NSIndexPath *indexPath) {
             [self openFavoriteAction:nil];
 		}];
+	}];
+    
+    [self addSection:^(JMStaticContentTableViewSection *section, NSUInteger sectionIndex) {
         
 		[section addCell:^(JMStaticContentTableViewCell *staticContentCell, UITableViewCell *cell, NSIndexPath *indexPath) {
 			cell.textLabel.text = NSLocalizedString(@"离线下载", @"离线下载");
@@ -60,14 +63,18 @@
 		}];
         
         [section addCell:^(JMStaticContentTableViewCell *staticContentCell, UITableViewCell *cell, NSIndexPath *indexPath) {
-			cell.textLabel.text = NSLocalizedString(@"清除缓存", @"清除缓存");
+			cell.textLabel.text = NSLocalizedString(@"缓存清理", @"缓存清理");
             //			cell.imageView.image = [UIImage imageNamed:@"About"];
 		} whenSelected:^(NSIndexPath *indexPath) {
             [self clearCacheAction:nil];
 		}];
         
+	}];
+    
+    [self addSection:^(JMStaticContentTableViewSection *section, NSUInteger sectionIndex) {
+        
         [section addCell:^(JMStaticContentTableViewCell *staticContentCell, UITableViewCell *cell, NSIndexPath *indexPath) {
-			cell.textLabel.text = NSLocalizedString(@"管理通知", @"管理通知");
+			cell.textLabel.text = NSLocalizedString(@"通知管理", @"通知管理");
             //			cell.imageView.image = [UIImage imageNamed:@"About"];
 		} whenSelected:^(NSIndexPath *indexPath) {
             [self managerPushesAction:nil];

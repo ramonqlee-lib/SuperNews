@@ -30,6 +30,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.title = @"管理推送通知";
+    
     // Do any additional setup after loading the view.
     UIBarButtonItem *BackBtn = [[UIBarButtonItem alloc] initWithTitle:@"返回"
                                                                 style:UIBarButtonItemStylePlain
@@ -101,14 +103,23 @@
     NSString* allTags = [RMDefaults stringForKey:kAllTags];
     NSArray* tags = [allTags componentsSeparatedByString:kComma];
     
-    NSMutableArray* tagArr = [NSMutableArray array];
+    NSMutableArray* delTagArr = [NSMutableArray array];
+    NSMutableArray* keepTagArr = [NSMutableArray array];
     for (NSInteger i = 0; i < tagSwitchFlags.count; ++i) {
         NSNumber* flag = [tagSwitchFlags objectAtIndex:i];
-        if (tags && i < tags.count && !flag.boolValue) {
-            [tagArr addObject:[tags objectAtIndex:i]];
+        if (tags && i < tags.count) {
+            if(!flag.boolValue)
+            {
+                [delTagArr addObject:[tags objectAtIndex:i]];
+            }
+            else
+            {
+                [keepTagArr addObject:[tags objectAtIndex:i]];
+            }
         }
     }
-    [BPush delTags:tagArr];
+    [BPush setTags:keepTagArr];
+    [BPush delTags:delTagArr];
     
     [RMDefaults saveString:kAllTagsSwitchFlag withValue:[tagSwitchFlags componentsJoinedByString:kComma]];// 记录所有已经上传的tag
     
