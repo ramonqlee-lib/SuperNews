@@ -51,6 +51,12 @@
 		} whenSelected:^(NSIndexPath *indexPath) {
             [self openFavoriteAction:nil];
 		}];
+        [section addCell:^(JMStaticContentTableViewCell *staticContentCell, UITableViewCell *cell, NSIndexPath *indexPath) {
+            cell.textLabel.text = NSLocalizedString(@"通知管理", @"通知管理");
+            //			cell.imageView.image = [UIImage imageNamed:@"About"];
+        } whenSelected:^(NSIndexPath *indexPath) {
+            [self managerPushesAction:nil];
+        }];
 	}];
     
     [self addSection:^(JMStaticContentTableViewSection *section, NSUInteger sectionIndex) {
@@ -71,15 +77,6 @@
         
 	}];
     
-    [self addSection:^(JMStaticContentTableViewSection *section, NSUInteger sectionIndex) {
-        
-        [section addCell:^(JMStaticContentTableViewCell *staticContentCell, UITableViewCell *cell, NSIndexPath *indexPath) {
-			cell.textLabel.text = NSLocalizedString(@"通知管理", @"通知管理");
-            //			cell.imageView.image = [UIImage imageNamed:@"About"];
-		} whenSelected:^(NSIndexPath *indexPath) {
-            [self managerPushesAction:nil];
-		}];
-	}];
     
 	[self addSection:^(JMStaticContentTableViewSection *section, NSUInteger sectionIndex) {
         

@@ -24,6 +24,9 @@
 #import "RMBaiduAd.h"
 #import "BPush.h"
 #import "RMDefaults.h"
+#import "Base64.h"
+#import "NSString+Json.h"
+#import "HTTPHelper.h"
 
 
 #define MENUHEIGHT 40
@@ -150,14 +153,13 @@ NSString* kCategoryUrlKey = @"url";
         
         allCategories = [[NSMutableArray alloc]initWithArray:[HomeViewController Json2Array:(NSData*)obj] ];
         
-        [self uploadPushTags];
-        
         // 初始化百度ad参数
         NSString* publisherId = [HomeViewController Json2Object:(NSData*)obj forKey:@"baiduPublisherId"];
         NSString* appSpec = [HomeViewController Json2Object:(NSData*)obj forKey:@"baiduAppSpec"];
         [RMBaiduAd setBaiduPublisherId:publisherId];
         [RMBaiduAd setBaiduAppSpec:appSpec];
         
+        [self uploadPushTags];// 频道分类获取后，尝试上传；另外一次是在push初始化成功后，上传。这样可以保证上传成功
         
         [[NSNotificationCenter defaultCenter]removeObserver:self];
         
@@ -170,6 +172,7 @@ NSString* kCategoryUrlKey = @"url";
     [orderButton addTarget:self action:@selector(orderViewOut:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:orderButton];
 }
+
 -(void)uploadPushTags
 {
     //首次 注册全部频道作为tag，用于push所需
@@ -184,6 +187,12 @@ NSString* kCategoryUrlKey = @"url";
         if (tagArr.count) {
             [BPush setTags:tagArr];
             [RMDefaults saveString:kAllTags withValue:[tagArr componentsJoinedByString:kComma]];// 记录所有已经上传的tag
+            // FIXME：将订阅的通知提交到服务器(和push管理处的进行合并)
+            if([AppDelegate uploadPushTags:tagArr])
+            {
+                [RMDefaults saveString:kFirstTagUploadedFlag withValue:kFirstTagUploadedFlag];//设置首次上传的标示
+            }
+            
             // 设置开关状态为开
             NSInteger count = tagArr.count;
             [tagArr removeAllObjects];
@@ -191,8 +200,6 @@ NSString* kCategoryUrlKey = @"url";
                 [tagArr addObject:[NSNumber numberWithBool:YES]];
             }
             [RMDefaults saveString:kAllTagsSwitchFlag withValue:[tagArr componentsJoinedByString:kComma]];// 记录所有已经上传的tag
-            
-            [RMDefaults saveString:kFirstTagUploadedFlag withValue:kFirstTagUploadedFlag];//设置首次上传的标示
         }
     }
 }

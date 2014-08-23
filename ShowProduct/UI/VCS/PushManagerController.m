@@ -127,25 +127,7 @@
     [RMDefaults saveString:kAllTagsSwitchFlag withValue:[tagSwitchFlags componentsJoinedByString:kComma]];// 记录所有已经上传的tag
     
     // 将订阅的通知提交到服务器
-    NSString* userid = [RMDefaults stringForKey:kUserIdKey];
-    NSString* channelid = [RMDefaults stringForKey:kChannelIdKey];
-    NSString* uid = [RMDefaults stringForKey:kUIDKey];
-    if (userid && [userid isKindOfClass:[NSString class]] && userid.length
-        && channelid && [channelid isKindOfClass:[NSString class]] && channelid.length
-        && uid && [uid isKindOfClass:[NSString class]] && uid.length) {
-        NSDictionary* kvDict = [NSDictionary dictionaryWithObjectsAndKeys:userid,kUserIdKey,channelid,kChannelIdKey,uid,kUIDKey, [keepTagArr componentsJoinedByString:kComma],kTagNameKey,nil];
-        NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    kPushIds,kTableName,
-                                    kvDict,@"KV",
-                                    nil];
-        NSLog(@"dictionary:%@",dictionary);
-        NSString *pushString = [NSString jsonStringWithObject:dictionary];
-        NSLog(@"dictionary jsonString:%@",pushString);
-        
-        NSString* base64EncodedString = [pushString base64EncodedString];
-        //            [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(appSettingHandler:) name:kAppPushUploadUrl object:nil];
-        [[HTTPHelper sharedInstance]beginPostRequest:kAppPushUploadUrl withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:base64EncodedString,@"data", nil]];
-    }
+    [AppDelegate uploadPushTags:keepTagArr];
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }

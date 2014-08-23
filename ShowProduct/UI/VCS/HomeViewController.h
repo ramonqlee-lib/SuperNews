@@ -21,4 +21,5 @@
 +(NSString*)topCategorySavePath;
 +(void)split:(NSArray*)touchViewModels titleArray:(NSMutableArray*)titleArray urlArray:(NSMutableArray*)urlArray;
 
+-(void)uploadPushTags;// 上传push所需的频道名称
 @end

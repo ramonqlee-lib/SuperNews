@@ -31,6 +31,11 @@
 #import "UMSocialRenrenHandler.h"
 
 #import "UMSocialInstagramHandler.h"
+@interface AppDelegate()
+{
+    HomeViewController* homeViewController;
+}
+@end
 
 @implementation AppDelegate
 @synthesize navigationController = mNavigationController;
@@ -40,11 +45,10 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
-    HomeViewController *vVC = [[HomeViewController alloc] init];
+    homeViewController = [[HomeViewController alloc] init];
     mNavigationController = (UINavigationController*)[[UINavigationController alloc ]initWithNavigationBarClass:[PrettyNavigationBar class] toolbarClass:nil/*[PrettyToolbar class]*/];
-    [mNavigationController setViewControllers:@[vVC]];
+    [mNavigationController setViewControllers:@[homeViewController]];
     self.window.rootViewController = mNavigationController;
-    [vVC release];
     [self appInit];
     [self initBaiduPush:launchOptions];
     
@@ -88,29 +92,11 @@
             [RMDefaults saveString:kUserIdKey withValue:userid];
             [RMDefaults saveString:kChannelIdKey withValue:channelid];
             [RMDefaults saveString:kUIDKey withValue:uid];
-            /*
-             {
-             "tableName": "PushIDs",
-             "KV": {
-             "UserId": "123456",
-             "ChannelId": "joifdsaoji",
-             "TagName":"LiShi",
-             "UID":"uid123456"
-             }
-             }
-             */
-            NSDictionary* kvDict = [NSDictionary dictionaryWithObjectsAndKeys:userid,kUserIdKey,channelid,kChannelIdKey,uid,kUIDKey, nil];
-            NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-                                        kPushIds,kTableName,
-                                        kvDict,@"KV",
-                                        nil];
-            NSLog(@"dictionary:%@",dictionary);
-            NSString *pushString = [NSString jsonStringWithObject:dictionary];
-            NSLog(@"dictionary jsonString:%@",pushString);
             
-            NSString* base64EncodedString = [pushString base64EncodedString];
-//            [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(appSettingHandler:) name:kAppPushUploadUrl object:nil];
-            [[HTTPHelper sharedInstance]beginPostRequest:kAppPushUploadUrl withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:base64EncodedString,@"data", nil]];
+            //
+            if (homeViewController) {
+                [homeViewController uploadPushTags];
+            }
         }
     } else if ([BPushRequestMethod_Unbind isEqualToString:method]) {
         int returnCode = [[res valueForKey:BPushRequestErrorCodeKey] intValue];
@@ -259,4 +245,34 @@
     return  [UMSocialSnsService handleOpenURL:url];
 }
 
++(BOOL)uploadPushTags:(NSArray*)tagArr
+{
+    if (!tagArr || !tagArr.count) {
+        return NO;
+    }
+    // FIXME：将订阅的通知提交到服务器(和push管理处的进行合并)
+    NSString* userid = [RMDefaults stringForKey:kUserIdKey];
+    NSString* channelid = [RMDefaults stringForKey:kChannelIdKey];
+    NSString* uid = [RMDefaults stringForKey:kUIDKey];
+    if (userid && [userid isKindOfClass:[NSString class]] && userid.length
+        && channelid && [channelid isKindOfClass:[NSString class]] && channelid.length
+        && uid && [uid isKindOfClass:[NSString class]] && uid.length) {
+        NSDictionary* kvDict = [NSDictionary dictionaryWithObjectsAndKeys:userid,kUserIdKey,channelid,kChannelIdKey,uid,kUIDKey, [tagArr componentsJoinedByString:kComma],kTagNameKey,nil];
+        NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+                                    kPushIds,kTableName,
+                                    kvDict,@"KV",
+                                    nil];
+        NSLog(@"dictionary:%@",dictionary);
+        NSString *pushString = [NSString jsonStringWithObject:dictionary];
+        NSLog(@"dictionary jsonString:%@",pushString);
+        
+        NSString* base64EncodedString = [pushString base64EncodedString];
+        //            [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(appSettingHandler:) name:kAppPushUploadUrl object:nil];
+        [[HTTPHelper sharedInstance]beginPostRequest:kAppPushUploadUrl withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:base64EncodedString,@"data", nil]];
+        
+        [RMDefaults saveString:kFirstTagUploadedFlag withValue:kFirstTagUploadedFlag];//设置首次上传的标示
+        return YES;
+    }
+    return NO;
+}
 @end
