@@ -17,6 +17,7 @@
 #define kUserIdKey @"UserId"
 #define kChannelIdKey @"ChannelId"
 #define kUIDKey @"UID"
+#define kTagNameKey @"TagName"
 #define kPushIds @"PushIDs"
 #define kTableName @"tableName"
 
