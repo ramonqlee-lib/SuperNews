@@ -73,7 +73,6 @@
 //    self.viewController.textView.text = [self.viewController.textView.text stringByAppendingFormat: @"Register device token: %@\n openudid: %@", deviceToken, [OpenUDID value]];
 }
 
-
 - (void) onMethod:(NSString*)method response:(NSDictionary*)data {
     NSLog(@"On method:%@", method);
     NSLog(@"data:%@", [data description]);
@@ -93,9 +92,8 @@
             [RMDefaults saveString:kChannelIdKey withValue:channelid];
             [RMDefaults saveString:kUIDKey withValue:uid];
             
-            //
             if (homeViewController) {
-                [homeViewController uploadPushTags];
+                [homeViewController handlePushTags];
             }
         }
     } else if ([BPushRequestMethod_Unbind isEqualToString:method]) {
@@ -111,24 +109,41 @@
 
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    NSLog(@"Receive Notify: %@", [userInfo JSONString]);
-    NSString *alert = [[userInfo objectForKey:@"aps"] objectForKey:@"alert"];
-    if (application.applicationState == UIApplicationStateActive) {
-        // Nothing to do if applicationState is Inactive, the iOS already displayed an alert view.
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Did receive a Remote Notification"
-                                                            message:[NSString stringWithFormat:@"The application received this remote notification while it was running:\n%@", alert]
-                                                           delegate:self
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil];
-        [alertView show];
-    }
-    [application setApplicationIconBadgeNumber:0];
-    
+    [self handleNotification:userInfo];
     [BPush handleNotification:userInfo];
     
 //    self.viewController.textView.text = [self.viewController.textView.text stringByAppendingFormat:@"Receive notification:\n%@", [userInfo JSONString]];
 }
 
+-(void)handleNotification:(NSDictionary*)userInfo
+{
+    if (!userInfo || ![userInfo objectForKey:@"aps"]) {
+        return;
+    }
+    UIApplication* application = [UIApplication sharedApplication];
+    NSLog(@"Receive Notify: %@", [userInfo JSONString]);
+    [application registerForRemoteNotificationTypes:
+     UIRemoteNotificationTypeAlert
+     | UIRemoteNotificationTypeBadge
+     | UIRemoteNotificationTypeSound];
+    
+    NSString *alert = [[userInfo objectForKey:@"aps"] objectForKey:@"alert"];
+    //    if (application.applicationState == UIApplicationStateActive)
+    {
+        // Nothing to do if applicationState is Inactive, the iOS already displayed an alert view.
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Did receive a Remote Notification"
+                                                            message:[NSString stringWithFormat:@"The application received this remote notification while it was %d:\n%@", application.applicationState,alert]
+                                                           delegate:self
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    }
+    
+    // set badge number
+    [application setApplicationIconBadgeNumber:0];
+    
+    [application cancelAllLocalNotifications];
+}
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -171,7 +186,6 @@
     [BPush setupChannel:launchOptions];
     [BPush setDelegate:self];
     
-    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 #if SUPPORT_IOS8
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
         UIUserNotificationType myTypes = UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound;
@@ -183,7 +197,8 @@
         UIRemoteNotificationType myTypes = UIRemoteNotificationTypeBadge|UIRemoteNotificationTypeAlert|UIRemoteNotificationTypeSound;
         [[UIApplication sharedApplication] registerForRemoteNotificationTypes:myTypes];
     }
-
+    
+    [self handleNotification:[launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey]];
 }
 -(void)appInit
 {
@@ -250,6 +265,8 @@
     if (!tagArr || !tagArr.count) {
         return NO;
     }
+    [BPush setTags:tagArr];
+    
     // FIXME：将订阅的通知提交到服务器(和push管理处的进行合并)
     NSString* userid = [RMDefaults stringForKey:kUserIdKey];
     NSString* channelid = [RMDefaults stringForKey:kChannelIdKey];
@@ -271,6 +288,7 @@
         [[HTTPHelper sharedInstance]beginPostRequest:kAppPushUploadUrl withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:base64EncodedString,@"data", nil]];
         
         [RMDefaults saveString:kFirstTagUploadedFlag withValue:kFirstTagUploadedFlag];//设置首次上传的标示
+        
         return YES;
     }
     return NO;

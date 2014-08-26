@@ -84,6 +84,30 @@
     }
 }
 
+// 获取订阅的tag数组
++(NSArray*)switchOnTag
+{
+    NSString* allTags = [RMDefaults stringForKey:kAllTags];
+    NSArray* tags = [allTags componentsSeparatedByString:kComma];
+    
+    NSString* stringSwitchFlag = [RMDefaults stringForKey:kAllTagsSwitchFlag];
+    NSArray* switchArr = [stringSwitchFlag componentsSeparatedByString:kComma];
+    NSMutableArray* tagSwitchFlags = [[NSMutableArray alloc]initWithCapacity:switchArr.count];
+    [tagSwitchFlags addObjectsFromArray:switchArr];
+
+    NSMutableArray* r = [NSMutableArray array];
+    
+    for (NSInteger i = 0;i < tags.count; ++i) {
+        NSString* title  = [tags objectAtIndex:i];
+        if (i<tagSwitchFlags.count) {
+            NSNumber* flag = [tagSwitchFlags objectAtIndex:i];
+            if (flag.boolValue) {
+                [r addObject:title];
+            }
+        }
+    }
+    return r;
+}
 -(IBAction)switchAction:(id)sender
 {
     if (sender && [sender isKindOfClass:[UISwitch class]]) {
@@ -121,7 +145,7 @@
             }
         }
     }
-    [BPush setTags:keepTagArr];
+    
     [BPush delTags:delTagArr];
     
     [RMDefaults saveString:kAllTagsSwitchFlag withValue:[tagSwitchFlags componentsJoinedByString:kComma]];// 记录所有已经上传的tag

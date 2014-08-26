@@ -27,7 +27,7 @@
 #import "Base64.h"
 #import "NSString+Json.h"
 #import "HTTPHelper.h"
-
+#import "PushManagerController.h"
 
 #define MENUHEIGHT 40
 
@@ -159,7 +159,7 @@ NSString* kCategoryUrlKey = @"url";
         [RMBaiduAd setBaiduPublisherId:publisherId];
         [RMBaiduAd setBaiduAppSpec:appSpec];
         
-        [self uploadPushTags];// 频道分类获取后，尝试上传；另外一次是在push初始化成功后，上传。这样可以保证上传成功
+        [self handlePushTags];// 频道分类获取后，尝试上传；另外一次是在push初始化成功后，上传。这样可以保证上传成功
         
         [[NSNotificationCenter defaultCenter]removeObserver:self];
         
@@ -173,10 +173,11 @@ NSString* kCategoryUrlKey = @"url";
     [self.view addSubview:orderButton];
 }
 
--(void)uploadPushTags
+-(void)handlePushTags
 {
     //首次 注册全部频道作为tag，用于push所需
-    if (NSOrderedSame != [kFirstTagUploadedFlag compare:[RMDefaults stringForKey:kFirstTagUploadedFlag]]) {
+    if (NSOrderedSame != [kFirstTagUploadedFlag compare:[RMDefaults stringForKey:kFirstTagUploadedFlag]])
+    {
         NSMutableArray* tagArr = [NSMutableArray array];
         for (NSDictionary* dict in allCategories) {
             NSString* title = [dict objectForKey:kCategoryTitleKey];
@@ -185,7 +186,6 @@ NSString* kCategoryUrlKey = @"url";
             }
         }
         if (tagArr.count) {
-            [BPush setTags:tagArr];
             [RMDefaults saveString:kAllTags withValue:[tagArr componentsJoinedByString:kComma]];// 记录所有已经上传的tag
             // FIXME：将订阅的通知提交到服务器(和push管理处的进行合并)
             if([AppDelegate uploadPushTags:tagArr])
@@ -201,6 +201,10 @@ NSString* kCategoryUrlKey = @"url";
             }
             [RMDefaults saveString:kAllTagsSwitchFlag withValue:[tagArr componentsJoinedByString:kComma]];// 记录所有已经上传的tag
         }
+    }
+    else//非首次，只需要注册tag即可
+    {
+        [BPush setTags:[PushManagerController switchOnTag]];
     }
 }
 #pragma mark category Button

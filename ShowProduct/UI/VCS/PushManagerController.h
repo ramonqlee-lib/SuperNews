@@ -10,4 +10,5 @@
 
 @interface PushManagerController : JMStaticContentTableViewController
 
++(NSArray*)switchOnTag;// 获取订阅的tag数组
 @end
