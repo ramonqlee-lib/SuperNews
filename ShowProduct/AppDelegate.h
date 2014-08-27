@@ -26,6 +26,7 @@
 #define kAllTagsSwitchFlag @"kAllTagsFlag"// 所有tag的开关，YES代表开，NO代表关
 #define kComma @","// 本地tag的分割符
 
+#define kOpenInWebViewNotification @"kOpenInWebViewNotification"
 
 @interface
 AppDelegate : UIResponder <UIApplicationDelegate>

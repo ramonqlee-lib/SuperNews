@@ -39,6 +39,7 @@
 		3007C67019A564EF00641756 /* libSocialYiXin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3007C65D19A564EE00641756 /* libSocialYiXin.a */; };
 		3007C67519A5679800641756 /* libUMFeedback.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3007C67219A5679800641756 /* libUMFeedback.a */; };
 		3007C67619A5679900641756 /* umFeedback.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3007C67319A5679800641756 /* umFeedback.bundle */; };
+		3011B6E419AE9C0C006F5D87 /* RMWebViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3011B6E319AE9C0C006F5D87 /* RMWebViewDelegate.m */; };
 		303F6CF619A43745004BC608 /* OfflineDowloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 303F6CF519A43745004BC608 /* OfflineDowloader.m */; };
 		30483A4E19970F3A0020C55C /* ZJTStatusBarAlertWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 30483A4D19970F3A0020C55C /* ZJTStatusBarAlertWindow.m */; };
 		3052B1551996CF8400C4A718 /* RMFavoriteUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3052B1541996CF8400C4A718 /* RMFavoriteUtils.m */; };
@@ -289,6 +290,8 @@
 		3007C67219A5679800641756 /* libUMFeedback.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMFeedback.a; sourceTree = "<group>"; };
 		3007C67319A5679800641756 /* umFeedback.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = umFeedback.bundle; sourceTree = "<group>"; };
 		3007C67419A5679800641756 /* UMFeedback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMFeedback.h; sourceTree = "<group>"; };
+		3011B6E219AE9C0C006F5D87 /* RMWebViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMWebViewDelegate.h; sourceTree = "<group>"; };
+		3011B6E319AE9C0C006F5D87 /* RMWebViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMWebViewDelegate.m; sourceTree = "<group>"; };
 		303F6CF419A43745004BC608 /* OfflineDowloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfflineDowloader.h; sourceTree = "<group>"; };
 		303F6CF519A43745004BC608 /* OfflineDowloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfflineDowloader.m; sourceTree = "<group>"; };
 		30483A4C19970F3A0020C55C /* ZJTStatusBarAlertWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZJTStatusBarAlertWindow.h; sourceTree = "<group>"; };
@@ -1275,12 +1278,14 @@
 				30FCD5C61976BCC5000F7015 /* TouchViewModel.h */,
 				30FCD5C71976BCC5000F7015 /* TouchViewModel.m */,
 			);
-			path = OrderButton;
+			name = OrderButton;
+			path = ../UI/OrderButton;
 			sourceTree = "<group>";
 		};
 		30FCD5D3197B31D6000F7015 /* Libs */ = {
 			isa = PBXGroup;
 			children = (
+				30FCD5B81976BCC5000F7015 /* OrderButton */,
 				30676AFB19A6E87800A800A8 /* JsonAux */,
 				30676AE119A6E1F400A800A8 /* LibBPush */,
 				3007C67119A5679800641756 /* UMFeedback_iOS_1.4 */,
@@ -1539,11 +1544,11 @@
 			isa = PBXGroup;
 			children = (
 				30E6DA8F1986862200D5DF95 /* jsonKeys.h */,
-				30FCD5B81976BCC5000F7015 /* OrderButton */,
 				8B5DEAF619529B2000D941FF /* Macros.h */,
-				8B460987192D978300B28082 /* Common */,
 				8B460985192D96FE00B28082 /* Views */,
 				8B460984192D96D600B28082 /* VCS */,
+				3011B6E219AE9C0C006F5D87 /* RMWebViewDelegate.h */,
+				3011B6E319AE9C0C006F5D87 /* RMWebViewDelegate.m */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1564,6 +1569,7 @@
 		8B460985192D96FE00B28082 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				8B460987192D978300B28082 /* Common */,
 				8B46098B192D997000B28082 /* ScrollViewWithTopBar.h */,
 				8B46098C192D997000B28082 /* ScrollViewWithTopBar.m */,
 				8B46098E192D9C4800B28082 /* HomeViewCell.h */,
@@ -1591,7 +1597,8 @@
 				3EE11870192F98FA00DB86C6 /* ScrollPageView.h */,
 				3EE11871192F98FA00DB86C6 /* ScrollPageView.m */,
 			);
-			path = Common;
+			name = Common;
+			path = ../Common;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1836,6 +1843,7 @@
 				30FCD619197B31E9000F7015 /* ASICloudFilesObjectRequest.m in Sources */,
 				30B12A2E199AD5B6000E3450 /* CDataScanner.m in Sources */,
 				3052B15C1996D07400C4A718 /* RMArticle.m in Sources */,
+				3011B6E419AE9C0C006F5D87 /* RMWebViewDelegate.m in Sources */,
 				30FCD62B197B3284000F7015 /* CommonHelper.m in Sources */,
 				30B12A32199AD5B6000E3450 /* CJSONSerializedData.m in Sources */,
 				30FCD621197B31E9000F7015 /* ASIS3ServiceRequest.m in Sources */,

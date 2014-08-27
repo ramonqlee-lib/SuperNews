@@ -19,7 +19,6 @@
 #import "Base64.h"
 #import "RMDefaults.h"
 #import "NSString+Json.h"
-
 #import "UMSocialYixinHandler.h"
 #import "UMSocialFacebookHandler.h"
 #import "UMSocialLaiwangHandler.h"
@@ -120,6 +119,7 @@
     if (!userInfo || ![userInfo objectForKey:@"aps"]) {
         return;
     }
+    
     UIApplication* application = [UIApplication sharedApplication];
     NSLog(@"Receive Notify: %@", [userInfo JSONString]);
     [application registerForRemoteNotificationTypes:
@@ -127,8 +127,19 @@
      | UIRemoteNotificationTypeBadge
      | UIRemoteNotificationTypeSound];
     
+    
+    // set badge number
+    [application setApplicationIconBadgeNumber:1];//oops, when no badge exit in push dict,push can not be removed on status bar
+    [application setApplicationIconBadgeNumber:0];
+    [application cancelAllLocalNotifications];
+    
+    // 从这个url处，请求数据，并进行展示
+    NSString* pushedUrl = [userInfo objectForKey:@"url"];
+    if (pushedUrl && pushedUrl.length>0) {
+        [self requestPushContent:pushedUrl];
+    }
+    /*
     NSString *alert = [[userInfo objectForKey:@"aps"] objectForKey:@"alert"];
-    //    if (application.applicationState == UIApplicationStateActive)
     {
         // Nothing to do if applicationState is Inactive, the iOS already displayed an alert view.
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Did receive a Remote Notification"
@@ -138,11 +149,7 @@
                                                   otherButtonTitles:nil];
         [alertView show];
     }
-    
-    // set badge number
-    [application setApplicationIconBadgeNumber:0];
-    
-    [application cancelAllLocalNotifications];
+    */
 }
 - (void)applicationWillResignActive:(UIApplication *)application
 {
@@ -292,5 +299,42 @@
         return YES;
     }
     return NO;
+}
+
+#pragma push retriever and viewer
+-(void)requestPushContent:(NSString*)url
+{
+    if (!url || !url.length) {
+        return;
+    }
+    // TODO::请求url处的数据，并进行展示
+    [[HTTPHelper sharedInstance]beginPostRequest:url withDictionary:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(pushRequestHandler:) name:url object:nil];
+}
+-(void)pushRequestHandler:(NSNotification*)notification
+{
+    NSString* url = notification.name;
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:url object:nil];
+    id obj = [notification.userInfo objectForKey:url];
+    // : 解析json数据，并设置到列表中
+    NSMutableArray* temp = [NSMutableArray array];
+    if ([obj isKindOfClass:[NSData class]])
+    {
+        NSData* unzipped = [CommonHelper uncompressZippedData:(NSData*)obj];
+        [HTTPHelper Json2Array:unzipped forArray:temp];
+    }
+    if (!temp.count)
+    {
+        return;
+    }
+    [self presentInWebView:[temp objectAtIndex:0]];
+}
+
+-(void)presentInWebView:(NSDictionary*) dict
+{
+    if (!dict || !dict.count) {
+        return;
+    }
+    // TODO 将相关处理，隔离到一个单独的类中
 }
 @end
