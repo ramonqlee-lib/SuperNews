@@ -133,9 +133,11 @@
     [application setApplicationIconBadgeNumber:0];
     [application cancelAllLocalNotifications];
     
-    // 从这个url处，请求数据，并进行展示
+    // 从这个url处，请求数据，并进行展示(此处包含最新的一条push数据)
     NSString* pushedUrl = [userInfo objectForKey:@"url"];
     if (pushedUrl && pushedUrl.length>0) {
+        NSLog(@"pushed url: %@",pushedUrl);
+        
         [self requestPushContent:pushedUrl];
     }
     /*
