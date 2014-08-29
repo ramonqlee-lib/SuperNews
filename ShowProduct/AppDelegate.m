@@ -28,6 +28,7 @@
 #import "UMSocialSinaHandler.h"
 #import "UMSocialTencentWeiboHandler.h"
 #import "UMSocialRenrenHandler.h"
+#import "RMWebViewDelegate.h"
 
 #import "UMSocialInstagramHandler.h"
 @interface AppDelegate()
@@ -310,7 +311,9 @@
         return;
     }
     // TODO::请求url处的数据，并进行展示
-    [[HTTPHelper sharedInstance]beginPostRequest:url withDictionary:nil];
+    NSMutableDictionary* postDict = [NSMutableDictionary dictionary];
+    [postDict setObject:@"1" forKey:@"zipped"];//请求压缩格式的数据
+    [[HTTPHelper sharedInstance]beginPostRequest:url withDictionary:postDict];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(pushRequestHandler:) name:url object:nil];
 }
 -(void)pushRequestHandler:(NSNotification*)notification
@@ -338,5 +341,6 @@
         return;
     }
     // TODO 将相关处理，隔离到一个单独的类中
+    [[RMWebViewDelegate sharedInstance]presentInWebView:dict inViewContrller:homeViewController];
 }
 @end
