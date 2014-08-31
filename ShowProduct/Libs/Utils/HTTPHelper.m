@@ -339,7 +339,7 @@ Impl_Singleton(HTTPHelper)
     
     //NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString* path = [HTTPHelper cacheRootPath];
-    NSString* diskCachePath = [[path stringByAppendingPathComponent:dir] retain];
+    NSString* diskCachePath = [path stringByAppendingPathComponent:dir];
     if (![[NSFileManager defaultManager] fileExistsAtPath:diskCachePath])
     {
         [[NSFileManager defaultManager] createDirectoryAtPath:diskCachePath
