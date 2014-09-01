@@ -9,7 +9,7 @@
 
 
 #warning 发布前确认日志关闭
-#define NSLog(...)
+//#define NSLog(...)
 #define LOG_ENABLED NO
 
 // 应用程序托管

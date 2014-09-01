@@ -26,7 +26,6 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
     NSArray* urlArray;
     NSMutableArray *vButtonItemArray; // 顶部button相关
     NSInteger currentPageIndex;// 当前所处的页面
-    BOOL cacheShouldReload;
     
     RMTableView * myTableView;
     void(^loadMoreComplete)(int); // 加载更多完毕时的数据刷新
@@ -84,7 +83,7 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
     NSArray* tableArr = [mScrollPageView tableArrayAtIndex:page];
     if ((tableArr && tableArr.count) ) {
         NSLog(@"same cache loaded again,just igore");
-        return YES;
+//        return YES;
     }
     
     // 加载缓存，并尝试刷新数据
@@ -113,11 +112,6 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
 -(BOOL)loadCache
 {
     // FIXME: 缓存加载优化：已经加载了数据，就不要再加载了
-    NSArray* tableArr = [mScrollPageView tableArrayAtIndex:currentPageIndex];
-    if (!cacheShouldReload || (tableArr && tableArr.count) ) {
-        NSLog(@"same cache loaded again,just igore");
-        return YES;
-    }
     return  [self loadCache:currentPageIndex];
 }
 #pragma mark 内存相关
@@ -140,7 +134,6 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
     [mHorizontalMenu changeButtonStateAtIndex:aPage];
     
     // TODO 发起数据请求，首先从本地存储读取，然后从网络获取
-    cacheShouldReload = (currentPageIndex!=aPage);
     currentPageIndex= aPage;
     // 加载缓存并刷新数据
     [self loadCache];
@@ -151,7 +144,6 @@ NSUInteger kDefaultCategoryDataIncrement = 20; //每次加载更多请求的数�
 -(void)didScrollPageViewUnchangedPage:(NSInteger)currrentPage accrossPage:(NSInteger)nextPage
 {
     // TODO 发起数据请求，首先从本地存储读取，然后从网络获取
-    cacheShouldReload = (currentPageIndex!=nextPage);
     currentPageIndex= currrentPage;
     // 加载缓存并刷新数据
     [self loadCache:nextPage];
