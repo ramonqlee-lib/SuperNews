@@ -268,10 +268,15 @@ NSString* kCategoryUrlKey = @"url";
     OrderButton * orderButton = (OrderButton *)sender;
     [self refreshOrderButton:orderButton];
     
-    if([[orderButton.vc.view subviews] count]>1){
-        //        [[[orderButton.vc.view subviews]objectAtIndex:1] removeFromSuperview];
-        NSLog(@"%@",[orderButton.vc.view subviews]);
+    // 防止重复弹出的问题
+    for (UIViewController* contr in self.childViewControllers) {
+        if ([contr isKindOfClass:[OrderViewController class]]) {
+            return;
+        }
     }
+    
+    NSLog(@"orderViewOut");
+    
     OrderViewController * orderVC = [[[OrderViewController alloc] init] autorelease];
     orderVC.topTitleArr = orderButton.topTitleArr;
     orderVC.topUrlStringArr = orderButton.topUrlStringArr;
@@ -301,6 +306,7 @@ NSString* kCategoryUrlKey = @"url";
 
 // 自定义列表完毕了
 - (void)backAction:(id)sender{
+    NSLog(@"backAction");
     // replace target
     OrderButton * orderButton = (OrderButton *)sender;
     [orderButton removeTarget:self action:@selector(backAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -312,6 +318,7 @@ NSString* kCategoryUrlKey = @"url";
         [orderVC.view setFrame:CGRectMake(0, - self.view.bounds.size.height, self.view.bounds.size.width, self.view.bounds.size.height)];
         
     } completion:^(BOOL finished){
+        NSLog(@"backAction Complete");
         [CommonHelper saveArchiver:[orderVC topViewModels] path:[HomeViewController topCategorySavePath]];
         [CommonHelper saveArchiver:[orderVC bottomViewModels] path:[HomeViewController bottomCategorySavePath]];
         
